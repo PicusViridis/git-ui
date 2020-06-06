@@ -12,6 +12,8 @@ Git UI is a minimal UI for Git.
 
 You can use the [docker-compose.yml](./docker-compose.yml) provided as an example.
 
+**:warning: Make sure that the `db` and `logs` folder are writable by the container user (uid: 1000 - gid: 1000)**
+
 ### Using source code (production)
 
 -   Download the latest release of git-ui

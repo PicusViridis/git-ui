@@ -14,7 +14,9 @@ COPY src src
 COPY db db
 
 RUN mkdir logs
-RUN chown node:node logs
+RUN chown -R node:node logs
+
+RUN chown -R node:node node_modules
 
 USER node
 
