@@ -14,8 +14,17 @@ export default function Header({ user }) {
                         <div className="navbar-end">
                             <div className="navbar-item">
                                 <div className="buttons">
+                                    <a className="button is-primary" href="/admin">
+                                        <span className="icon is-small">
+                                            <i className="fas fa-cogs"></i>
+                                        </span>
+                                        <span>Admin</span>
+                                    </a>
                                     <a className="button is-light" href="/logout">
-                                        Log out
+                                        <span className="icon is-small">
+                                            <i className="fas fa-sign-out-alt"></i>
+                                        </span>
+                                        <span>Log out</span>
                                     </a>
                                 </div>
                             </div>
