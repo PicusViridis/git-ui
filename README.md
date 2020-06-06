@@ -36,10 +36,9 @@ Make sure that `git` is installed on your server as git command are used by the 
 
 ## Environment variables
 
-| Variable    | Value type                     | Description                                              |
-| ----------- | ------------------------------ | -------------------------------------------------------- |
-| NODE_ENV    | development \| production      | Environment of the application                           |
-| APP_KEY     | string                         | App key for session                                      |
-| COOKIE_NAME | string                         | Cookie name for storing session                          |
-| LOG_LEVEL   | debug \| info \| warn \| error | Level of the loger                                       |
-| REPO_DIR    | string                         | Path to the directory where all the git repositories are |
+| Variable    | Value type                     | Description                     |
+| ----------- | ------------------------------ | ------------------------------- |
+| NODE_ENV    | development \| production      | Environment of the application  |
+| APP_KEY     | string                         | App key for session             |
+| COOKIE_NAME | string                         | Cookie name for storing session |
+| LOG_LEVEL   | debug \| info \| warn \| error | Level of the loger              |

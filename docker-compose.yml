@@ -10,9 +10,9 @@ services:
         volumes:
             - ./db:/app/db
             - ./logs:/app/logs
+            - ./repos:/app/repos
         environment:
             - NODE_ENV=
             - APP_KEY=
             - COOKIE_NAME=
             - LOG_LEVEL=
-            - REPO_DIR=
