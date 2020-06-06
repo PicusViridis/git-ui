@@ -13,7 +13,8 @@ async function listGitRepositories() {
     const result = []
     for (const repo of repos) {
         const repoPath = join(repoDir, repo)
-        if (await isGitRepo(repoPath)) {
+        const stat = await fse.stat(repoPath)
+        if (stat.isDirectory() && (await isGitRepo(repoPath))) {
             result.push(repo)
         }
     }
