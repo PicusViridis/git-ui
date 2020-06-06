@@ -1,0 +1,28 @@
+import React from 'react'
+
+export default function Header({ user }) {
+    return (
+        <header>
+            <nav className="navbar is-primary">
+                <div className="navbar-brand">
+                    <a className="navbar-item" href="/">
+                        Git UI
+                    </a>
+                </div>
+                {user && (
+                    <div className="navbar-menu is-active">
+                        <div className="navbar-end">
+                            <div className="navbar-item">
+                                <div className="buttons">
+                                    <a className="button is-light" href="/logout">
+                                        Log out
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
+            </nav>
+        </header>
+    )
+}

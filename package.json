@@ -1,0 +1,49 @@
+{
+    "name": "git-ui",
+    "version": "1.0.0",
+    "main": "index.js",
+    "license": "MIT",
+    "author": {
+        "name": "Sara Morillon"
+    },
+    "scripts": {
+        "start": "node src/index.js",
+        "start:dev": "nodemon -r dotenv/config --inspect=0.0.0.0:9999 src/index.js",
+        "format": "prettier --write 'src/**/*.js'",
+        "lint": "eslint 'src/**/*.js' && ejslint 'src/**/*.ejs'"
+    },
+    "dependencies": {
+        "@babel/core": "^7.10.2",
+        "@babel/preset-env": "^7.10.2",
+        "@babel/preset-react": "^7.10.1",
+        "@babel/register": "^7.10.1",
+        "@koa/router": "^9.0.1",
+        "crypto-js": "^4.0.0",
+        "date-fns": "^2.14.0",
+        "diff2html": "^3.1.7",
+        "fs-extra": "^9.0.0",
+        "highlight.js": "^10.0.3",
+        "koa": "^2.12.0",
+        "koa-better-flash": "^0.0.4",
+        "koa-body": "^4.1.3",
+        "koa-helmet": "^5.2.0",
+        "koa-passport": "^4.1.3",
+        "koa-session": "^6.0.0",
+        "koa-static": "^5.0.0",
+        "passport-local": "^1.0.0",
+        "react": "^16.13.1",
+        "react-dom": "^16.13.1",
+        "sequelize": "^5.21.11",
+        "sqlite3": "^4.2.0",
+        "winston": "^3.2.1",
+        "winston-daily-rotate-file": "^4.4.2"
+    },
+    "devDependencies": {
+        "dotenv": "^8.2.0",
+        "eslint": "^7.1.0",
+        "eslint-plugin-react": "^7.20.0",
+        "jest": "^26.0.1",
+        "nodemon": "^2.0.4",
+        "prettier": "^2.0.5"
+    }
+}
