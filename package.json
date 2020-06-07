@@ -10,7 +10,9 @@
         "start": "node src/index.js",
         "start:dev": "nodemon -r dotenv/config --inspect=0.0.0.0:9999 src/index.js",
         "format": "prettier --write 'src/**/*.js'",
-        "lint": "eslint 'src/**/*.js' && ejslint 'src/**/*.ejs'"
+        "lint": "eslint 'src/**/*.js' && ejslint 'src/**/*.ejs'",
+        "test": "jest --verbose",
+        "test:watch": "yarn test --watch"
     },
     "dependencies": {
         "@babel/core": "^7.10.2",
@@ -39,10 +41,15 @@
         "winston-daily-rotate-file": "^4.4.2"
     },
     "devDependencies": {
+        "@babel/plugin-transform-runtime": "^7.10.1",
+        "@testing-library/dom": "^7.10.1",
+        "@testing-library/react": "^10.2.1",
+        "@types/jest": "^25.2.3",
         "dotenv": "^8.2.0",
         "eslint": "^7.1.0",
         "eslint-plugin-react": "^7.20.0",
         "jest": "^26.0.1",
+        "mockdate": "^3.0.2",
         "nodemon": "^2.0.4",
         "prettier": "^2.0.5"
     }
