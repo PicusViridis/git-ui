@@ -76,7 +76,11 @@ function consoleTransport() {
 }
 
 function getLogger(type) {
-    return createLogger({ level: config.logLevel, transports: [fileTransport(type), consoleTransport()] })
+    return createLogger({
+        level: config.logLevel,
+        transports: [fileTransport(type), consoleTransport()],
+        silent: config.environment === 'test',
+    })
 }
 
 const accessLogger = getLogger('access')

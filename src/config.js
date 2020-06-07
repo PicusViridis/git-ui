@@ -9,6 +9,3 @@ const config = {
 }
 
 exports.config = config
-
-const { appLogger } = require('./middlewares/logger')
-appLogger.info('config_loaded', { config })

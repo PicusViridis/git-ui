@@ -1,10 +1,11 @@
+const { join } = require('path')
 const fse = require('fs-extra')
 const hljs = require('highlight.js')
-const { join } = require('path')
+const { parse, html } = require('diff2html')
 const { config } = require('../config')
 const { getIcon } = require('./icons')
 const { log, listFiles, listBranches, isGitRepo, getContent, getSize, isBinary, getDiffs } = require('./git')
-const { parse, html } = require('diff2html')
+const { convertBytes } = require('./convert')
 
 const { repoDir } = config
 
@@ -47,9 +48,11 @@ exports.getFiles = async function (repoName, currentPath, branch) {
         })
     )
     return mapped.sort((file1, file2) => {
-        let result = file2.type === 'folder' ? 1 : file1.type === 'folder' ? -1 : 0
+        const type1 = file1.type === 'folder' ? 0 : 1
+        const type2 = file1.type === 'folder' ? 0 : 1
+        let result = type1 - type2
         if (result === 0) {
-            result = file1.name > file2.name ? 1 : file2.name < file1.name ? -1 : 0
+            result = file1.name > file2.name ? 1 : file1.name < file2.name ? -1 : 0
         }
         return result
     })
@@ -70,9 +73,10 @@ exports.getContent = async function (repoName, currentPath, branch) {
         return hljs.highlightAuto(rawContent).value
     }
 }
-exports.getSize = function (repoName, currentPath, branch) {
+exports.getSize = async function (repoName, currentPath, branch) {
     const repoPath = join(repoDir, repoName)
-    return getSize(repoPath, currentPath, branch)
+    const size = await getSize(repoPath, currentPath, branch)
+    return convertBytes(size)
 }
 
 exports.getStream = function (repoName, currentPath, branch) {

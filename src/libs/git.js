@@ -1,7 +1,6 @@
 const { exec } = require('child_process')
 const { formatDistance, fromUnixTime } = require('date-fns')
 const { appLogger } = require('../middlewares/logger')
-const { convertBytes } = require('./convert')
 
 function asyncExec(command) {
     return new Promise((resolve, reject) => {
@@ -63,8 +62,7 @@ exports.getContent = function (repoPath, filePath, branch) {
 }
 
 exports.getSize = async function (repoPath, filePath, branch) {
-    const size = await asyncExec(`git -C ${repoPath} cat-file -s ${branch}:${filePath}`)
-    return convertBytes(size)
+    return asyncExec(`git -C ${repoPath} cat-file -s ${branch}:${filePath}`)
 }
 
 const emptyTreeHash = '4b825dc642cb6eb9a060e54bf8d69288fbee4904'
