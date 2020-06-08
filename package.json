@@ -12,7 +12,8 @@
         "format": "prettier --write 'src/**/*.js'",
         "lint": "eslint 'src/**/*.js' && ejslint 'src/**/*.ejs'",
         "test": "jest --verbose",
-        "test:watch": "yarn test --watch"
+        "test:watch": "yarn test --watch",
+        "test:ci": "yarn test --runInBand"
     },
     "dependencies": {
         "@babel/core": "^7.10.2",
