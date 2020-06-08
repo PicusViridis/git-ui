@@ -1,6 +1,8 @@
-exports.mockContext = function ({ body = {}, ...allParams } = {}) {
+exports.mockContext = function ({ body = {}, params = {}, query = {}, ...otherParams } = {}) {
     return {
-        ...allParams,
+        ...otherParams,
+        params,
+        query,
         request: { body },
         render: jest.fn(),
         redirect: jest.fn(),
