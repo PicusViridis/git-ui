@@ -9,9 +9,7 @@ function Repository({ repo }) {
                     <strong>{repo.name}</strong>
                 </a>
                 <br />
-                <small>
-                    Updated <span>{repo.lastCommit.date}</span>
-                </small>
+                <small>Updated {repo.lastCommit.date}</small>
             </div>
         </>
     )

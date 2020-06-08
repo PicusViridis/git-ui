@@ -3,7 +3,7 @@ import React from 'react'
 function BreadcrumbPart({ part, repo }) {
     let href = `/repo/${repo.name}/files/${repo.branch}`
     if (part.path) {
-        href += `?${part.path}`
+        href += `?path=${part.path}`
     }
     return (
         <li className={part.isActive ? 'is-active' : ''}>

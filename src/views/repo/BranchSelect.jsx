@@ -41,7 +41,7 @@ export default function BranchSelect({ repo, active }) {
     }
 
     return (
-        <button className="button is-static">
+        <button className="button is-static" disabled>
             <BranchName branch={repo.branch} />
         </button>
     )

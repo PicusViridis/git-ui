@@ -24,9 +24,11 @@ export default function Files({ files, repo }) {
             <Common repo={repo} active="files" />
             <Breadcrumb repo={repo} />
             <table className="table is-fullwidth is-hoverable">
-                {files.map((file) => (
-                    <File key={file.path} file={file} repo={repo} />
-                ))}
+                <tbody>
+                    {files.map((file) => (
+                        <File key={file.path} file={file} repo={repo} />
+                    ))}
+                </tbody>
             </table>
         </>
     )
