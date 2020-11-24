@@ -25,7 +25,7 @@
         "date-fns": "^2.14.0",
         "diff2html": "^3.1.7",
         "fs-extra": "^9.0.0",
-        "highlight.js": "^10.0.3",
+        "highlight.js": "^10.1.2",
         "koa": "^2.12.0",
         "koa-better-flash": "^0.0.4",
         "koa-body": "^4.1.3",
