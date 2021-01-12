@@ -1,25 +1,25 @@
 {
-    "env": {
-        "es6": true,
-        "jest": true,
-        "node": true,
-        "browser": true
-    },
-    "extends": ["eslint:recommended", "plugin:react/recommended"],
-    "parserOptions": {
-        "ecmaFeatures": {
-            "modules": true
-        },
-        "ecmaVersion": 2018,
-        "sourceType": "module"
-    },
-    "ignorePatterns": ["dist/**"],
-    "rules": {
-        "indent": ["error", 4, { "SwitchCase": 1 }],
-        "no-console": "off",
-        "quotes": ["error", "single", { "avoidEscape": true }],
-        "semi": ["error", "never"],
-        "require-atomic-updates": "off",
-        "react/prop-types": [0]
+  "env": {
+    "es6": true,
+    "jest": true,
+    "node": true,
+    "browser": true
+  },
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react/recommended",
+    "plugin:jest-dom/recommended",
+    "plugin:testing-library/recommended"
+  ],
+  "settings": {
+    "react": {
+      "version": "detect"
     }
+  },
+  "ignorePatterns": "*.js"
 }

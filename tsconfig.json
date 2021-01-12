@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "lib": ["ES5", "ES6", "ESNext", "DOM"],
+    "target": "es5",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "jsx": "react",
+    "strictPropertyInitialization": false,
+    "outDir": "dist",
+    "downlevelIteration": true
+  },
+  "include": ["./src/*.ts", "./src/*.tsx", "./migration/*.ts"],
+  "exclude": ["./tests/*.ts", "./tests/*.tsx"]
+}
