@@ -41,7 +41,7 @@ function Commit({ commit, repo }: ICommitProps): JSX.Element {
               <i className="far fa-clipboard"></i>
             </Button>
           </InputGroupAddon>
-          <Input defaultValue={commit.hash} style={{ width: '7rem' }} />
+          <Input defaultValue={commit.hash} size={4} style={{ width: 'unset' }} />
         </InputGroup>
       </Media>
     </Media>
