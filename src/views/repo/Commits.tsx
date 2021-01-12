@@ -13,7 +13,6 @@ import { ICommit, IRepositoryMeta } from '../../models/interfaces'
 import Layout from './Layout'
 
 const buttonStyle = {
-  background: 'none',
   borderColor: '#ced4da',
 }
 
@@ -38,11 +37,11 @@ function Commit({ commit, repo }: ICommitProps): JSX.Element {
       <Media right>
         <InputGroup>
           <InputGroupAddon addonType="prepend">
-            <Button style={buttonStyle} className="copy-button" data-hash={commit.fullHash}>
-              <img src="/clipboard.svg" height="16" />
+            <Button style={buttonStyle} className="copy-button" color="light" data-hash={commit.fullHash}>
+              <i className="far fa-clipboard"></i>
             </Button>
           </InputGroupAddon>
-          <Input defaultValue={commit.hash} style={{ width: 'unset' }} />
+          <Input defaultValue={commit.hash} style={{ width: '7rem' }} />
         </InputGroup>
       </Media>
     </Media>
@@ -52,22 +51,41 @@ function Commit({ commit, repo }: ICommitProps): JSX.Element {
 interface ICommitsProps {
   commits: ICommit[]
   repo: IRepositoryMeta
-  next?: string
-  previous?: string
+  pagination: {
+    page: number
+    maxPage: number
+    first?: string
+    previous?: string
+    next?: string
+    last?: string
+  }
 }
 
-export default function Commits({ commits, repo, previous, next }: ICommitsProps): JSX.Element {
+export default function Commits({ commits, repo, pagination }: ICommitsProps): JSX.Element {
+  const { page, maxPage, first, previous, next, last } = pagination
+
   return (
     <Layout repo={repo} active="commits">
       {commits.map((commit) => (
         <Commit key={commit.hash} commit={commit} repo={repo} />
       ))}
       <Pagination>
+        <PaginationItem disabled={!first}>
+          <PaginationLink first href={first} />
+        </PaginationItem>
         <PaginationItem disabled={!previous}>
           <PaginationLink previous href={previous} />
         </PaginationItem>
+        <PaginationItem disabled>
+          <PaginationLink tag="span">
+            Page {page} of {maxPage}
+          </PaginationLink>
+        </PaginationItem>
         <PaginationItem disabled={!next}>
           <PaginationLink next href={next} />
+        </PaginationItem>
+        <PaginationItem disabled={!last}>
+          <PaginationLink last href={last} />
         </PaginationItem>
       </Pagination>
     </Layout>

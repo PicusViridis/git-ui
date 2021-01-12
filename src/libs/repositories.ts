@@ -109,10 +109,12 @@ export const RepositoryService = {
     return result
   },
 
-  getCommits(repoName: string, branch: string, page: number): Promise<ICommit[]> {
+  async getCommits(repoName: string, branch: string, page: number): Promise<[ICommit[], number]> {
     const repoPath = join(repoDir, repoName)
     const skip = (page - 1) * MAX_COMMIT_PER_PAGE
-    return GitService.log(repoPath, '.', branch, `-${MAX_COMMIT_PER_PAGE} --skip=${skip}`)
+    const commits = await GitService.log(repoPath, '.', branch, `-${MAX_COMMIT_PER_PAGE} --skip=${skip}`)
+    const count = await GitService.countCommits(repoPath, '.', branch)
+    return [commits, count]
   },
 
   async getDiffs(repoName: string, currentPath: string, branch: string): Promise<string> {

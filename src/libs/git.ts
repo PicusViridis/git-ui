@@ -33,6 +33,11 @@ export const GitService = {
     })
   },
 
+  async countCommits(repoPath: string, filePath: string, branch = ''): Promise<number> {
+    const result = await asyncExec(`git -C ${repoPath} rev-list --count ${branch} -- ${filePath}`)
+    return Number(result)
+  },
+
   async listFiles(repoPath: string, filePath: string, branch = ''): Promise<IFileMeta[]> {
     const result = await asyncExec(`git -C ${repoPath} ls-tree ${branch} ${filePath}`)
     return result

@@ -30,10 +30,7 @@ export default function File({ size, content, repo }: IFileProps): JSX.Element {
       <Card>
         <CardHeader>
           <a style={{ float: 'right' }} href={`/repo/${repo.name}/download/${repo.branch}?path=${repo.path}`}>
-            <span className="icon is-small">
-              <i className="fas fa-download"></i>
-            </span>
-            <span>Download file</span>
+            <i className="fas fa-download"></i> Download file
           </a>
           {size}
         </CardHeader>

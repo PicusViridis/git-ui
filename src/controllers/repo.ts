@@ -33,10 +33,14 @@ export async function downloadFile(req: Request, res: Response): Promise<void> {
 export async function getCommits(req: Request, res: Response): Promise<void> {
   const { repo, branch } = getCommonInfo(req)
   const page = Number(req.query.page) || 1
-  const commits = await RepositoryService.getCommits(repo, branch, page)
+  const [commits, count] = await RepositoryService.getCommits(repo, branch, page)
+  const maxPage = Math.ceil(count / MAX_COMMIT_PER_PAGE)
+  const first = page === 1 ? undefined : `${req.path}?page=1`
   const previous = page === 1 ? undefined : `${req.path}?page=${page - 1}`
-  const next = commits.length < MAX_COMMIT_PER_PAGE ? undefined : `${req.path}?page=${page + 1}`
-  res.render('repo/Commits', { commits, previous, next })
+  const next = page * MAX_COMMIT_PER_PAGE >= count ? undefined : `${req.path}?page=${page + 1}`
+  const last = page === maxPage ? undefined : `${req.path}?page=${maxPage}`
+  const pagination = { page, maxPage, first, previous, next, last }
+  res.render('repo/Commits', { commits, pagination })
 }
 
 export async function getCommit(req: Request, res: Response): Promise<void> {
