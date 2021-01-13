@@ -7,8 +7,6 @@ const { res } = getMockRes()
 jest.mock('../../src/libs/logger')
 
 describe('logger', () => {
-  beforeEach(jest.resetAllMocks)
-
   it('should log if request succeeds', () => {
     res.on = jest.fn().mockImplementation((event, callback) => callback())
     res.statusCode = 200

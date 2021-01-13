@@ -9,8 +9,6 @@ jest.mock('../../src/models/User')
 const mockedRepository = User.getRepository as jest.Mock
 
 describe('admin', () => {
-  beforeEach(jest.resetAllMocks)
-
   describe('getListUsers', () => {
     it('should send users to render', async () => {
       const find = jest.fn().mockResolvedValue([{ username: 'toto' }])

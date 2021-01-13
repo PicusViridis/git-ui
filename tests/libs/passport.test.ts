@@ -6,8 +6,6 @@ jest.mock('../../src/models/User')
 const mockedRepository = User.getRepository as jest.Mock
 
 describe('passport', () => {
-  beforeEach(jest.resetAllMocks)
-
   describe('serializeUser', () => {
     it('should return username', () => {
       const done = jest.fn()

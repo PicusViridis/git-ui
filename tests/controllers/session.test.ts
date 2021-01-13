@@ -9,8 +9,6 @@ jest.mock('passport', () => ({
 }))
 
 describe('session', () => {
-  beforeEach(jest.resetAllMocks)
-
   describe('getLogin', () => {
     it('should render view with error', async () => {
       const req = getMockReq()
