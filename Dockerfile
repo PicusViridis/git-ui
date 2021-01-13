@@ -1,6 +1,7 @@
 FROM node:lts-alpine
 
-RUN apk add git
+RUN apk update
+RUN apk --no-cache add git python g++ make
 
 WORKDIR /app
 
