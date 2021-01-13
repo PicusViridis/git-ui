@@ -3,7 +3,7 @@ import { Nav, NavItem, NavLink } from 'reactstrap'
 import { IRepositoryMeta } from '../../models/interfaces'
 
 interface IHeaderProps {
-  active: string
+  active: 'files' | 'commits'
   repo: IRepositoryMeta
 }
 

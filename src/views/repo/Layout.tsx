@@ -4,12 +4,12 @@ import { IRepositoryMeta } from '../../models/interfaces'
 import Header from './Header'
 import Nav from './Nav'
 
-interface ICommonProps {
-  active: string
+interface ILayoutProps {
+  active: 'files' | 'commits'
   repo: IRepositoryMeta
 }
 
-export default function Layout({ active, repo, children }: PropsWithChildren<ICommonProps>): JSX.Element {
+export default function Layout({ active, repo, children }: PropsWithChildren<ILayoutProps>): JSX.Element {
   return (
     <>
       <Header repo={repo} active={active} />

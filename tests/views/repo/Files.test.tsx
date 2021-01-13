@@ -1,31 +1,31 @@
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import React from 'react'
 import Files from '../../../src/views/repo/Files'
+import { mockFile, mockRepositoryMeta } from '../../__mocks__/fixtures'
 
 describe('Files', () => {
-    it('Should render each file', () => {
-        const repo = { branches: [], breadcrumb: [] }
-        const files = [
-            { name: 'file', lastCommit: { message: 'commit1', date: 'some date1' }, path: 'file' },
-            { name: 'folder', lastCommit: { message: 'commit2', date: 'some date2' }, path: 'folder' },
-        ]
-        const { queryByText } = render(<Files repo={repo} files={files} />)
-        expect(queryByText('file')).not.toBeNull()
-        expect(queryByText('commit1')).not.toBeNull()
-        expect(queryByText('some date1')).not.toBeNull()
-        expect(queryByText('folder')).not.toBeNull()
-        expect(queryByText('commit2')).not.toBeNull()
-        expect(queryByText('some date2')).not.toBeNull()
-    })
+  it('should render file name', () => {
+    render(<Files repo={mockRepositoryMeta} files={[mockFile]} />)
+    expect(screen.queryByText('file name')).toBeInTheDocument()
+  })
 
-    it('Should render file link correctly', () => {
-        const repo = { name: 'name', branch: 'branch', branches: [], breadcrumb: [] }
-        const files = [
-            { name: 'file', type: 'file', lastCommit: {}, path: 'file' },
-            { name: 'folder', type: 'folder', lastCommit: {}, path: 'folder' },
-        ]
-        const { queryByText } = render(<Files repo={repo} files={files} />)
-        expect(queryByText('file').href).toBe('http://localhost/repo/name/file/branch?path=file')
-        expect(queryByText('folder').href).toBe('http://localhost/repo/name/files/branch?path=folder')
-    })
+  it('should render last commit message', () => {
+    render(<Files repo={mockRepositoryMeta} files={[mockFile]} />)
+    expect(screen.queryByText('test commit message')).toBeInTheDocument()
+  })
+
+  it('should render last commit date', () => {
+    render(<Files repo={mockRepositoryMeta} files={[mockFile]} />)
+    expect(screen.queryByText('last commit date')).toBeInTheDocument()
+  })
+
+  it('should render file link', () => {
+    render(<Files repo={mockRepositoryMeta} files={[mockFile]} />)
+    expect(screen.queryByText('file name')).toHaveAttribute('href', '/repo/test-repo/file/test-branch-1?path=filepath')
+  })
+
+  it('should render file icon', () => {
+    const { baseElement } = render(<Files repo={mockRepositoryMeta} files={[mockFile]} />)
+    expect(baseElement.querySelector('img')).toHaveAttribute('src', '/icons/file-icon')
+  })
 })

@@ -6,7 +6,7 @@ interface IBranchSelectProps {
   repo: IRepositoryMeta
 }
 
-function BranchSelect({ repo }: IBranchSelectProps): JSX.Element {
+export function BranchSelect({ repo }: IBranchSelectProps): JSX.Element {
   const disabled = repo.branches.length === 1
   return (
     <Input type="select" defaultValue={repo.branch} disabled={disabled} style={{ width: 'unset' }} className="mr-3">
@@ -24,7 +24,7 @@ interface IBreadcrumbLinkProps {
   repo: IRepositoryMeta
 }
 
-function BreadcrumbLink({ item, repo }: IBreadcrumbLinkProps) {
+export function BreadcrumbLink({ item, repo }: IBreadcrumbLinkProps): JSX.Element {
   if (item.isActive) {
     return <>{item.name}</>
   }

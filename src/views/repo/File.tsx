@@ -19,8 +19,8 @@ function FileContent({ content }: IFileContentProps) {
 }
 
 interface IFileProps {
-  size: number
-  content: string
+  size?: string
+  content?: string
   repo: IRepositoryMeta
 }
 

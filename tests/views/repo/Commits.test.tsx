@@ -1,34 +1,96 @@
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import React from 'react'
 import Commits from '../../../src/views/repo/Commits'
+import { mockCommit, mockPagination, mockRepositoryMeta } from '../../__mocks__/fixtures'
 
 describe('Commits', () => {
-    it('Should render each commit', () => {
-        const repo = { name: 'name', branches: [] }
-        const commits = [
-            { hash: 'hash1', message: 'commit1', date: 'some date1', author: 'author1' },
-            { hash: 'hash2', message: 'commit2', date: 'some date2', author: 'author2' },
-        ]
-        const { queryByText } = render(<Commits repo={repo} commits={commits} />)
-        expect(queryByText('commit1')).not.toBeNull()
-        expect(queryByText('Commited some date1 by')).not.toBeNull()
-        expect(queryByText('author1')).not.toBeNull()
-        expect(queryByText('commit2')).not.toBeNull()
-        expect(queryByText('Commited some date2 by')).not.toBeNull()
-        expect(queryByText('author2')).not.toBeNull()
-    })
+  it('Should render commit message', () => {
+    render(<Commits repo={mockRepositoryMeta} commits={[mockCommit]} pagination={mockPagination} />)
+    expect(screen.queryByText('test commit message')).toBeInTheDocument()
+  })
 
-    it('Should render commit message link correctly', () => {
-        const repo = { name: 'name', branches: [] }
-        const commits = [{ hash: 'hash', fullHash: 'full-hash', message: 'commit' }]
-        const { queryByText } = render(<Commits repo={repo} commits={commits} />)
-        expect(queryByText('commit').parentElement.href).toBe('http://localhost/repo/name/commit/full-hash')
-    })
+  it('Should render commit link', () => {
+    render(<Commits repo={mockRepositoryMeta} commits={[mockCommit]} pagination={mockPagination} />)
+    expect(screen.queryByText('test commit message').parentElement).toHaveAttribute(
+      'href',
+      '/repo/test-repo/commit/0123456789abcdef'
+    )
+  })
 
-    it('Should render commit hash link correctly', () => {
-        const repo = { name: 'name', branches: [] }
-        const commits = [{ hash: 'hash', fullHash: 'full-hash', message: 'commit' }]
-        const { queryByText } = render(<Commits repo={repo} commits={commits} />)
-        expect(queryByText('hash').parentElement.href).toBe('http://localhost/repo/name/commit/full-hash')
-    })
+  it('Should render commit date', () => {
+    render(<Commits repo={mockRepositoryMeta} commits={[mockCommit]} pagination={mockPagination} />)
+    expect(screen.queryByText('Commited last commit date by')).toBeInTheDocument()
+  })
+
+  it('Should render commit author', () => {
+    render(<Commits repo={mockRepositoryMeta} commits={[mockCommit]} pagination={mockPagination} />)
+    expect(screen.queryByText('test commit author')).toBeInTheDocument()
+  })
+
+  it('Should render commit hash', () => {
+    render(<Commits repo={mockRepositoryMeta} commits={[mockCommit]} pagination={mockPagination} />)
+    expect(screen.queryByDisplayValue('01234567')).toBeInTheDocument()
+  })
+
+  it('should disabled first button when first is not available in pagination', () => {
+    render(<Commits repo={mockRepositoryMeta} commits={[mockCommit]} pagination={{ ...mockPagination, first: null }} />)
+    expect(screen.queryByText('«').parentElement.parentElement).toHaveClass('disabled')
+  })
+
+  it('should not disabled first button when first is available in pagination', () => {
+    render(<Commits repo={mockRepositoryMeta} commits={[mockCommit]} pagination={mockPagination} />)
+    expect(screen.queryByText('«').parentElement.parentElement).not.toHaveClass('disabled')
+  })
+
+  it('should render link on first button', () => {
+    render(<Commits repo={mockRepositoryMeta} commits={[mockCommit]} pagination={mockPagination} />)
+    expect(screen.queryByText('«').parentElement).toHaveAttribute('href', '?page=1')
+  })
+
+  it('should disabled previous button when previous is not available in pagination', () => {
+    render(
+      <Commits repo={mockRepositoryMeta} commits={[mockCommit]} pagination={{ ...mockPagination, previous: null }} />
+    )
+    expect(screen.queryByText('‹').parentElement.parentElement).toHaveClass('disabled')
+  })
+
+  it('should not disabled previous button when previous is available in pagination', () => {
+    render(<Commits repo={mockRepositoryMeta} commits={[mockCommit]} pagination={mockPagination} />)
+    expect(screen.queryByText('‹').parentElement.parentElement).not.toHaveClass('disabled')
+  })
+
+  it('should render link on previous button', () => {
+    render(<Commits repo={mockRepositoryMeta} commits={[mockCommit]} pagination={mockPagination} />)
+    expect(screen.queryByText('‹').parentElement).toHaveAttribute('href', '?page=4')
+  })
+
+  it('should disabled next button when next is not available in pagination', () => {
+    render(<Commits repo={mockRepositoryMeta} commits={[mockCommit]} pagination={{ ...mockPagination, next: null }} />)
+    expect(screen.queryByText('›').parentElement.parentElement).toHaveClass('disabled')
+  })
+
+  it('should not disabled next button when next is available in pagination', () => {
+    render(<Commits repo={mockRepositoryMeta} commits={[mockCommit]} pagination={mockPagination} />)
+    expect(screen.queryByText('›').parentElement.parentElement).not.toHaveClass('disabled')
+  })
+
+  it('should render link on next button', () => {
+    render(<Commits repo={mockRepositoryMeta} commits={[mockCommit]} pagination={mockPagination} />)
+    expect(screen.queryByText('›').parentElement).toHaveAttribute('href', '?page=6')
+  })
+
+  it('should disabled last button when last is not available in pagination', () => {
+    render(<Commits repo={mockRepositoryMeta} commits={[mockCommit]} pagination={{ ...mockPagination, last: null }} />)
+    expect(screen.queryByText('»').parentElement.parentElement).toHaveClass('disabled')
+  })
+
+  it('should not disabled last button when last is available in pagination', () => {
+    render(<Commits repo={mockRepositoryMeta} commits={[mockCommit]} pagination={mockPagination} />)
+    expect(screen.queryByText('»').parentElement.parentElement).not.toHaveClass('disabled')
+  })
+
+  it('should render link on last button', () => {
+    render(<Commits repo={mockRepositoryMeta} commits={[mockCommit]} pagination={mockPagination} />)
+    expect(screen.queryByText('»').parentElement).toHaveAttribute('href', '?page=8')
+  })
 })
