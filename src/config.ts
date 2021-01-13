@@ -2,13 +2,17 @@ import { cleanEnv, num, str } from 'envalid'
 import session, { SessionOptions } from 'express-session'
 import filestore from 'session-file-store'
 
-const env = cleanEnv(process.env, {
-  APP_KEY: str(),
-  APP_PORT: num({ default: 80 }),
-  LOG_LEVEL: str({ choices: ['debug', 'info', 'warn', 'error'], default: 'info' }),
-  SESSION_DIR: str(),
-  REPO_DIR: str(),
-})
+const env = cleanEnv(
+  process.env,
+  {
+    APP_KEY: str(),
+    APP_PORT: num({ default: 80 }),
+    LOG_LEVEL: str({ choices: ['debug', 'info', 'warn', 'error'], default: 'info' }),
+    SESSION_DIR: str(),
+    REPO_DIR: str(),
+  },
+  { dotEnvPath: null }
+)
 
 interface IConfig {
   environment?: string
