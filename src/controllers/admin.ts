@@ -4,11 +4,11 @@ import { User } from '../models/User'
 
 export async function getListUsers(req: Request, res: Response): Promise<void> {
   const users = await User.getRepository().find({ order: { username: 'ASC' } })
-  res.render('admin/ListUsers', { users })
+  res.render('Users/ListUsers', { users })
 }
 
 export async function getAddUser(req: Request, res: Response): Promise<void> {
-  res.render('admin/AddUser')
+  res.render('Users/AddUser')
 }
 
 export async function postAddUser(req: Request, res: Response): Promise<void> {

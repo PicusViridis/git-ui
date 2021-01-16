@@ -10,7 +10,7 @@ import {
   PaginationLink,
 } from 'reactstrap'
 import { ICommit, IRepositoryMeta } from '../../models/interfaces'
-import Layout from './Layout'
+import Layout from '../Layout/RepoLayout'
 
 const buttonStyle = {
   borderColor: '#ced4da',

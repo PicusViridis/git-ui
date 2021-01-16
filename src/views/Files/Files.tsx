@@ -1,7 +1,7 @@
 import React from 'react'
 import { Container, Table } from 'reactstrap'
 import { IFile, IRepositoryMeta } from '../../models/interfaces'
-import Layout from './Layout'
+import Layout from '../Layout/RepoLayout'
 
 interface IFileProps {
   file: IFile

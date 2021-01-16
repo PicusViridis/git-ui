@@ -1,6 +1,6 @@
 import React from 'react'
 import { Container, Jumbotron } from 'reactstrap'
-import { IRepository } from '../models/interfaces'
+import { IRepository } from '../../models/interfaces'
 
 function Repository({ repo }: { repo: IRepository }) {
   return (

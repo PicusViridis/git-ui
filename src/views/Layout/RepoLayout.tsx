@@ -1,8 +1,8 @@
 import React, { PropsWithChildren } from 'react'
 import { Container } from 'reactstrap'
 import { IRepositoryMeta } from '../../models/interfaces'
-import Header from './Header'
-import Nav from './Nav'
+import Header from '../Header/RepoHeader'
+import Nav from '../Nav/Nav'
 
 interface ILayoutProps {
   active: 'files' | 'commits'

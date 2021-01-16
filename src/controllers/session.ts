@@ -3,7 +3,7 @@ import passport from 'passport'
 
 export function getLogin(req: Request, res: Response): void {
   const [error] = req.flash('error')
-  return res.render('Login', { error })
+  return res.render('Login/Login', { error })
 }
 
 export const postLogin = passport.authenticate('local', {

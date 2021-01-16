@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react'
-import { User } from '../models/User'
-import Header from './Header'
+import { User } from '../../models/User'
+import Header from '../Header/Header'
 
 interface ILayoutProps {
   user?: User

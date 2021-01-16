@@ -12,14 +12,14 @@ export async function getFiles(req: Request, res: Response): Promise<void> {
   const { repo, path, branch } = getCommonInfo(req)
   const files = await RepositoryService.getFiles(repo, path, branch)
   console.log(repo)
-  res.render('repo/Files', { files })
+  res.render('Files/Files', { files })
 }
 
 export async function getFile(req: Request, res: Response): Promise<void> {
   const { repo, path, branch } = getCommonInfo(req)
   const content = await RepositoryService.getContent(repo, path, branch)
   const size = await RepositoryService.getSize(repo, path, branch)
-  res.render('repo/File', { content, size })
+  res.render('Files/File', { content, size })
 }
 
 export async function downloadFile(req: Request, res: Response): Promise<void> {
@@ -40,12 +40,12 @@ export async function getCommits(req: Request, res: Response): Promise<void> {
   const next = page * MAX_COMMIT_PER_PAGE >= count ? undefined : `${req.path}?page=${page + 1}`
   const last = page === maxPage ? undefined : `${req.path}?page=${maxPage}`
   const pagination = { page, maxPage, first, previous, next, last }
-  res.render('repo/Commits', { commits, pagination })
+  res.render('Commits/Commits', { commits, pagination })
 }
 
 export async function getCommit(req: Request, res: Response): Promise<void> {
   const { repo, path } = getCommonInfo(req)
   const { hash } = req.params
   const diff = await RepositoryService.getDiffs(repo, path, hash)
-  res.render('repo/Diff', { diff })
+  res.render('Commits/Commit', { diff })
 }

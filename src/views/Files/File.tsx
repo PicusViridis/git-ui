@@ -1,7 +1,7 @@
 import React from 'react'
 import { Card, CardHeader } from 'reactstrap'
 import { IRepositoryMeta } from '../../models/interfaces'
-import Layout from './Layout'
+import Layout from '../Layout/RepoLayout'
 
 interface IFileContentProps {
   content: string

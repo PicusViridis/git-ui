@@ -1,6 +1,6 @@
 import React from 'react'
 import { Nav, Navbar, NavbarBrand, NavItem, NavLink } from 'reactstrap'
-import { User } from '../models/User'
+import { User } from '../../models/User'
 
 interface IHeaderProps {
   user?: User
