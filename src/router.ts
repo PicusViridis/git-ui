@@ -1,8 +1,8 @@
 import { Router } from 'express'
-import { getAddUser, getDeleteUser, getListUsers, postAddUser } from './controllers/admin'
 import { getHome } from './controllers/home'
 import { downloadFile, getCommit, getCommits, getFile, getFiles } from './controllers/repo'
 import { getLogin, getLogout, postLogin } from './controllers/session'
+import { getAddUser, getDeleteUser, getListUsers, postAddUser } from './controllers/users'
 import { repo } from './middlewares/repo'
 import { hasSession } from './middlewares/session'
 
@@ -15,10 +15,11 @@ router.use(hasSession())
 
 router.get('/', getHome)
 router.get('/logout', getLogout)
-router.get('/admin', getListUsers)
-router.get('/admin/add-user', getAddUser)
-router.post('/admin/add-user', postAddUser)
-router.get('/admin/delete-user/:username', getDeleteUser)
+
+router.get('/users/list', getListUsers)
+router.get('/users/add', getAddUser)
+router.post('/users/add', postAddUser)
+router.get('/users/delete/:id', getDeleteUser)
 
 router.use('/repo/:repo/:active/:branch?', repo())
 router.get('/repo/:repo/files/:branch?', getFiles)

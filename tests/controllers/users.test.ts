@@ -1,5 +1,5 @@
 import { getMockReq, getMockRes } from '@jest-mock/express'
-import { getAddUser, getDeleteUser, getListUsers, postAddUser } from '../../src/controllers/admin'
+import { getAddUser, getDeleteUser, getListUsers, postAddUser } from '../../src/controllers/users'
 import { User } from '../../src/models/User'
 
 const { res } = getMockRes()
@@ -8,20 +8,20 @@ jest.mock('../../src/models/User')
 
 const mockedRepository = User.getRepository as jest.Mock
 
-describe('admin', () => {
+describe('users', () => {
   describe('getListUsers', () => {
     it('should send users to render', async () => {
       const find = jest.fn().mockResolvedValue([{ username: 'toto' }])
       mockedRepository.mockReturnValue({ find })
       await getListUsers(getMockReq(), res)
-      expect(res.render).toHaveBeenCalledWith('admin/ListUsers', { users: [{ username: 'toto' }] })
+      expect(res.render).toHaveBeenCalledWith('Users/Users', { users: [{ username: 'toto' }] })
     })
   })
 
   describe('getAddUser', () => {
     it('should render view', async () => {
       await getAddUser(getMockReq(), res)
-      expect(res.render).toHaveBeenCalledWith('admin/AddUser')
+      expect(res.render).toHaveBeenCalledWith('Users/User')
     })
   })
 
@@ -35,7 +35,7 @@ describe('admin', () => {
         username: 'toto',
         password: 'eb0295d98f37ae9e95102afae792d540137be2dedf6c4b00570ab1d1f355d033',
       })
-      expect(res.redirect).toHaveBeenCalledWith('/admin')
+      expect(res.redirect).toHaveBeenCalledWith('/users')
     })
   })
 
@@ -46,7 +46,7 @@ describe('admin', () => {
       const req = getMockReq({ params: { username: 'toto' } })
       await getDeleteUser(req, res)
       expect(_delete).toHaveBeenCalledWith('toto')
-      expect(res.redirect).toHaveBeenCalledWith('/admin')
+      expect(res.redirect).toHaveBeenCalledWith('/users')
     })
   })
 })

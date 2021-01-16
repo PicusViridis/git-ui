@@ -12,8 +12,8 @@ module.exports = {
     logging: process.env.MYSQL_LOGGING === 'true',
     cli: {
       entitiesDir: 'src/models',
-      migrationsDir: 'migration',
-      subscribersDir: 'subscriber',
+      migrationsDir: 'migrations',
+      subscribersDir: 'subscribers',
     },
   }),
 }

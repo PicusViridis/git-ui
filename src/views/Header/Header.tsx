@@ -14,7 +14,7 @@ export default function Header({ user }: IHeaderProps): JSX.Element {
         {user && (
           <Nav className="ml-auto" navbar>
             <NavItem>
-              <NavLink href="/admin">Admin</NavLink>
+              <NavLink href="/users/list">Admin</NavLink>
             </NavItem>
             <NavItem>
               <NavLink href="/logout">Log out</NavLink>

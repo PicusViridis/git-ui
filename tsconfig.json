@@ -14,6 +14,6 @@
     "outDir": "dist",
     "downlevelIteration": true
   },
-  "include": ["./src/*.ts", "./src/*.tsx", "./migration/*.ts"],
+  "include": ["./src/*.ts", "./src/*.tsx", "migrations/*.ts"],
   "exclude": ["./tests/*.ts", "./tests/*.tsx"]
 }

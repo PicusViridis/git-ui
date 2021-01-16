@@ -11,7 +11,6 @@ function getCommonInfo(req: Request) {
 export async function getFiles(req: Request, res: Response): Promise<void> {
   const { repo, path, branch } = getCommonInfo(req)
   const files = await RepositoryService.getFiles(repo, path, branch)
-  console.log(repo)
   res.render('Files/Files', { files })
 }
 

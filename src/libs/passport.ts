@@ -10,7 +10,7 @@ export function deserializeUser(
   done: (err: any, user?: { username: string }) => void
 ): Promise<void> {
   return User.getRepository()
-    .findOne(username)
+    .findOne({ where: { username } })
     .then((user) => {
       done(null, user)
     })
