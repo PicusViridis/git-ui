@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, Jumbotron } from 'reactstrap'
+import { Container } from 'reactstrap'
 
 export interface IHomeProps {
   repositories: {
@@ -11,9 +11,6 @@ export interface IHomeProps {
 export default function Home({ repositories }: IHomeProps): JSX.Element {
   return (
     <>
-      <Jumbotron>
-        <h1>Repositories</h1>
-      </Jumbotron>
       <Container>
         {repositories.map((repo) => (
           <>

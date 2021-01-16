@@ -1,57 +1,49 @@
 import React from 'react'
 import { BreadcrumbItem, Input } from 'reactstrap'
-import { IBreadcrumb, IRepositoryMeta } from '../../models/interfaces'
 
-interface IBranchSelectProps {
-  meta: IRepositoryMeta
-}
-
-export function BranchSelect({ meta }: IBranchSelectProps): JSX.Element {
-  const disabled = meta.branches.length === 1
+function Branch({ branch, query, selected }: { branch: string; query: string; selected: boolean }) {
+  const searchParam = new URLSearchParams(query)
+  searchParam.set('branch', branch)
   return (
-    <Input type="select" defaultValue={meta.branch} disabled={disabled} style={{ width: 'unset' }} className="mr-3">
-      {meta.branches.map((branch) => (
-        <option key={branch} value={branch}>
-          {branch}
-        </option>
-      ))}
-    </Input>
+    <option value={searchParam.toString()} selected={selected}>
+      {branch}
+    </option>
   )
 }
 
-interface IBreadcrumbLinkProps {
-  item: IBreadcrumb
-  meta: IRepositoryMeta
-}
-
-export function BreadcrumbLink({ item, meta }: IBreadcrumbLinkProps): JSX.Element {
-  if (item.isActive) {
-    return <>{item.name}</>
-  }
-
-  let href = `/files/${meta.branch}`
-  if (item.path) {
-    href += `?path=${item.path}`
-  }
-
-  return <a href={href}>{item.name}</a>
-}
-
 interface INavProps {
-  meta: IRepositoryMeta
+  meta?: {
+    branch: string
+    branches: string[]
+  }
+  path: string
+  query: string
 }
 
-export default function Nav({ meta }: INavProps): JSX.Element {
+export function Nav({ meta, path, query }: INavProps): JSX.Element | null {
+  if (!meta) {
+    return null
+  }
+
+  const breadcrumb = path.split('/').filter(Boolean)
+
   return (
-    <nav className="d-flex align-items-center">
-      <BranchSelect meta={meta} />
-      <ol className="breadcrumb flex-grow-1 mb-0 py-2">
-        {meta.breadcrumb.map((part) => (
-          <BreadcrumbItem key={part.name} active={part.isActive}>
-            <BreadcrumbLink item={part} meta={meta} />
-          </BreadcrumbItem>
-        ))}
-      </ol>
-    </nav>
+    <>
+      <nav className="d-flex align-items-center">
+        <Input type="select" style={{ width: 'unset' }} className="branch-select mr-3">
+          {meta.branches.map((branch) => (
+            <Branch key={branch} branch={branch} query={query} selected={branch === meta.branch} />
+          ))}
+        </Input>
+        <ol className="breadcrumb flex-grow-1 mb-0 py-2">
+          {breadcrumb.map((part, ind, arr) => (
+            <BreadcrumbItem key={part} active={ind === arr.length - 1}>
+              {ind === arr.length - 1 ? part : <a href={`/files?${query}`}>{part}</a>}
+            </BreadcrumbItem>
+          ))}
+        </ol>
+      </nav>
+      <hr />
+    </>
   )
 }

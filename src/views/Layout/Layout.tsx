@@ -1,13 +1,23 @@
 import React, { ReactNode } from 'react'
+import { Container } from 'reactstrap'
 import { User } from '../../models/User'
-import Header from '../Header/Header'
+import { Header } from '../Header/Header'
+import { Nav } from '../Nav/Nav'
 
 interface ILayoutProps {
   user?: User
+  meta?: {
+    repo: string
+    path: string
+    branch: string
+    branches: string[]
+  }
+  path: string
+  query: string
   children: ReactNode
 }
 
-export default function Layout({ user, children }: ILayoutProps): JSX.Element {
+export default function Layout({ user, meta, path, query, children }: ILayoutProps): JSX.Element {
   return (
     <html>
       <head>
@@ -19,10 +29,14 @@ export default function Layout({ user, children }: ILayoutProps): JSX.Element {
         <link rel="stylesheet" type="text/css" href="/styles/base.css" />
         <link rel="icon" type="image/png" href="/favicon.svg" />
         <script type="text/javascript" src="/scripts/copy.js" defer></script>
+        <script type="text/javascript" src="/scripts/change-branch.js" defer></script>
       </head>
       <body>
-        <Header user={user} />
-        {children}
+        <Header user={user} repo={meta?.repo} path={path} query={query} />
+        <Container>
+          <Nav meta={meta} path={path} query={query} />
+          {children}
+        </Container>
       </body>
     </html>
   )

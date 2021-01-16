@@ -1,11 +1,11 @@
-import { html, parse } from 'diff2html'
 import { promises as fse } from 'fs'
 import { highlightAuto } from 'highlight.js'
 import { join } from 'path'
 import { config } from '../config'
 import { getIcon } from '../libs/icons'
-import { IFile } from '../models/File'
-import { IBreadcrumb, ICommit } from '../models/interfaces'
+import { ICommitProps } from '../views/Commits/Commit'
+import { ICommitsProps } from '../views/Commits/Commits'
+import { IFilesProps } from '../views/Files/Files'
 import { IHomeProps } from '../views/Home/Home'
 import { convertBytes } from './convert'
 import { GitService } from './git'
@@ -31,7 +31,7 @@ export const RepositoryService = {
     })
   },
 
-  async getFiles(repoName: string, currentPath: string, branch: string): Promise<IFile[]> {
+  async getFiles(repoName: string, currentPath: string, branch: string): Promise<IFilesProps['files']> {
     const repoPath = join(repoDir, repoName)
     const files = await GitService.listFiles(repoPath, currentPath + '/', branch)
     const mapped = await Promise.all(
@@ -54,10 +54,9 @@ export const RepositoryService = {
     })
   },
 
-  async listBranches(repoName: string, branch: string): Promise<string[]> {
+  async listBranches(repoName: string): Promise<string[]> {
     const repoPath = join(repoDir, repoName)
-    const branches = await GitService.listBranches(repoPath)
-    return branches.filter((name) => name !== branch)
+    return GitService.listBranches(repoPath)
   },
 
   async getContent(repoName: string, currentPath: string, branch: string): Promise<string> {
@@ -65,7 +64,7 @@ export const RepositoryService = {
     if (await GitService.isBinary(repoPath, currentPath)) {
       return ''
     } else {
-      const rawContent = await GitService.getContent(repoPath, currentPath, branch)
+      const [rawContent] = await GitService.getContent(repoPath, currentPath, branch)
       return highlightAuto(rawContent).value
     }
   },
@@ -76,31 +75,13 @@ export const RepositoryService = {
     return convertBytes(Number(size))
   },
 
-  getStream(repoName: string, currentPath: string, branch: string): Promise<string> {
+  async getStream(repoName: string, currentPath: string, branch: string): Promise<string> {
     const repoPath = join(repoDir, repoName)
-    return GitService.getContent(repoPath, currentPath, branch)
+    const [stream] = await GitService.getContent(repoPath, currentPath, branch)
+    return stream
   },
 
-  getBreadcrumb(repoName: string, currentPath: string): IBreadcrumb[] {
-    const atRoot = currentPath === '.'
-    const result = [{ name: repoName, path: '', isActive: atRoot }]
-    if (atRoot) {
-      return result
-    }
-    const parts = currentPath.split('/')
-    let path = ''
-    for (const [index, name] of parts.entries()) {
-      path = join(path, name)
-      result.push({
-        name,
-        path,
-        isActive: index === parts.length - 1,
-      })
-    }
-    return result
-  },
-
-  async getCommits(repoName: string, branch: string, page: number): Promise<[ICommit[], number]> {
+  async getCommits(repoName: string, branch: string, page: number): Promise<[ICommitsProps['commits'], number]> {
     const repoPath = join(repoDir, repoName)
     const skip = (page - 1) * MAX_COMMIT_PER_PAGE
     const commits = await GitService.log(repoPath, '.', branch, `-${MAX_COMMIT_PER_PAGE} --skip=${skip}`)
@@ -108,9 +89,10 @@ export const RepositoryService = {
     return [commits, count]
   },
 
-  async getDiffs(repoName: string, currentPath: string, branch: string): Promise<string> {
+  async getCommitDiff(repoName: string, currentPath: string, branch: string): Promise<ICommitProps['commit']> {
     const repoPath = join(repoDir, repoName)
-    const diff = await GitService.getDiffs(repoPath, currentPath, branch)
-    return html(parse(diff), { outputFormat: 'side-by-side', drawFileList: false })
+    const [commit] = await GitService.log(repoPath, '.', branch, `-1`)
+    const [diff] = await GitService.getDiffs(repoPath, currentPath, branch)
+    return { message: commit.message, diff }
   },
 }

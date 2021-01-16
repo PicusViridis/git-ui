@@ -2,35 +2,30 @@ import { exec } from 'child_process'
 import { formatDistance, fromUnixTime } from 'date-fns'
 import { promises as fse } from 'fs'
 import { logger } from '../libs/logger'
-import { ICommit, IFileMeta } from '../models/interfaces'
+import { ICommitsProps } from '../views/Commits/Commits'
 
-function asyncExec(command: string): Promise<string> {
+const LOG_FORMAT = '%H::%an::%at::%s' // Hash::Author::Date::Message
+
+function asyncExec(command: string): Promise<string[]> {
   return new Promise((resolve, reject) => {
     logger.debug('command_execution', { command })
     exec(command, (err, stdout) => {
       if (err) {
         reject(err)
       } else {
-        resolve(stdout)
+        resolve(stdout.split('\n').filter(Boolean))
       }
     })
   })
 }
 
-async function getParent(repoPath: string, branch: string) {
-  const parent = await asyncExec(`git -C ${repoPath} log --pretty=%P -1 ${branch}`)
-  return parent.replace(/\n+/, '')
-}
-
 export const GitService = {
-  async log(repoPath: string, filePath: string, branch = '', params = '-1'): Promise<ICommit[]> {
-    const format = '%H::%h::%an::%at::%s' // Hash::Abbreviated hash::Author::Date::Message
-    const result = await asyncExec(`git -C ${repoPath} log ${params} --format=${format} ${branch} -- ${filePath}`)
-    const lines = result.split(/\n+/).filter(Boolean)
+  async log(repoPath: string, filePath: string, branch = '', params = '-1'): Promise<ICommitsProps['commits']> {
+    const lines = await asyncExec(`git -C ${repoPath} log ${params} --format=${LOG_FORMAT} ${branch} -- ${filePath}`)
     return lines.map((line) => {
-      const [fullHash, hash, author, timestamp, message] = line.split('::')
-      const date = formatDistance(fromUnixTime(+timestamp), Date.now(), { addSuffix: true })
-      return { fullHash, hash, author, date, timestamp: +timestamp, message }
+      const [hash, author, timestamp, message] = line.split('::')
+      const date = formatDistance(fromUnixTime(Number(timestamp)), Date.now(), { addSuffix: true })
+      return { hash, author, date, message }
     })
   },
 
@@ -39,23 +34,21 @@ export const GitService = {
     return Number(result)
   },
 
-  async listFiles(repoPath: string, filePath: string, branch = ''): Promise<IFileMeta[]> {
+  async listFiles(
+    repoPath: string,
+    filePath: string,
+    branch = ''
+  ): Promise<{ type: 'file' | 'folder'; path: string }[]> {
     const result = await asyncExec(`git -C ${repoPath} ls-tree ${branch} ${filePath}`)
-    return result
-      .split('\n')
-      .filter(Boolean)
-      .map((line) => {
-        const [, type, , path] = line.split(/\s+/)
-        return { type: type === 'blob' ? 'file' : 'folder', path }
-      })
+    return result.map((line) => {
+      const [, type, , path] = line.split(/\s+/)
+      return { type: type === 'blob' ? 'file' : 'folder', path }
+    })
   },
 
   async listBranches(repoPath: string): Promise<string[]> {
     const result = await asyncExec(`git -C ${repoPath} branch`)
-    return result
-      .split('\n')
-      .filter(Boolean)
-      .map((name) => name.replace(/\*?\s+/, ''))
+    return result.map((name) => name.replace(/\*?\s+/, ''))
   },
 
   async isGitRepo(repoPath: string): Promise<boolean> {
@@ -74,11 +67,11 @@ export const GitService = {
     }
   },
 
-  async getContent(repoPath: string, filePath: string, branch: string): Promise<string> {
+  async getContent(repoPath: string, filePath: string, branch: string): Promise<string[]> {
     return asyncExec(`git -C ${repoPath} show ${branch}:${filePath}`)
   },
 
-  async getSize(repoPath: string, filePath: string, branch: string): Promise<string> {
+  async getSize(repoPath: string, filePath: string, branch: string): Promise<string[]> {
     return asyncExec(`git -C ${repoPath} cat-file -s ${branch}:${filePath}`)
   },
 
@@ -88,8 +81,8 @@ export const GitService = {
     return result.includes(`Binary files /dev/null and b/${filePath} differ`)
   },
 
-  async getDiffs(repoPath: string, filePath: string, branch: string): Promise<string> {
-    const parent = await getParent(repoPath, branch)
+  async getDiffs(repoPath: string, filePath: string, branch: string): Promise<string[]> {
+    const [parent] = await asyncExec(`git -C ${repoPath} log --pretty=%P -1 ${branch}`)
     return asyncExec(`git -C ${repoPath} diff-tree -w -p ${parent} ${branch} -- ${filePath}`)
   },
 }

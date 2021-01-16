@@ -9,50 +9,18 @@ import {
   PaginationItem,
   PaginationLink,
 } from 'reactstrap'
-import { ICommit, IRepositoryMeta } from '../../models/interfaces'
-import Layout from '../Layout/RepoLayout'
-import { getQueryString } from '../utils'
 
 const buttonStyle = {
   borderColor: '#ced4da',
 }
 
-interface ICommitProps {
-  commit: ICommit
-  meta: IRepositoryMeta
-}
-
-function Commit({ commit, meta }: ICommitProps): JSX.Element {
-  const query = getQueryString(meta)
-  return (
-    <Media className="mb-3">
-      <Media body>
-        <Media heading tag="div">
-          <a href={`/commit/${commit.fullHash}?${query}`}>
-            <strong>{commit.message}</strong>
-          </a>
-        </Media>
-        <small>
-          Commited {commit.date} by <b>{commit.author}</b>
-        </small>
-      </Media>
-      <Media right>
-        <InputGroup>
-          <InputGroupAddon addonType="prepend">
-            <Button style={buttonStyle} className="copy-button" color="light" data-hash={commit.fullHash}>
-              <i className="far fa-clipboard"></i>
-            </Button>
-          </InputGroupAddon>
-          <Input defaultValue={commit.hash} size={4} style={{ width: 'unset' }} />
-        </InputGroup>
-      </Media>
-    </Media>
-  )
-}
-
-interface ICommitsProps {
-  commits: ICommit[]
-  meta: IRepositoryMeta
+export interface ICommitsProps {
+  commits: {
+    hash: string
+    message: string
+    date: string
+    author: string
+  }[]
   pagination: {
     page: number
     maxPage: number
@@ -61,15 +29,37 @@ interface ICommitsProps {
     next?: string
     last?: string
   }
+  query: string
 }
 
-export default function Commits({ commits, meta, pagination }: ICommitsProps): JSX.Element {
+export default function Commits({ commits, pagination, query }: ICommitsProps): JSX.Element {
   const { page, maxPage, first, previous, next, last } = pagination
 
   return (
-    <Layout meta={meta} active="commits">
+    <>
       {commits.map((commit) => (
-        <Commit key={commit.hash} commit={commit} meta={meta} />
+        <Media key={commit.hash} className="mb-3">
+          <Media body>
+            <Media heading tag="div">
+              <a href={`/commit/${commit.hash}?${query}`}>
+                <strong>{commit.message}</strong>
+              </a>
+            </Media>
+            <small>
+              Commited {commit.date} by <b>{commit.author}</b>
+            </small>
+          </Media>
+          <Media right>
+            <InputGroup>
+              <InputGroupAddon addonType="prepend">
+                <Button style={buttonStyle} className="copy-button" color="light" data-hash={commit.hash}>
+                  <i className="far fa-clipboard"></i>
+                </Button>
+              </InputGroupAddon>
+              <Input defaultValue={commit.hash.slice(0, 7)} size={4} style={{ width: 'unset' }} />
+            </InputGroup>
+          </Media>
+        </Media>
       ))}
       <Pagination>
         <PaginationItem disabled={!first}>
@@ -90,6 +80,6 @@ export default function Commits({ commits, meta, pagination }: ICommitsProps): J
           <PaginationLink last href={last} />
         </PaginationItem>
       </Pagination>
-    </Layout>
+    </>
   )
 }

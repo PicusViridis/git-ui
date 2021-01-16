@@ -1,16 +1,19 @@
+import { html, parse } from 'diff2html'
 import React from 'react'
-import { IRepositoryMeta } from '../../models/interfaces'
-import Layout from '../Layout/RepoLayout'
 
-interface IDiffProps {
-  diff: string
-  meta: IRepositoryMeta
+export interface ICommitProps {
+  commit: {
+    message: string
+    diff: string
+  }
 }
 
-export default function Commit({ diff, meta }: IDiffProps): JSX.Element {
+export default function Commit({ commit }: ICommitProps): JSX.Element {
+  const diffHtml = html(parse(commit.diff), { outputFormat: 'side-by-side', drawFileList: false })
   return (
-    <Layout meta={meta} active="commits">
-      <div dangerouslySetInnerHTML={{ __html: diff }} />
-    </Layout>
+    <>
+      <h1>{commit.message}</h1>
+      <div dangerouslySetInnerHTML={{ __html: diffHtml }} />
+    </>
   )
 }
