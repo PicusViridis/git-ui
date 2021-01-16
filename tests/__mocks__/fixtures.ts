@@ -57,3 +57,7 @@ export const mockPagination: {
   next: '?page=6',
   last: '?page=8',
 }
+
+export const mockUser1 = { id: 1, username: 'user1', password: 'pass1', createdAt: new Date(), updatedAt: new Date() }
+
+export const mockUser2 = { id: 2, username: 'user2', password: 'pass2', createdAt: new Date(), updatedAt: new Date() }

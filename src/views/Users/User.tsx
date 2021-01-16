@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function AddUser(): JSX.Element {
   return (
-    <form action="/admin/add-user" method="POST">
+    <form action="/users/add-user" method="POST">
       <div className="field">
         <label className="label" htmlFor="username">
           Username

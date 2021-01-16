@@ -14,7 +14,7 @@ describe('session', () => {
       const req = getMockReq()
       req.flash = jest.fn().mockReturnValue(['error'])
       getLogin(req, res)
-      expect(res.render).toHaveBeenCalledWith('Login', { error: 'error' })
+      expect(res.render).toHaveBeenCalledWith('Login/Login', { error: 'error' })
     })
   })
 

@@ -18,7 +18,7 @@ function UserDelete({ user, canDelete, children }: IUserDeleteProps): JSX.Elemen
   }
 
   return (
-    <a href={`/admin/delete-user/${user.username}`} className={className}>
+    <a href={`/users/delete-user/${user.username}`} className={className}>
       {children}
     </a>
   )
@@ -59,7 +59,7 @@ interface IListUsersProps {
 export default function ListUsers({ users, user }: IListUsersProps): JSX.Element {
   return (
     <>
-      <a href="/admin/add-user" className="button is-primary is-outlined">
+      <a href="/users/add-user" className="button is-primary is-outlined">
         <span className="icon is-small">
           <i className="fas fa-plus"></i>
         </span>

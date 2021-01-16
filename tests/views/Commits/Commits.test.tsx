@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import React from 'react'
-import Commits from '../../../src/views/repo/Commits'
+import Commits from '../../../src/views/Commits/Commits'
 import { mockCommit, mockPagination, mockRepositoryMeta } from '../../__mocks__/fixtures'
 
 describe('Commits', () => {

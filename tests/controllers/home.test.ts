@@ -13,7 +13,7 @@ describe('home', () => {
     it('should render view with repositories', async () => {
       mockedListRepositories.mockResolvedValue('repositories')
       await getHome(getMockReq(), res)
-      expect(res.render).toHaveBeenCalledWith('Home', { repositories: 'repositories' })
+      expect(res.render).toHaveBeenCalledWith('Home/Home', { repositories: 'repositories' })
     })
   })
 })

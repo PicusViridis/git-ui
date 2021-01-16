@@ -1,10 +1,11 @@
 import { render, screen } from '@testing-library/react'
 import React from 'react'
-import Header from '../../src/views/Header'
+import Header from '../../../src/views/Header/Header'
+import { mockUser1 } from '../../__mocks__/fixtures'
 
 describe('Header', () => {
   it('Should show the header button if user is present', () => {
-    render(<Header user={{ username: 'user1', password: 'pass1' }} />)
+    render(<Header user={mockUser1} />)
     expect(screen.getByText('Admin')).toBeInTheDocument()
     expect(screen.getByText('Log out')).toBeInTheDocument()
   })

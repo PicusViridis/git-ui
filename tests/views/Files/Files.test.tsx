@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import React from 'react'
-import Files from '../../../src/views/repo/Files'
+import Files from '../../../src/views/Files/Files'
 import { mockFile, mockRepositoryMeta } from '../../__mocks__/fixtures'
 
 describe('Files', () => {

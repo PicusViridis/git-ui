@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import React from 'react'
-import Diff from '../../../src/views/repo/Diff'
+import Diff from '../../../src/views/Commits/Commit'
 import { mockRepositoryMeta } from '../../__mocks__/fixtures'
 
 describe('Diff', () => {
