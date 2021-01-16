@@ -6,7 +6,7 @@ import { mockRepositoryMeta } from '../../__mocks__/fixtures'
 describe('Layout', () => {
   it('should render children', () => {
     render(
-      <Layout repo={mockRepositoryMeta} active="commits">
+      <Layout meta={mockRepositoryMeta} active="commits">
         <div>Child</div>
       </Layout>
     )

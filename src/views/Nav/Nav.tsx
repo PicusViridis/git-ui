@@ -3,14 +3,14 @@ import { BreadcrumbItem, Input } from 'reactstrap'
 import { IBreadcrumb, IRepositoryMeta } from '../../models/interfaces'
 
 interface IBranchSelectProps {
-  repo: IRepositoryMeta
+  meta: IRepositoryMeta
 }
 
-export function BranchSelect({ repo }: IBranchSelectProps): JSX.Element {
-  const disabled = repo.branches.length === 1
+export function BranchSelect({ meta }: IBranchSelectProps): JSX.Element {
+  const disabled = meta.branches.length === 1
   return (
-    <Input type="select" defaultValue={repo.branch} disabled={disabled} style={{ width: 'unset' }} className="mr-3">
-      {repo.branches.map((branch) => (
+    <Input type="select" defaultValue={meta.branch} disabled={disabled} style={{ width: 'unset' }} className="mr-3">
+      {meta.branches.map((branch) => (
         <option key={branch} value={branch}>
           {branch}
         </option>
@@ -21,15 +21,15 @@ export function BranchSelect({ repo }: IBranchSelectProps): JSX.Element {
 
 interface IBreadcrumbLinkProps {
   item: IBreadcrumb
-  repo: IRepositoryMeta
+  meta: IRepositoryMeta
 }
 
-export function BreadcrumbLink({ item, repo }: IBreadcrumbLinkProps): JSX.Element {
+export function BreadcrumbLink({ item, meta }: IBreadcrumbLinkProps): JSX.Element {
   if (item.isActive) {
     return <>{item.name}</>
   }
 
-  let href = `/repo/${repo.name}/files/${repo.branch}`
+  let href = `/files/${meta.branch}`
   if (item.path) {
     href += `?path=${item.path}`
   }
@@ -38,17 +38,17 @@ export function BreadcrumbLink({ item, repo }: IBreadcrumbLinkProps): JSX.Elemen
 }
 
 interface INavProps {
-  repo: IRepositoryMeta
+  meta: IRepositoryMeta
 }
 
-export default function Nav({ repo }: INavProps): JSX.Element {
+export default function Nav({ meta }: INavProps): JSX.Element {
   return (
     <nav className="d-flex align-items-center">
-      <BranchSelect repo={repo} />
+      <BranchSelect meta={meta} />
       <ol className="breadcrumb flex-grow-1 mb-0 py-2">
-        {repo.breadcrumb.map((part) => (
+        {meta.breadcrumb.map((part) => (
           <BreadcrumbItem key={part.name} active={part.isActive}>
-            <BreadcrumbLink item={part} repo={repo} />
+            <BreadcrumbLink item={part} meta={meta} />
           </BreadcrumbItem>
         ))}
       </ol>

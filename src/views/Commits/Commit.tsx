@@ -4,12 +4,12 @@ import Layout from '../Layout/RepoLayout'
 
 interface IDiffProps {
   diff: string
-  repo: IRepositoryMeta
+  meta: IRepositoryMeta
 }
 
-export default function Commit({ diff, repo }: IDiffProps): JSX.Element {
+export default function Commit({ diff, meta }: IDiffProps): JSX.Element {
   return (
-    <Layout repo={repo} active="commits">
+    <Layout meta={meta} active="commits">
       <div dangerouslySetInnerHTML={{ __html: diff }} />
     </Layout>
   )

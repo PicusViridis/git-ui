@@ -1,5 +1,13 @@
 import { Router } from 'express'
 import { getHome } from './controllers/home'
+import {
+  getAddIssue,
+  getDeleteIssue,
+  getEditIssue,
+  getListIssues,
+  postAddIssue,
+  postEditIssue,
+} from './controllers/issues'
 import { downloadFile, getCommit, getCommits, getFile, getFiles } from './controllers/repo'
 import { getLogin, getLogout, postLogin } from './controllers/session'
 import { getAddUser, getDeleteUser, getListUsers, postAddUser } from './controllers/users'
@@ -21,9 +29,16 @@ router.get('/users/add', getAddUser)
 router.post('/users/add', postAddUser)
 router.get('/users/delete/:id', getDeleteUser)
 
-router.use('/repo/:repo/:active/:branch?', repo())
-router.get('/repo/:repo/files/:branch?', getFiles)
-router.get('/repo/:repo/file/:branch?', getFile)
-router.get('/repo/:repo/download/:branch?', downloadFile)
-router.get('/repo/:repo/commits/:branch?', getCommits)
-router.get('/repo/:repo/commit/:hash', getCommit)
+router.get('/files', repo(), getFiles)
+router.get('/file', repo(), getFile)
+router.get('/file/download', repo(), downloadFile)
+
+router.get('/commits', repo(), getCommits)
+router.get('/commit/:hash', repo(), getCommit)
+
+router.get('/issues/list', getListIssues)
+router.get('/issues/add', getAddIssue)
+router.post('/issues/add', postAddIssue)
+router.get('/issues/edit/:id', getEditIssue)
+router.post('/issues/edit/:id', postEditIssue)
+router.get('/issues/delete/:id', getDeleteIssue)

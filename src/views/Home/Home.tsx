@@ -6,7 +6,7 @@ function Repository({ repo }: { repo: IRepository }) {
   return (
     <>
       <div>
-        <a href={`/repo/${repo.name}/files`}>
+        <a href={`/files?repo=${repo.name}`}>
           <strong>{repo.name}</strong>
         </a>
         <br />

@@ -11,6 +11,7 @@ import {
 } from 'reactstrap'
 import { ICommit, IRepositoryMeta } from '../../models/interfaces'
 import Layout from '../Layout/RepoLayout'
+import { getQueryString } from '../utils'
 
 const buttonStyle = {
   borderColor: '#ced4da',
@@ -18,15 +19,16 @@ const buttonStyle = {
 
 interface ICommitProps {
   commit: ICommit
-  repo: IRepositoryMeta
+  meta: IRepositoryMeta
 }
 
-function Commit({ commit, repo }: ICommitProps): JSX.Element {
+function Commit({ commit, meta }: ICommitProps): JSX.Element {
+  const query = getQueryString(meta)
   return (
     <Media className="mb-3">
       <Media body>
         <Media heading tag="div">
-          <a href={`/repo/${repo.name}/commit/${commit.fullHash}`}>
+          <a href={`/commit/${commit.fullHash}?${query}`}>
             <strong>{commit.message}</strong>
           </a>
         </Media>
@@ -50,7 +52,7 @@ function Commit({ commit, repo }: ICommitProps): JSX.Element {
 
 interface ICommitsProps {
   commits: ICommit[]
-  repo: IRepositoryMeta
+  meta: IRepositoryMeta
   pagination: {
     page: number
     maxPage: number
@@ -61,13 +63,13 @@ interface ICommitsProps {
   }
 }
 
-export default function Commits({ commits, repo, pagination }: ICommitsProps): JSX.Element {
+export default function Commits({ commits, meta, pagination }: ICommitsProps): JSX.Element {
   const { page, maxPage, first, previous, next, last } = pagination
 
   return (
-    <Layout repo={repo} active="commits">
+    <Layout meta={meta} active="commits">
       {commits.map((commit) => (
-        <Commit key={commit.hash} commit={commit} repo={repo} />
+        <Commit key={commit.hash} commit={commit} meta={meta} />
       ))}
       <Pagination>
         <PaginationItem disabled={!first}>

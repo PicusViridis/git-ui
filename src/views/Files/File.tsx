@@ -2,6 +2,7 @@ import React from 'react'
 import { Card, CardHeader } from 'reactstrap'
 import { IRepositoryMeta } from '../../models/interfaces'
 import Layout from '../Layout/RepoLayout'
+import { getQueryString } from '../utils'
 
 interface IFileContentProps {
   content: string
@@ -21,15 +22,16 @@ function FileContent({ content }: IFileContentProps) {
 interface IFileProps {
   size?: string
   content?: string
-  repo: IRepositoryMeta
+  meta: IRepositoryMeta
 }
 
-export default function File({ size, content, repo }: IFileProps): JSX.Element {
+export default function File({ size, content, meta }: IFileProps): JSX.Element {
+  const query = getQueryString(meta)
   return (
-    <Layout repo={repo} active="files">
+    <Layout meta={meta} active="files">
       <Card>
         <CardHeader>
-          <a style={{ float: 'right' }} href={`/repo/${repo.name}/download/${repo.branch}?path=${repo.path}`}>
+          <a style={{ float: 'right' }} href={`/file/download?${query}`}>
             <i className="fas fa-download"></i> Download file
           </a>
           {size}

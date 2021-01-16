@@ -5,16 +5,16 @@ import Header from '../Header/RepoHeader'
 import Nav from '../Nav/Nav'
 
 interface ILayoutProps {
-  active: 'files' | 'commits'
-  repo: IRepositoryMeta
+  active: 'files' | 'commits' | 'issues'
+  meta: IRepositoryMeta
 }
 
-export default function Layout({ active, repo, children }: PropsWithChildren<ILayoutProps>): JSX.Element {
+export default function Layout({ active, meta, children }: PropsWithChildren<ILayoutProps>): JSX.Element {
   return (
     <>
-      <Header repo={repo} active={active} />
+      <Header meta={meta} active={active} />
       <Container>
-        <Nav repo={repo} />
+        <Nav meta={meta} />
         <hr />
         {children}
       </Container>

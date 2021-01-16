@@ -7,13 +7,8 @@ export interface ICommit {
   message: string
 }
 
-export interface IFileMeta {
-  type: 'file' | 'folder'
-  path: string
-}
-
 export interface IRepositoryMeta {
-  name: string
+  repo: string
   path: string
   branch: string
   branches: string[]
@@ -21,12 +16,6 @@ export interface IRepositoryMeta {
 }
 
 export interface IRepository {
-  name: string
-  lastCommit: ICommit
-}
-
-export interface IFile extends IFileMeta {
-  icon: string
   name: string
   lastCommit: ICommit
 }

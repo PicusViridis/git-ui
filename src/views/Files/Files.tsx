@@ -2,41 +2,43 @@ import React from 'react'
 import { Container, Table } from 'reactstrap'
 import { IFile, IRepositoryMeta } from '../../models/interfaces'
 import Layout from '../Layout/RepoLayout'
+import { getQueryString } from '../utils'
 
 interface IFileProps {
   file: IFile
-  repo: IRepositoryMeta
+  meta: IRepositoryMeta
 }
 
-function File({ file, repo }: IFileProps) {
-  const href = file.type === 'folder' ? 'files' : 'file'
+function File({ file, meta }: IFileProps) {
+  const { name, type, icon, lastCommit } = file
+  const query = getQueryString(meta, file)
   return (
     <tr>
       <td>
         <span className="icon">
-          <img src={`/icons/${file.icon}`} width="16" height="16" />
+          <img src={`/icons/${icon}`} width="16" height="16" />
         </span>
-        <a href={`/repo/${repo.name}/${href}/${repo.branch}?path=${file.path}`}>{file.name}</a>
+        <a href={`/${type === 'folder' ? 'files' : `file`}?${query}`}>{name}</a>
       </td>
-      <td>{file.lastCommit.message}</td>
-      <td>{file.lastCommit.date}</td>
+      <td>{lastCommit.message}</td>
+      <td>{lastCommit.date}</td>
     </tr>
   )
 }
 
 interface IFilesProps {
   files: IFile[]
-  repo: IRepositoryMeta
+  meta: IRepositoryMeta
 }
 
-export default function Files({ files, repo }: IFilesProps): JSX.Element {
+export default function Files({ files, meta }: IFilesProps): JSX.Element {
   return (
-    <Layout repo={repo} active="files">
+    <Layout meta={meta} active="files">
       <Container>
         <Table striped>
           <tbody>
             {files.map((file) => (
-              <File key={file.path} file={file} repo={repo} />
+              <File key={file.path} file={file} meta={meta} />
             ))}
           </tbody>
         </Table>
