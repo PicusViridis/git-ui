@@ -5,39 +5,29 @@ import { join } from 'path'
 import { config } from '../config'
 import { getIcon } from '../libs/icons'
 import { IFile } from '../models/File'
-import { IBreadcrumb, ICommit, IRepository } from '../models/interfaces'
+import { IBreadcrumb, ICommit } from '../models/interfaces'
+import { IHomeProps } from '../views/Home/Home'
 import { convertBytes } from './convert'
 import { GitService } from './git'
 
 const { repoDir } = config
 
-async function listGitRepositories() {
-  const repos = await fse.readdir(repoDir)
-  const result = []
-  for (const repo of repos) {
-    const repoPath = join(repoDir, repo)
-    const stat = await fse.stat(repoPath)
-    if (stat.isDirectory() && (await GitService.isGitRepo(repoPath))) {
-      result.push(repo)
-    }
-  }
-  return result
-}
-
 export const MAX_COMMIT_PER_PAGE = 10
 
 export const RepositoryService = {
-  async listRepositories(): Promise<IRepository[]> {
-    const repos = await listGitRepositories()
-    const mapped = await Promise.all(
-      repos.map(async (name) => {
-        const repoPath = join(repoDir, name)
-        const [lastCommit] = await GitService.log(repoPath, '.')
-        return { name, lastCommit }
-      })
-    )
-    return mapped.sort((repo1, repo2) => {
-      return repo2.lastCommit.timestamp - repo1.lastCommit.timestamp
+  async listRepositories(): Promise<IHomeProps['repositories']> {
+    const repos = await fse.readdir(repoDir)
+    const result = []
+    for (const repo of repos) {
+      const repoPath = join(repoDir, repo)
+      const isGitRepo = await GitService.isGitRepo(repoPath)
+      if (isGitRepo) {
+        const [{ date }] = await GitService.log(repoPath, '.')
+        result.push({ name: repo, lastUpdateDate: date })
+      }
+    }
+    return result.sort((repo1, repo2) => {
+      return repo2.lastUpdateDate.localeCompare(repo1.lastUpdateDate)
     })
   },
 

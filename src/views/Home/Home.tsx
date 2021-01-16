@@ -1,23 +1,14 @@
 import React from 'react'
 import { Container, Jumbotron } from 'reactstrap'
-import { IRepository } from '../../models/interfaces'
 
-function Repository({ repo }: { repo: IRepository }) {
-  return (
-    <>
-      <div>
-        <a href={`/files?repo=${repo.name}`}>
-          <strong>{repo.name}</strong>
-        </a>
-        <br />
-        <small>Updated {repo.lastCommit.date}</small>
-      </div>
-      <hr />
-    </>
-  )
+export interface IHomeProps {
+  repositories: {
+    name: string
+    lastUpdateDate: string
+  }[]
 }
 
-export default function Home({ repositories }: { repositories: IRepository[] }): JSX.Element {
+export default function Home({ repositories }: IHomeProps): JSX.Element {
   return (
     <>
       <Jumbotron>
@@ -25,7 +16,16 @@ export default function Home({ repositories }: { repositories: IRepository[] }):
       </Jumbotron>
       <Container>
         {repositories.map((repo) => (
-          <Repository key={repo.name} repo={repo} />
+          <>
+            <div key={repo.name}>
+              <a href={`/files?repo=${repo.name}`}>
+                <strong>{repo.name}</strong>
+              </a>
+              <br />
+              <small>Updated {repo.lastUpdateDate}</small>
+            </div>
+            <hr />
+          </>
         ))}
       </Container>
     </>

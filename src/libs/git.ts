@@ -1,5 +1,6 @@
 import { exec } from 'child_process'
 import { formatDistance, fromUnixTime } from 'date-fns'
+import { promises as fse } from 'fs'
 import { logger } from '../libs/logger'
 import { ICommit, IFileMeta } from '../models/interfaces'
 
@@ -58,6 +59,10 @@ export const GitService = {
   },
 
   async isGitRepo(repoPath: string): Promise<boolean> {
+    const stat = await fse.stat(repoPath)
+    if (!stat.isDirectory()) {
+      return false
+    }
     try {
       await asyncExec(`git -C ${repoPath} rev-parse`)
       return true
