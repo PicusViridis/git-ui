@@ -14,11 +14,11 @@ export async function addUser(req: Request, res: Response): Promise<void> {
 export async function postUser(req: Request, res: Response): Promise<void> {
   const { username, password } = req.body
   await User.getRepository().save({ username, password: sha256(password).toString() })
-  res.redirect('/users')
+  res.redirect('/users/list')
 }
 
 export async function deleteUser(req: Request, res: Response): Promise<void> {
   const { username } = req.params
   await User.getRepository().delete(username)
-  res.redirect('/users')
+  res.redirect('/users/list')
 }

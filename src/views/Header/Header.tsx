@@ -17,10 +17,14 @@ export function Header({ user, repo, path, query }: IHeaderProps): JSX.Element {
         {user && (
           <Nav className="ml-auto" navbar>
             <NavItem>
-              <NavLink href="/users/list">Admin</NavLink>
+              <NavLink href="/users/list">
+                <i className="fas fa-cogs"></i> Admin
+              </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink href="/logout">Log out</NavLink>
+              <NavLink href="/logout">
+                <i className="fas fa-sign-out-alt"></i> Log out
+              </NavLink>
             </NavItem>
           </Nav>
         )}
@@ -37,6 +41,11 @@ export function Header({ user, repo, path, query }: IHeaderProps): JSX.Element {
             <NavItem>
               <NavLink className={path.startsWith('/commit') ? 'active' : ''} href={`/commits?${query}`}>
                 Commits
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink className={path.startsWith('/issue') ? 'active' : ''} href={`/issues/list?${query}`}>
+                Issues
               </NavLink>
             </NavItem>
           </Nav>

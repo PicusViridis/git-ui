@@ -1,7 +1,9 @@
 ;(function () {
   const branchSelect = document.querySelector('.branch-select')
 
-  branchSelect.addEventListener('change', (e) => {
-    location.search = '?' + e.target.value
-  })
+  if (branchSelect) {
+    branchSelect.addEventListener('change', (e) => {
+      location.search = '?' + e.target.value
+    })
+  }
 })()

@@ -11,7 +11,9 @@ export default function File({ size, content, query }: IFileProps): JSX.Element 
   const fileContent = content ? (
     <pre className="hljs m-0" dangerouslySetInnerHTML={{ __html: content }} />
   ) : (
-    <Alert>Cannot preview binary file.</Alert>
+    <Alert color="info" fade={false}>
+      Cannot preview binary file.
+    </Alert>
   )
 
   return (

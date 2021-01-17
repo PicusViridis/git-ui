@@ -21,7 +21,7 @@ export default function Home({ repositories }: IHomeProps): JSX.Element {
               <br />
               <small>Updated {repo.lastUpdateDate}</small>
             </div>
-            <hr />
+            <hr key={`hr${repo.name}`} />
           </>
         ))}
       </Container>

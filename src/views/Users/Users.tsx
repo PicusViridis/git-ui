@@ -1,28 +1,7 @@
-import React, { ReactNode } from 'react'
+import { format } from 'date-fns'
+import React from 'react'
+import { Button, Card, CardBody, CardSubtitle, CardTitle } from 'reactstrap'
 import { User } from '../../models/User'
-
-interface IUserDeleteProps {
-  user: User
-  canDelete: boolean
-  children: ReactNode
-}
-
-function UserDelete({ user, canDelete, children }: IUserDeleteProps): JSX.Element {
-  const className = 'button is-danger'
-  if (!canDelete) {
-    return (
-      <button disabled className={className}>
-        {children}
-      </button>
-    )
-  }
-
-  return (
-    <a href={`/users/delete-user/${user.username}`} className={className}>
-      {children}
-    </a>
-  )
-}
 
 interface IUserCardProps {
   user: User
@@ -30,24 +9,20 @@ interface IUserCardProps {
 }
 
 function UserCard({ user, canDelete }: IUserCardProps): JSX.Element {
+  const href = canDelete ? `/users/delete-user/${user.username}` : undefined
+
   return (
-    <div className="box">
-      <div className="level">
-        <div className="level-left">
-          <div className="level-item">{user.username}</div>
-        </div>
-        <div className="level-right">
-          <div className="level-item">
-            <UserDelete user={user} canDelete={canDelete}>
-              <span className="icon is-small">
-                <i className="fas fa-trash"></i>
-              </span>
-              <span>Delete</span>
-            </UserDelete>
-          </div>
-        </div>
-      </div>
-    </div>
+    <Card className="mb-4">
+      <CardBody className="flex ">
+        <Button as="a" href={href} disabled={!canDelete} outline={!canDelete} color="danger" className="float-right">
+          <i className="fas fa-trash"></i> Delete
+        </Button>
+        <CardTitle tag="h5">{user.username}</CardTitle>
+        <CardSubtitle tag="h6" className="mb-2 text-muted">
+          Created at {format(user.createdAt, 'PPP')}
+        </CardSubtitle>
+      </CardBody>
+    </Card>
   )
 }
 
@@ -57,17 +32,15 @@ interface IListUsersProps {
 }
 
 export default function ListUsers({ users, user }: IListUsersProps): JSX.Element {
+  const { username } = user
   return (
     <>
-      <a href="/users/add-user" className="button is-primary is-outlined">
-        <span className="icon is-small">
-          <i className="fas fa-plus"></i>
-        </span>
-        <span>Add</span>
+      <a href="/users/add" className="text-right d-block">
+        <i className="fas fa-plus"></i> Create User
       </a>
       <hr />
-      {users.map((_user) => (
-        <UserCard key={_user.username} user={_user} canDelete={_user.username !== user.username} />
+      {users.map((user) => (
+        <UserCard key={user.id} user={user} canDelete={user.username === username} />
       ))}
     </>
   )
