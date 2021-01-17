@@ -1,5 +1,5 @@
 import React from 'react'
-import { Alert, Card, CardHeader } from 'reactstrap'
+import { Card, CardHeader } from 'reactstrap'
 
 interface IFileProps {
   size?: string
@@ -8,14 +8,6 @@ interface IFileProps {
 }
 
 export default function File({ size, content, query }: IFileProps): JSX.Element {
-  const fileContent = content ? (
-    <pre className="hljs m-0" dangerouslySetInnerHTML={{ __html: content }} />
-  ) : (
-    <Alert color="info" fade={false}>
-      Cannot preview binary file.
-    </Alert>
-  )
-
   return (
     <Card>
       <CardHeader>
@@ -24,7 +16,7 @@ export default function File({ size, content, query }: IFileProps): JSX.Element 
         </a>
         {size}
       </CardHeader>
-      {fileContent}
+      <pre className="hljs m-0" dangerouslySetInnerHTML={{ __html: content || 'Cannot preview binary file' }} />
     </Card>
   )
 }
