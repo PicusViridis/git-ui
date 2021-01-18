@@ -1,28 +1,41 @@
 import React from 'react'
-import { Container, Table } from 'reactstrap'
-import { IRepositoryMeta } from '../../models/interfaces'
+import { Table } from 'reactstrap'
 import { Issue } from '../../models/Issue'
-import Layout from '../Layout/RepoLayout'
 
 interface IIssuesProps {
   issues: Issue[]
-  meta: IRepositoryMeta
+  query: string
 }
 
-export default function Issues({ issues, meta }: IIssuesProps): JSX.Element {
+export default function Issues({ issues, query }: IIssuesProps): JSX.Element {
   return (
-    <Layout meta={meta} active="issues">
-      <Container>
-        <Table striped>
-          <tbody>
-            {issues.map((issue) => (
-              <tr key={issue.id}>
-                <td>{issue.title}</td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
-      </Container>
-    </Layout>
+    <Table striped>
+      <caption className="text-right" style={{ captionSide: 'top' }}>
+        <a href={`/issues/add?${query}`}>
+          <i className="fas fa-plus"></i> Create issue
+        </a>
+      </caption>
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Author</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {!issues.length && (
+          <td className="text-muted p-5" colSpan={3}>
+            No issue found
+          </td>
+        )}
+        {issues.map((issue) => (
+          <tr key={issue.id}>
+            <td>{issue.title}</td>
+            <td>{issue.author}</td>
+            <td>{issue.createdAt}</td>
+          </tr>
+        ))}
+      </tbody>
+    </Table>
   )
 }

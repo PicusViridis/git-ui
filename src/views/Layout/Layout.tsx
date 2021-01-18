@@ -6,18 +6,15 @@ import { Nav } from '../Nav/Nav'
 
 interface ILayoutProps {
   user?: User
-  meta?: {
-    repo: string
-    path: string
-    branch: string
-    branches: string[]
-  }
+  repo: string
+  branch: string
   path: string
-  query: string
+  branches: string[]
+  active: 'files' | 'commits' | 'issues'
   children: ReactNode
 }
 
-export default function Layout({ user, meta, path, query, children }: ILayoutProps): JSX.Element {
+export default function Layout({ user, repo, branch, path, branches, active, children }: ILayoutProps): JSX.Element {
   return (
     <html>
       <head>
@@ -32,9 +29,9 @@ export default function Layout({ user, meta, path, query, children }: ILayoutPro
         <script type="text/javascript" src="/scripts/change-branch.js" defer></script>
       </head>
       <body>
-        <Header user={user} repo={meta?.repo} path={path} query={query} />
+        <Header user={user} repo={repo} branch={branch} path={path} active={active} />
         <Container>
-          <Nav meta={meta} path={path} query={query} />
+          <Nav repo={repo} branch={branch} path={path} branches={branches} active={active} />
           {children}
         </Container>
       </body>

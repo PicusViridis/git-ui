@@ -37,7 +37,6 @@ export const RepositoryService = {
     const mapped = await Promise.all(
       files.map(async ({ type, path }) => {
         const name = path.split('/').pop()
-        console.log(getIcon)
         const icon = getIcon(type, name)
         const [lastCommit] = await GitService.log(repoPath, path, branch)
         return { type, icon, name, path, lastCommit }
@@ -64,8 +63,8 @@ export const RepositoryService = {
     if (await GitService.isBinary(repoPath, currentPath)) {
       return ''
     } else {
-      const [rawContent] = await GitService.getContent(repoPath, currentPath, branch)
-      return highlightAuto(rawContent).value
+      const rawContent = await GitService.getContent(repoPath, currentPath, branch)
+      return highlightAuto(rawContent.join('\n')).value
     }
   },
 
@@ -81,17 +80,22 @@ export const RepositoryService = {
     return stream
   },
 
-  async getCommits(repoName: string, branch: string, page: number): Promise<[ICommitsProps['commits'], number]> {
+  async getCommits(
+    repoName: string,
+    currentPath: string,
+    branch: string,
+    page: number
+  ): Promise<[ICommitsProps['commits'], number]> {
     const repoPath = join(repoDir, repoName)
     const skip = (page - 1) * MAX_COMMIT_PER_PAGE
-    const commits = await GitService.log(repoPath, '.', branch, `-${MAX_COMMIT_PER_PAGE} --skip=${skip}`)
-    const count = await GitService.countCommits(repoPath, '.', branch)
+    const commits = await GitService.log(repoPath, currentPath, branch, `-${MAX_COMMIT_PER_PAGE} --skip=${skip}`)
+    const count = await GitService.countCommits(repoPath, currentPath, branch)
     return [commits, count]
   },
 
   async getCommitDiff(repoName: string, currentPath: string, branch: string): Promise<ICommitProps['commit']> {
     const repoPath = join(repoDir, repoName)
-    const [commit] = await GitService.log(repoPath, '.', branch, `-1`)
+    const [commit] = await GitService.log(repoPath, currentPath, branch, `-1`)
     const [diff] = await GitService.getDiffs(repoPath, currentPath, branch)
     return { message: commit.message, diff }
   },

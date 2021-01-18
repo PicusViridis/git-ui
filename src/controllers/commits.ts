@@ -12,15 +12,15 @@ function getPagination(page: number, count: number, path: string): ICommitsProps
 }
 
 export async function getCommits(req: Request, res: Response): Promise<void> {
-  const { repo, branch } = res.locals.meta
+  const { repo, branch, path } = res.locals
   const page = Number(req.query.page) || 1
-  const [commits, count] = await RepositoryService.getCommits(repo, branch, page)
+  const [commits, count] = await RepositoryService.getCommits(repo, path, branch, page)
   const pagination = getPagination(page, count, req.path)
   res.render('Commits/Commits', { commits, pagination })
 }
 
 export async function getCommit(req: Request, res: Response): Promise<void> {
-  const { repo, path } = res.locals.meta
+  const { repo, path } = res.locals
   const { hash } = req.params
   const commit = await RepositoryService.getCommitDiff(repo, path, hash)
   res.render('Commits/Commit', { commit })

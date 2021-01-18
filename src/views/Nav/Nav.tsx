@@ -1,44 +1,59 @@
+import { join } from 'path'
 import React from 'react'
 import { BreadcrumbItem, Input } from 'reactstrap'
 
-function Branch({ branch, query, selected }: { branch: string; query: string; selected: boolean }) {
-  const searchParam = new URLSearchParams(query)
-  searchParam.set('branch', branch)
-  return (
-    <option value={searchParam.toString()} selected={selected}>
-      {branch}
-    </option>
-  )
+function toBreadcrumb(repo: string, currentPath: string) {
+  const result = [{ name: repo, path: '.' }]
+  if (currentPath === '.') {
+    return result
+  }
+  const parts = currentPath.split('/')
+  let path = ''
+  for (let i = 0; i < parts.length; i++) {
+    const name = parts[i]
+    path = join(path, name)
+    result.push({ name, path })
+  }
+  return result
 }
 
 interface INavProps {
-  meta?: {
-    branch: string
-    branches: string[]
-  }
+  repo: string
+  branch: string
   path: string
-  query: string
+  branches: string[]
+  active: 'files' | 'commits' | 'issues'
 }
 
-export function Nav({ meta, path, query }: INavProps): JSX.Element | null {
-  if (!meta) {
+export function Nav({ repo, branch, branches, path, active }: INavProps): JSX.Element | null {
+  if (!repo || active === 'issues') {
     return null
   }
 
-  const breadcrumb = path.split('/').filter(Boolean)
+  const breadcrumb = toBreadcrumb(repo, path)
+
+  function isSelected(_branch: string) {
+    return _branch === branch
+  }
+
+  function isActive(_path: string) {
+    return _path === path
+  }
 
   return (
     <>
       <nav className="d-flex align-items-center">
         <Input type="select" style={{ width: 'unset' }} className="branch-select mr-3">
-          {meta.branches.map((branch) => (
-            <Branch key={branch} branch={branch} query={query} selected={branch === meta.branch} />
+          {branches.map((branch) => (
+            <option key={branch} value={`/repo/${repo}/${branch}/${active}?path=${path}`} selected={isSelected(branch)}>
+              {branch}
+            </option>
           ))}
         </Input>
         <ol className="breadcrumb flex-grow-1 mb-0 py-2">
-          {breadcrumb.map((part, ind, arr) => (
-            <BreadcrumbItem key={part} active={ind === arr.length - 1}>
-              {ind === arr.length - 1 ? part : <a href={`/files?${query}`}>{part}</a>}
+          {breadcrumb.map(({ path, name }) => (
+            <BreadcrumbItem key={path} active={isActive(path)}>
+              {isActive(path) ? name : <a href={`/repo/${repo}/${branch}/${active}?path=${path}`}>{name}</a>}
             </BreadcrumbItem>
           ))}
         </ol>

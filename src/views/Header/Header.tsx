@@ -4,12 +4,17 @@ import { User } from '../../models/User'
 
 interface IHeaderProps {
   user?: User
-  repo?: string
+  repo: string
+  branch: string
   path: string
-  query: string
+  active: 'files' | 'commits' | 'issues'
 }
 
-export function Header({ user, repo, path, query }: IHeaderProps): JSX.Element {
+export function Header({ user, repo, branch, path, active }: IHeaderProps): JSX.Element {
+  function className(name: 'files' | 'commits' | 'issues') {
+    return name === active ? 'active' : ''
+  }
+
   return (
     <header>
       <Navbar color="primary" dark expand="md">
@@ -34,17 +39,17 @@ export function Header({ user, repo, path, query }: IHeaderProps): JSX.Element {
         {repo && (
           <Nav tabs className="mb-3">
             <NavItem>
-              <NavLink className={path.startsWith('/file') ? 'active' : ''} href={`/files?${query}`}>
+              <NavLink className={className('files')} href={`/repo/${repo}/${branch}/files?path=${path}`}>
                 Files
               </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink className={path.startsWith('/commit') ? 'active' : ''} href={`/commits?${query}`}>
+              <NavLink className={className('commits')} href={`/repo/${repo}/${branch}/commits?path=${path}`}>
                 Commits
               </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink className={path.startsWith('/issue') ? 'active' : ''} href={`/issues/list?${query}`}>
+              <NavLink className={className('issues')} href={`/repo/${repo}/issues/list`}>
                 Issues
               </NavLink>
             </NavItem>

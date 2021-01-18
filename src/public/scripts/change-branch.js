@@ -3,7 +3,7 @@
 
   if (branchSelect) {
     branchSelect.addEventListener('change', (e) => {
-      location.search = '?' + e.target.value
+      location.assign(e.target.value)
     })
   }
 })()
