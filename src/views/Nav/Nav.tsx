@@ -23,11 +23,11 @@ interface INavProps {
   branch: string
   path: string
   branches: string[]
-  active: 'files' | 'commits' | 'issues'
+  active: 'files' | 'commits' | 'issues' | 'releases'
 }
 
 export function Nav({ repo, branch, branches, path, active }: INavProps): JSX.Element | null {
-  if (!repo || active === 'issues') {
+  if (!repo || active === 'issues' || active === 'releases') {
     return null
   }
 
