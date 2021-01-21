@@ -1,6 +1,7 @@
 import { join } from 'path'
 import React from 'react'
 import { BreadcrumbItem, Input } from 'reactstrap'
+import { Page } from '../../models/Pages'
 import { noop } from '../utils'
 
 function toBreadcrumb(repo: string, currentPath: string) {
@@ -23,11 +24,11 @@ interface INavProps {
   branch: string
   path: string
   branches: string[]
-  active: 'files' | 'commits' | 'issues' | 'releases'
+  active: Page
 }
 
 export function Nav({ repo, branch, branches, path, active }: INavProps): JSX.Element | null {
-  if (!repo || active === 'issues' || active === 'releases') {
+  if (!repo || active === 'issues' || active === 'releases' || active === 'board') {
     return null
   }
 

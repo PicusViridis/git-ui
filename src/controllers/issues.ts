@@ -16,11 +16,6 @@ export async function getIssues(req: Request<P>, res: Response): Promise<void> {
     .where('release.repo = :repo', { repo })
     .orderBy('issue.updatedAt', 'DESC')
     .getMany()
-  // .find({
-  //   where: { release: { repo } },
-  //   order: { updatedAt: 'DESC' },
-  //   relations: ['author', 'release'],
-  // })
   res.render('Issues/Issues', { issues })
 }
 

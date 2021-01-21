@@ -1,5 +1,6 @@
 import React from 'react'
 import { Jumbotron, Nav, Navbar, NavbarBrand, NavItem, NavLink } from 'reactstrap'
+import { Page } from '../../models/Pages'
 import { User } from '../../models/User'
 
 interface IHeaderProps {
@@ -7,11 +8,11 @@ interface IHeaderProps {
   repo: string
   branch: string
   path: string
-  active: 'files' | 'commits' | 'issues' | 'releases'
+  active: Page
 }
 
 export function Header({ user, repo, branch, path, active }: IHeaderProps): JSX.Element {
-  function className(name: 'files' | 'commits' | 'issues' | 'releases') {
+  function className(name: Page) {
     return name === active ? 'active' : ''
   }
 
@@ -56,6 +57,11 @@ export function Header({ user, repo, branch, path, active }: IHeaderProps): JSX.
             <NavItem>
               <NavLink className={className('releases')} href={`/repo/${repo}/releases/list`}>
                 Releases
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink className={className('board')} href={`/repo/${repo}/board`}>
+                Board
               </NavLink>
             </NavItem>
           </Nav>
