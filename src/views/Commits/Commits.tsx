@@ -29,10 +29,12 @@ export interface ICommitsProps {
     next?: string
     last?: string
   }
-  query: string
+  repo: string
+  branch: string
+  path: string
 }
 
-export default function Commits({ commits, pagination, query }: ICommitsProps): JSX.Element {
+export default function Commits({ commits, pagination, repo, branch, path }: ICommitsProps): JSX.Element {
   const { page, maxPage, first, previous, next, last } = pagination
 
   return (
@@ -41,7 +43,7 @@ export default function Commits({ commits, pagination, query }: ICommitsProps): 
         <Media key={commit.hash} className="mb-3">
           <Media body>
             <Media heading tag="div">
-              <a href={`/commit/${commit.hash}?${query}`}>
+              <a href={`/repo/${repo}/${branch}/commits/${commit.hash}?path=${path}`}>
                 <strong>{commit.message}</strong>
               </a>
             </Media>

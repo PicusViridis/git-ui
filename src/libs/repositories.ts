@@ -76,8 +76,8 @@ export const RepositoryService = {
 
   async getStream(repoName: string, currentPath: string, branch: string): Promise<string> {
     const repoPath = join(repoDir, repoName)
-    const [stream] = await GitService.getContent(repoPath, currentPath, branch)
-    return stream
+    const stream = await GitService.getContent(repoPath, currentPath, branch)
+    return stream.join('\n')
   },
 
   async getCommits(

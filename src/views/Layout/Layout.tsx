@@ -28,7 +28,7 @@ export default function Layout({ user, repo, branch, path, branches, active, chi
         <script type="text/javascript" src="/scripts/copy.js" defer></script>
         <script type="text/javascript" src="/scripts/change-branch.js" defer></script>
       </head>
-      <body>
+      <body className="pb-5">
         <Header user={user} repo={repo} branch={branch} path={path} active={active} />
         <Container>
           <Nav repo={repo} branch={branch} path={path} branches={branches} active={active} />

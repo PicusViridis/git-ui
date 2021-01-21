@@ -1,6 +1,7 @@
 import { join } from 'path'
 import React from 'react'
 import { BreadcrumbItem, Input } from 'reactstrap'
+import { noop } from '../utils'
 
 function toBreadcrumb(repo: string, currentPath: string) {
   const result = [{ name: repo, path: '.' }]
@@ -32,10 +33,6 @@ export function Nav({ repo, branch, branches, path, active }: INavProps): JSX.El
 
   const breadcrumb = toBreadcrumb(repo, path)
 
-  function isSelected(_branch: string) {
-    return _branch === branch
-  }
-
   function isActive(_path: string) {
     return _path === path
   }
@@ -43,9 +40,9 @@ export function Nav({ repo, branch, branches, path, active }: INavProps): JSX.El
   return (
     <>
       <nav className="d-flex align-items-center">
-        <Input type="select" style={{ width: 'unset' }} className="branch-select mr-3">
+        <Input type="select" style={{ width: 'unset' }} className="branch-select mr-3" value={branch} onChange={noop}>
           {branches.map((branch) => (
-            <option key={branch} value={`/repo/${repo}/${branch}/${active}?path=${path}`} selected={isSelected(branch)}>
+            <option key={branch} value={branch} data-href={`/repo/${repo}/${branch}/${active}?path=${path}`}>
               {branch}
             </option>
           ))}

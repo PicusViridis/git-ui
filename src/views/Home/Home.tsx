@@ -15,7 +15,7 @@ export default function Home({ repositories }: IHomeProps): JSX.Element {
         {repositories.map((repo) => (
           <>
             <div key={repo.name}>
-              <a href={`/repo/${repo.name}/master/file`}>
+              <a href={`/repo/${repo.name}/master/files`}>
                 <strong>{repo.name}</strong>
               </a>
               <br />

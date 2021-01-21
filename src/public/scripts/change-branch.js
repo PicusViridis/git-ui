@@ -3,7 +3,8 @@
 
   if (branchSelect) {
     branchSelect.addEventListener('change', (e) => {
-      location.assign(e.target.value)
+      const [option] = e.target.selectedOptions
+      location.assign(option.dataset.href)
     })
   }
 })()

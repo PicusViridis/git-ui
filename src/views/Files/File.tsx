@@ -13,7 +13,7 @@ export default function File({ size, content, repo, branch, path }: IFileProps):
   return (
     <Card>
       <CardHeader>
-        <a style={{ float: 'right' }} href={`/repo/${repo}/${branch}/files?path=${path}`}>
+        <a style={{ float: 'right' }} href={`/repo/${repo}/${branch}/files/download?path=${path}`}>
           <i className="fas fa-download"></i> Download file
         </a>
         {size}

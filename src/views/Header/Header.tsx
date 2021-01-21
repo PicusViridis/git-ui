@@ -35,7 +35,7 @@ export function Header({ user, repo, branch, path, active }: IHeaderProps): JSX.
         )}
       </Navbar>
       <Jumbotron className="py-0">
-        <h1 className="py-5 m-0">{repo || 'Repositories'}</h1>
+        <h1 className="py-5 m-0">{!user ? 'Login' : repo || 'Repositories'}</h1>
         {repo && (
           <Nav tabs className="mb-3">
             <NavItem>
