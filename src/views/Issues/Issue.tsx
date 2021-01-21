@@ -1,25 +1,39 @@
+import { format } from 'date-fns'
 import React from 'react'
-import { Button, Form, FormGroup, Input, Label } from 'reactstrap'
+import { Button, ButtonGroup, Form, FormGroup, Input, Label } from 'reactstrap'
 import { Issue } from '../../models/Issue'
+import { Release } from '../../models/Release'
 import { noop } from '../utils'
 
 interface IIssueProps {
   issue?: Issue
+  releases?: Release[]
   repo: string
 }
 
-export default function AddIssue({ issue, repo }: IIssueProps): JSX.Element {
+export default function AddIssue({ issue, repo, releases }: IIssueProps): JSX.Element {
   return (
-    <Form action={`/repo/${repo}/issues/add`} method="POST">
+    <Form action={`/repo/${repo}/issues/edit/${issue?.id || ''}`} method="POST">
       <FormGroup>
         <Label for="title">Title</Label>
-        <Input id="title" name="title" type="text" value={issue?.title} onChange={noop} />
+        <Input id="title" name="title" type="text" value={issue?.title} onChange={noop} required />
       </FormGroup>
       <FormGroup>
         <Label for="type">Type</Label>
-        <Input id="type" name="type" type="select" value={issue?.type || 'feature'} onChange={noop}>
+        <Input id="type" name="type" type="select" value={issue?.type || 'feature'} onChange={noop} required>
           <option value="bug">Bug</option>
           <option value="feature">Feature</option>
+        </Input>
+      </FormGroup>
+      <FormGroup>
+        <Label for="release">Release</Label>
+        <Input id="release" name="release" type="select" value={issue?.release?.id} onChange={noop} required>
+          <option></option>
+          {releases.map((release) => (
+            <option key={release.id} value={release.id}>
+              {release.name} ({format(release.dueDate, 'PPP')})
+            </option>
+          ))}
         </Input>
       </FormGroup>
       <FormGroup>
@@ -31,10 +45,20 @@ export default function AddIssue({ issue, repo }: IIssueProps): JSX.Element {
           rows={7}
           value={issue?.description}
           onChange={noop}
+          required
         />
       </FormGroup>
       <FormGroup>
-        <Button color="primary">Create issue</Button>
+        <ButtonGroup>
+          <Button color="primary">
+            <i className="fas fa-save"></i> Save
+          </Button>
+          {issue && (
+            <Button tag="a" color="danger" outline type="button" href={`/repo/${repo}/issues/delete/${issue.id}`}>
+              <i className="fas fa-trash"></i> Delete
+            </Button>
+          )}
+        </ButtonGroup>
       </FormGroup>
     </Form>
   )

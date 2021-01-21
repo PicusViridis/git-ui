@@ -1,46 +1,54 @@
 import { Request, Response } from 'express'
+import { MoreThan } from 'typeorm'
 import { Issue } from '../models/Issue'
+import { Release } from '../models/Release'
+import { User } from '../models/User'
 
 type P = { repo: string }
-type I = { id: number }
+type I = { id?: number }
 
 export async function getIssues(req: Request<P>, res: Response): Promise<void> {
   const { repo } = req.params
-  const issues = await Issue.getRepository().find({
-    where: { repo },
-    order: { updatedAt: 'DESC' },
-    relations: ['author'],
-  })
+  const issues = await Issue.getRepository()
+    .createQueryBuilder('issue')
+    .leftJoinAndSelect('issue.release', 'release')
+    .leftJoinAndSelect('issue.author', 'author')
+    .where('release.repo = :repo', { repo })
+    .orderBy('issue.updatedAt', 'DESC')
+    .getMany()
+  // .find({
+  //   where: { release: { repo } },
+  //   order: { updatedAt: 'DESC' },
+  //   relations: ['author', 'release'],
+  // })
   res.render('Issues/Issues', { issues })
-}
-
-export async function addIssue(req: Request<P>, res: Response): Promise<void> {
-  res.render('Issues/Issue')
-}
-
-export async function postIssue(req: Request<P>, res: Response): Promise<void> {
-  const { repo } = req.params
-  const { title, type, description, release } = req.body
-  const author = { id: req.user.id }
-  await Issue.getRepository().save({ repo, title, type, description, author, release })
-  res.redirect(`/repo/${repo}/issues/list`)
 }
 
 export async function getIssue(req: Request<P & I>, res: Response): Promise<void> {
   const { id } = req.params
-  const issue = await Issue.getRepository().findOne(id)
-  res.render('Issues/Issue', { issue })
+  const releases = await Release.getRepository().find({ where: { dueDate: MoreThan(new Date()) } })
+  if (!id) {
+    res.render('Issues/Issue', { releases })
+  } else {
+    const issue = await Issue.getRepository().findOne(id)
+    res.render('Issues/Issue', { issue, releases })
+  }
 }
 
-export async function putIssue(req: Request<P & I>, res: Response): Promise<void> {
+export async function saveIssue(req: Request<P & I> & { user: User }, res: Response): Promise<void> {
   const { id, repo } = req.params
-  const { title, type, description, author, release } = req.body
-  await Issue.getRepository().update(id, { title, type, description, author, release })
-  res.redirect(`/repo/${repo}/issues/edit/${id}`)
+  const { title, type, description, release } = req.body
+  if (id) {
+    await Issue.getRepository().update(id, { title, type, description, release })
+  } else {
+    const author = { id: req.user.id }
+    await Issue.getRepository().save({ title, type, description, author, release })
+  }
+  res.redirect(`/repo/${repo}/issues/list`)
 }
 
 export async function deleteIssue(req: Request<P & I>, res: Response): Promise<void> {
   const { id, repo } = req.params
   await Issue.getRepository().delete(id)
-  res.redirect(`/repo/${repo}/issues`)
+  res.redirect(`/repo/${repo}/issues/list`)
 }

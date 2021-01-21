@@ -14,6 +14,9 @@ export class Release {
   id: number
 
   @Column()
+  repo: string
+
+  @Column()
   name: string
 
   @Column()

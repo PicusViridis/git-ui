@@ -2,7 +2,8 @@ import { Router } from 'express'
 import { getCommit, getCommits } from './controllers/commits'
 import { downloadFile, getFile } from './controllers/files'
 import { getHome } from './controllers/home'
-import { addIssue, deleteIssue, getIssue, getIssues, postIssue, putIssue } from './controllers/issues'
+import { deleteIssue, getIssue, getIssues, saveIssue } from './controllers/issues'
+import { deleteRelease, getRelease, getReleases, saveRelease } from './controllers/releases'
 import { getLogin, getLogout, postLogin } from './controllers/session'
 import { addUser, deleteUser, getUsers, postUser } from './controllers/users'
 import { repo } from './middlewares/repo'
@@ -26,11 +27,16 @@ router.get('/users/delete/:id', deleteUser)
 router.use('/repo/:repo/issues', repo('issues'))
 
 router.get('/repo/:repo/issues/list', getIssues)
-router.get('/repo/:repo/issues/add', addIssue)
-router.post('/repo/:repo/issues/add', postIssue)
-router.get('/repo/:repo/issues/edit/:id', getIssue)
-router.post('/repo/:repo/issues/edit/:id', putIssue)
+router.get('/repo/:repo/issues/edit/:id?', getIssue)
+router.post('/repo/:repo/issues/edit/:id?', saveIssue)
 router.get('/repo/:repo/issues/delete/:id', deleteIssue)
+
+router.use('/repo/:repo/releases', repo('releases'))
+
+router.get('/repo/:repo/releases/list', getReleases)
+router.get('/repo/:repo/releases/edit/:id?', getRelease)
+router.post('/repo/:repo/releases/edit/:id?', saveRelease)
+router.get('/repo/:repo/releases/delete/:id', deleteRelease)
 
 router.use('/repo/:repo/:branch/files', repo('files'))
 

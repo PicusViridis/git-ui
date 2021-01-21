@@ -7,11 +7,11 @@ interface IHeaderProps {
   repo: string
   branch: string
   path: string
-  active: 'files' | 'commits' | 'issues'
+  active: 'files' | 'commits' | 'issues' | 'releases'
 }
 
 export function Header({ user, repo, branch, path, active }: IHeaderProps): JSX.Element {
-  function className(name: 'files' | 'commits' | 'issues') {
+  function className(name: 'files' | 'commits' | 'issues' | 'releases') {
     return name === active ? 'active' : ''
   }
 
@@ -35,7 +35,7 @@ export function Header({ user, repo, branch, path, active }: IHeaderProps): JSX.
         )}
       </Navbar>
       <Jumbotron className="py-0">
-        <h1 className="py-5 m-0">{!user ? 'Login' : repo || 'Repositories'}</h1>
+        <h1 className="py-5 m-0">{repo || (!user ? 'Login' : 'Repositories')}</h1>
         {repo && (
           <Nav tabs className="mb-3">
             <NavItem>
@@ -51,6 +51,11 @@ export function Header({ user, repo, branch, path, active }: IHeaderProps): JSX.
             <NavItem>
               <NavLink className={className('issues')} href={`/repo/${repo}/issues/list`}>
                 Issues
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink className={className('releases')} href={`/repo/${repo}/releases/list`}>
+                Releases
               </NavLink>
             </NavItem>
           </Nav>
