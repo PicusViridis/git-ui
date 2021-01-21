@@ -30,7 +30,7 @@ export async function getIssue(req: Request<P & I>, res: Response): Promise<void
   if (!id) {
     res.render('Issues/Issue', { releases })
   } else {
-    const issue = await Issue.getRepository().findOne(id)
+    const issue = await Issue.getRepository().findOne(id, { relations: ['release'] })
     res.render('Issues/Issue', { issue, releases })
   }
 }
