@@ -31,6 +31,15 @@ export const RepositoryService = {
     })
   },
 
+  async getFileType(repoName: string, currentPath: string, branch: string): Promise<'file' | 'folder'> {
+    if (currentPath === '.') {
+      return 'folder'
+    }
+    const repoPath = join(repoDir, repoName)
+    const [result] = await GitService.listFiles(repoPath, currentPath, branch)
+    return result.type
+  },
+
   async getFiles(repoName: string, currentPath: string, branch: string): Promise<IFilesProps['files']> {
     const repoPath = join(repoDir, repoName)
     const files = await GitService.listFiles(repoPath, currentPath + '/', branch)
@@ -96,7 +105,7 @@ export const RepositoryService = {
   async getCommitDiff(repoName: string, currentPath: string, branch: string): Promise<ICommitProps['commit']> {
     const repoPath = join(repoDir, repoName)
     const [commit] = await GitService.log(repoPath, currentPath, branch, `-1`)
-    const [diff] = await GitService.getDiffs(repoPath, currentPath, branch)
-    return { message: commit.message, diff }
+    const diff = await GitService.getDiffs(repoPath, currentPath, branch)
+    return { message: commit.message, diff: diff.join('\n') }
   },
 }

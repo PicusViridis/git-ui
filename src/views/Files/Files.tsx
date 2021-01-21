@@ -26,7 +26,7 @@ export default function Files({ files, repo, branch }: IFilesProps): JSX.Element
               <span className="icon">
                 <img src={`/icons/${file.icon}`} width="16" height="16" />
               </span>
-              <a href={`/repo/${repo}/${branch}/files?path=${file.path}&type=${file.type}`}>{file.name}</a>
+              <a href={`/repo/${repo}/${branch}/files?path=${file.path}`}>{file.name}</a>
             </td>
             <td>{file.lastCommit.message}</td>
             <td>{file.lastCommit.date}</td>

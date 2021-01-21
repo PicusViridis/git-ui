@@ -3,7 +3,7 @@ import { RepositoryService } from '../libs/repositories'
 
 export async function getFile(req: Request, res: Response): Promise<void> {
   const { repo, branch, path } = res.locals
-  const { type } = req.query
+  const type = await RepositoryService.getFileType(repo, path, branch)
   if (type === 'file') {
     const content = await RepositoryService.getContent(repo, path, branch)
     const size = await RepositoryService.getSize(repo, path, branch)
