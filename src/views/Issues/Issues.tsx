@@ -1,22 +1,24 @@
+import { format } from 'date-fns'
 import React from 'react'
 import { Table } from 'reactstrap'
 import { Issue } from '../../models/Issue'
 
 interface IIssuesProps {
   issues: Issue[]
-  query: string
+  repo: string
 }
 
-export default function Issues({ issues, query }: IIssuesProps): JSX.Element {
+export default function Issues({ issues, repo }: IIssuesProps): JSX.Element {
   return (
     <Table striped>
       <caption className="text-right" style={{ captionSide: 'top' }}>
-        <a href={`/issues/add?${query}`}>
+        <a href={`/repo/${repo}/issues/add`}>
           <i className="fas fa-plus"></i> Create issue
         </a>
       </caption>
       <thead>
         <tr>
+          <th>Type</th>
           <th>Title</th>
           <th>Author</th>
           <th>Date</th>
@@ -30,9 +32,10 @@ export default function Issues({ issues, query }: IIssuesProps): JSX.Element {
         )}
         {issues.map((issue) => (
           <tr key={issue.id}>
+            <td>{issue.type}</td>
             <td>{issue.title}</td>
-            <td>{issue.author}</td>
-            <td>{issue.createdAt}</td>
+            <td>{issue.author?.username}</td>
+            <td>{format(issue.createdAt, 'PPP')}</td>
           </tr>
         ))}
       </tbody>
