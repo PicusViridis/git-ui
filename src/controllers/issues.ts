@@ -19,7 +19,7 @@ export async function getIssues(req: Request<P>, res: Response): Promise<void> {
 
 export async function getIssue(req: Request<P & I>, res: Response): Promise<void> {
   const { id, repo } = req.params
-  const releases = await Release.getRepository().find({ where: { repo, dueDate: MoreThan(new Date()) } })
+  const releases = await Release.getRepository().find({ where: { repo, dueDate: MoreThan(new Date().toISOString()) } })
   const issue = !id ? undefined : await Issue.getRepository().findOne(id, { relations: ['release'] })
   res.render('Issues/Issue', { issue, releases })
 }
