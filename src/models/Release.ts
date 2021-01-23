@@ -3,10 +3,12 @@ import {
   CreateDateColumn,
   Entity,
   getConnection,
+  OneToMany,
   PrimaryGeneratedColumn,
   Repository,
   UpdateDateColumn,
 } from 'typeorm'
+import { Issue } from './Issue'
 
 @Entity()
 export class Release {
@@ -27,6 +29,9 @@ export class Release {
 
   @UpdateDateColumn()
   updatedAt: Date
+
+  @OneToMany(() => Issue, (issue) => issue.release)
+  issues: Issue[]
 
   static getRepository(): Repository<Release> {
     return getConnection().getRepository(Release)

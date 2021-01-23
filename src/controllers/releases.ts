@@ -15,7 +15,7 @@ export async function getRelease(req: Request<P & I>, res: Response): Promise<vo
   if (!id) {
     res.render('Releases/Release')
   } else {
-    const release = await Release.getRepository().findOne(id)
+    const release = await Release.getRepository().findOne(id, { relations: ['issues'] })
     res.render('Releases/Release', { release })
   }
 }

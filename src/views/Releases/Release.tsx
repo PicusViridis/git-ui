@@ -24,6 +24,7 @@ export default function AddRelease({ release, repo }: IReleaseProps): JSX.Elemen
           type="date"
           value={release && format(release.dueDate, 'yyyy-MM-dd')}
           onChange={noop}
+          required
         />
       </FormGroup>
       <FormGroup>
@@ -32,7 +33,14 @@ export default function AddRelease({ release, repo }: IReleaseProps): JSX.Elemen
             <i className="fas fa-save"></i> Save
           </Button>
           {release && (
-            <Button tag="a" color="danger" outline type="button" href={`/repo/${repo}/releases/delete/${release.id}`}>
+            <Button
+              tag="a"
+              color="danger"
+              outline
+              type="button"
+              href={`/repo/${repo}/releases/delete/${release.id}`}
+              disabled={release.issues.length > 0}
+            >
               <i className="fas fa-trash"></i> Delete
             </Button>
           )}
