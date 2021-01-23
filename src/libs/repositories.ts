@@ -9,6 +9,7 @@ import { IFilesProps } from '../views/Files/Files'
 import { IHomeProps } from '../views/Home/Home'
 import { convertBytes } from './convert'
 import { GitService } from './git'
+import { logger } from './logger'
 
 const { repoDir } = config
 
@@ -22,8 +23,12 @@ export const RepositoryService = {
       const repoPath = join(repoDir, repo)
       const isGitRepo = await GitService.isGitRepo(repoPath)
       if (isGitRepo) {
-        const [{ date }] = await GitService.log(repoPath, '.')
-        result.push({ name: repo, lastUpdateDate: date })
+        try {
+          const [{ date }] = await GitService.log(repoPath, '.')
+          result.push({ name: repo, lastUpdateDate: date })
+        } catch (error) {
+          logger.warn(`Ignoring empty repository "${repo}"`)
+        }
       }
     }
     return result.sort((repo1, repo2) => {
