@@ -18,7 +18,7 @@ export function Ticket({ status, issue, repo }: ITicketProps): JSX.Element | nul
     return null
   }
   return (
-    <Card color={colors[issue.type]} outline>
+    <Card color={colors[issue.type]} outline draggable className="board-ticket" data-id={issue.id}>
       <CardBody>
         <CardTitle tag="h5">
           <a href={`/repo/${repo}/issues/edit/${issue.id}`}>{issue.title}</a>

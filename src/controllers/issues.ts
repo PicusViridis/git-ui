@@ -38,6 +38,13 @@ export async function saveIssue(req: Request<P & I> & { user: User }, res: Respo
   res.redirect(`/repo/${repo}/issues/list`)
 }
 
+export async function moveIssue(req: Request<I>, res: Response): Promise<void> {
+  const { id } = req.params
+  const { status, priority } = req.body
+  await Issue.getRepository().update(id, { status, priority })
+  res.sendStatus(204)
+}
+
 export async function deleteIssue(req: Request<P & I>, res: Response): Promise<void> {
   const { id, repo } = req.params
   await Issue.getRepository().delete(id)

@@ -3,7 +3,7 @@ import { getBoard } from './controllers/board'
 import { getCommit, getCommits } from './controllers/commits'
 import { downloadFile, getFile } from './controllers/files'
 import { getHome } from './controllers/home'
-import { deleteIssue, getIssue, getIssues, saveIssue } from './controllers/issues'
+import { deleteIssue, getIssue, getIssues, moveIssue, saveIssue } from './controllers/issues'
 import { deleteRelease, getRelease, getReleases, saveRelease } from './controllers/releases'
 import { getLogin, getLogout, postLogin } from './controllers/session'
 import { addUser, deleteUser, getUsers, postUser } from './controllers/users'
@@ -29,6 +29,7 @@ router.use('/repo/:repo/issues', repo('issues'))
 router.get('/repo/:repo/issues/list', getIssues)
 router.get('/repo/:repo/issues/edit/:id?', getIssue)
 router.post('/repo/:repo/issues/edit/:id?', saveIssue)
+router.post('/repo/:repo/issues/move/:id?', moveIssue)
 router.get('/repo/:repo/issues/delete/:id', deleteIssue)
 
 router.use('/repo/:repo/releases', repo('releases'))

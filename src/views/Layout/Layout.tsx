@@ -27,6 +27,7 @@ export default function Layout({ user, repo, branch, path, branches, active, chi
         <link rel="icon" type="image/png" href="/favicon.svg" />
         <script type="text/javascript" src="/scripts/copy.js" defer></script>
         <script type="text/javascript" src="/scripts/change-branch.js" defer></script>
+        <script type="text/javascript" src="/scripts/tickets.js" defer></script>
       </head>
       <body className="pb-5">
         <Header user={user} repo={repo} branch={branch} path={path} active={active} />

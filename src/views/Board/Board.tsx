@@ -1,12 +1,21 @@
 import { format } from 'date-fns'
 import React, { CSSProperties } from 'react'
 import { Alert, Table } from 'reactstrap'
-import { Issue } from '../../models/Issue'
+import { Issue, Status } from '../../models/Issue'
 import { Release } from '../../models/Release'
 import { Ticket } from './Ticket'
 
 const oddStyle: CSSProperties = {
   backgroundColor: '#fafafa',
+}
+
+function cellProps(issue: Issue, status: Status, repo: string) {
+  return {
+    className: 'board-cell',
+    'data-priority': issue.priority,
+    'data-status': status,
+    'data-repo': repo,
+  }
 }
 
 interface IBoardProps {
@@ -39,13 +48,13 @@ export default function Board({ release, issues, repo }: IBoardProps): JSX.Eleme
       <tbody>
         {issues.map((issue) => (
           <tr key={issue.id}>
-            <td>
+            <td {...cellProps(issue, 'to do', repo)}>
               <Ticket issue={issue} status="to do" repo={repo} />
             </td>
-            <td style={oddStyle}>
+            <td style={oddStyle} {...cellProps(issue, 'doing', repo)}>
               <Ticket issue={issue} status="doing" repo={repo} />
             </td>
-            <td>
+            <td className="board-cell" {...cellProps(issue, 'done', repo)}>
               <Ticket issue={issue} status="done" repo={repo} />
             </td>
           </tr>
