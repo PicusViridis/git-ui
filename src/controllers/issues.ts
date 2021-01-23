@@ -37,7 +37,9 @@ export async function saveIssue(req: Request<P & I> & { user: User }, res: Respo
     await Issue.getRepository().update(id, { title, type, description, release })
   } else {
     const author = { id: req.user.id }
-    await Issue.getRepository().save({ title, type, description, author, release })
+    const result = await Issue.getRepository().findOne({ where: { release }, order: { priority: 'DESC' } })
+    const priority = result ? result.priority + 1 : 0
+    await Issue.getRepository().save({ title, type, description, author, release, priority })
   }
   res.redirect(`/repo/${repo}/issues/list`)
 }

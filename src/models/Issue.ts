@@ -11,8 +11,11 @@ import {
 import { Release } from './Release'
 import { User } from './User'
 
-const issueTypes = ['bug', 'feature'] as const
-export type IssueType = typeof issueTypes[number]
+const types = ['bug', 'feature'] as const
+export type Type = typeof types[number]
+
+const statuses = ['to do', 'doing', 'done'] as const
+export type Status = typeof statuses[number]
 
 @Entity()
 export class Issue {
@@ -26,7 +29,13 @@ export class Issue {
   release?: Release
 
   @Column()
-  type: IssueType
+  type: Type
+
+  @Column({ default: 'to do' })
+  status: Status
+
+  @Column()
+  priority: number
 
   @Column()
   title: string
