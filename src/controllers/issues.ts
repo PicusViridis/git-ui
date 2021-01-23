@@ -9,25 +9,19 @@ type I = { id?: number }
 
 export async function getIssues(req: Request<P>, res: Response): Promise<void> {
   const { repo } = req.params
-  const issues = await Issue.getRepository()
-    .createQueryBuilder('issue')
-    .leftJoinAndSelect('issue.release', 'release')
-    .leftJoinAndSelect('issue.author', 'author')
-    .where('release.repo = :repo', { repo })
-    .orderBy('issue.updatedAt', 'DESC')
-    .getMany()
+  const issues = await Issue.getRepository().find({
+    where: { repo },
+    order: { updatedAt: 'DESC' },
+    relations: ['release', 'author'],
+  })
   res.render('Issues/Issues', { issues })
 }
 
 export async function getIssue(req: Request<P & I>, res: Response): Promise<void> {
-  const { id } = req.params
-  const releases = await Release.getRepository().find({ where: { dueDate: MoreThan(new Date()) } })
-  if (!id) {
-    res.render('Issues/Issue', { releases })
-  } else {
-    const issue = await Issue.getRepository().findOne(id, { relations: ['release'] })
-    res.render('Issues/Issue', { issue, releases })
-  }
+  const { id, repo } = req.params
+  const releases = await Release.getRepository().find({ where: { repo, dueDate: MoreThan(new Date()) } })
+  const issue = !id ? undefined : await Issue.getRepository().findOne(id, { relations: ['release'] })
+  res.render('Issues/Issue', { issue, releases })
 }
 
 export async function saveIssue(req: Request<P & I> & { user: User }, res: Response): Promise<void> {
@@ -39,7 +33,7 @@ export async function saveIssue(req: Request<P & I> & { user: User }, res: Respo
     const author = { id: req.user.id }
     const result = await Issue.getRepository().findOne({ where: { release }, order: { priority: 'DESC' } })
     const priority = result ? result.priority + 1 : 0
-    await Issue.getRepository().save({ title, type, description, author, release, priority })
+    await Issue.getRepository().save({ repo, title, type, description, author, release, priority })
   }
   res.redirect(`/repo/${repo}/issues/list`)
 }

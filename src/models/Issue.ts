@@ -22,11 +22,14 @@ export class Issue {
   @PrimaryGeneratedColumn()
   id: number
 
-  @ManyToOne(() => User, { onDelete: 'RESTRICT' })
+  @Column()
+  repo: string
+
+  @ManyToOne(() => User, { nullable: false, onDelete: 'RESTRICT' })
   author: User
 
-  @ManyToOne(() => Release, { onDelete: 'SET NULL' })
-  release?: Release
+  @ManyToOne(() => Release, { nullable: false, onDelete: 'RESTRICT' })
+  release: Release
 
   @Column()
   type: Type
