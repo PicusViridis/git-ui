@@ -17,7 +17,7 @@ export default function AddRelease({ release, repo }: IReleaseProps): JSX.Elemen
         <Input id="name" name="name" type="text" value={release?.name} onChange={noop} required />
       </FormGroup>
       <FormGroup>
-        <Label for="due-date">Type</Label>
+        <Label for="due-date">Due date</Label>
         <Input
           id="due-date"
           name="dueDate"

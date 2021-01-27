@@ -40,6 +40,9 @@ export class Issue {
   @Column()
   priority: number
 
+  @Column({ default: 0 })
+  points: number
+
   @Column()
   title: string
 
