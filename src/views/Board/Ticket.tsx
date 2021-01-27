@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, CardBody, CardTitle } from 'reactstrap'
+import { Badge, Card, CardBody, CardLink, CardSubtitle, CardTitle } from 'reactstrap'
 import { Issue, Status, Type } from '../../models/Issue'
 
 export const colors: { [key in Type]: string } = {
@@ -17,12 +17,18 @@ export function Ticket({ status, issue, repo }: ITicketProps): JSX.Element | nul
   if (status !== issue.status) {
     return null
   }
+
   return (
-    <Card color={colors[issue.type]} outline draggable className="board-ticket" data-id={issue.id}>
+    <Card className="board-ticket" color={colors[issue.type]} outline draggable data-id={issue.id}>
       <CardBody>
-        <CardTitle tag="h5">
-          <a href={`/repo/${repo}/issues/edit/${issue.id}`}>{issue.title}</a>
-        </CardTitle>
+        <Badge className="float-right" color="light">
+          {issue.points}
+        </Badge>
+        <CardTitle tag="h5">{issue.title}</CardTitle>
+        <CardSubtitle tag="h6" className="mb-2 text-muted">
+          {issue.description.substr(0, 50)}
+        </CardSubtitle>
+        <CardLink href={`/repo/${repo}/issues/edit/${issue.id}`}>Open</CardLink>
       </CardBody>
     </Card>
   )
