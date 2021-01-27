@@ -1,4 +1,5 @@
 import React from 'react'
+import { Clipboard } from 'react-feather'
 import {
   Button,
   Input,
@@ -55,7 +56,7 @@ export default function Commits({ commits, pagination, repo, branch, path }: ICo
             <InputGroup>
               <InputGroupAddon addonType="prepend">
                 <Button style={buttonStyle} className="copy-button" color="light" data-hash={commit.hash}>
-                  <i className="far fa-clipboard"></i>
+                  <Clipboard size="1rem" />
                 </Button>
               </InputGroupAddon>
               <Input defaultValue={commit.hash.slice(0, 7)} size={4} style={{ width: 'unset' }} />

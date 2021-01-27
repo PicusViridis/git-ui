@@ -1,5 +1,6 @@
 import { format } from 'date-fns'
 import React from 'react'
+import { Save, Trash } from 'react-feather'
 import { Button, ButtonGroup, Col, Form, FormGroup, Input, Label, Row } from 'reactstrap'
 import { Issue } from '../../models/Issue'
 import { Release } from '../../models/Release'
@@ -63,11 +64,11 @@ export default function AddIssue({ issue, repo, releases }: IIssueProps): JSX.El
       <FormGroup>
         <ButtonGroup>
           <Button color="primary">
-            <i className="fas fa-save"></i> Save
+            <Save size="1rem" className="mb-1" /> Save
           </Button>
           {issue && (
             <Button tag="a" color="danger" outline type="button" href={`/repo/${repo}/issues/delete/${issue.id}`}>
-              <i className="fas fa-trash"></i> Delete
+              <Trash size="1rem" className="mb-1" /> Delete
             </Button>
           )}
         </ButtonGroup>

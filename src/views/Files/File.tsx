@@ -1,4 +1,5 @@
 import React from 'react'
+import { Download } from 'react-feather'
 import { Card, CardHeader } from 'reactstrap'
 
 interface IFileProps {
@@ -14,7 +15,7 @@ export default function File({ size, content, repo, branch, path }: IFileProps):
     <Card>
       <CardHeader>
         <a style={{ float: 'right' }} href={`/repo/${repo}/${branch}/files/download?path=${path}`}>
-          <i className="fas fa-download"></i> Download file
+          <Download size="1rem" className="mb-1" /> Download file
         </a>
         {size}
       </CardHeader>

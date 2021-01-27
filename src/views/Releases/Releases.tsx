@@ -1,5 +1,6 @@
 import { differenceInDays, format } from 'date-fns'
 import React from 'react'
+import { Plus } from 'react-feather'
 import { Table } from 'reactstrap'
 import { Release } from '../../models/Release'
 
@@ -13,7 +14,7 @@ export default function Releases({ releases, repo }: IReleasesProps): JSX.Elemen
     <Table striped>
       <caption className="text-right" style={{ captionSide: 'top' }}>
         <a href={`/repo/${repo}/releases/edit`}>
-          <i className="fas fa-plus"></i> Create release
+          <Plus size="1rem" className="mb-1" /> Create release
         </a>
       </caption>
       <thead>

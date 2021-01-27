@@ -1,5 +1,6 @@
 import { format } from 'date-fns'
 import React from 'react'
+import { Save, Trash } from 'react-feather'
 import { Button, ButtonGroup, Form, FormGroup, Input, Label } from 'reactstrap'
 import { Release } from '../../models/Release'
 import { noop } from '../utils'
@@ -30,7 +31,7 @@ export default function AddRelease({ release, repo }: IReleaseProps): JSX.Elemen
       <FormGroup>
         <ButtonGroup>
           <Button color="primary">
-            <i className="fas fa-save"></i> Save
+            <Save size="1rem" className="mb-1" /> Save
           </Button>
           {release && (
             <Button
@@ -41,7 +42,7 @@ export default function AddRelease({ release, repo }: IReleaseProps): JSX.Elemen
               href={`/repo/${repo}/releases/delete/${release.id}`}
               disabled={release.issues.length > 0}
             >
-              <i className="fas fa-trash"></i> Delete
+              <Trash size="1rem" className="mb-1" /> Delete
             </Button>
           )}
         </ButtonGroup>

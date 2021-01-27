@@ -1,5 +1,6 @@
 import { differenceInDays, format } from 'date-fns'
 import React, { CSSProperties } from 'react'
+import { Plus } from 'react-feather'
 import { Table } from 'reactstrap'
 import { Issue } from '../../models/Issue'
 import { colors } from '../Board/Ticket'
@@ -21,7 +22,7 @@ export default function Issues({ issues, repo }: IIssuesProps): JSX.Element {
     <Table striped>
       <caption className="text-right" style={{ captionSide: 'top' }}>
         <a href={`/repo/${repo}/issues/edit`}>
-          <i className="fas fa-plus"></i> Create issue
+          <Plus size="1rem" className="mb-1" /> Create issue
         </a>
       </caption>
       <thead>

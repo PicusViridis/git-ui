@@ -1,5 +1,6 @@
 import { format } from 'date-fns'
 import React from 'react'
+import { Plus, Trash } from 'react-feather'
 import { Button, Card, CardBody, CardSubtitle, CardTitle } from 'reactstrap'
 import { User } from '../../models/User'
 
@@ -15,7 +16,7 @@ function UserCard({ user, canDelete }: IUserCardProps): JSX.Element {
     <Card className="mb-4">
       <CardBody className="flex ">
         <Button as="a" href={href} disabled={!canDelete} outline={!canDelete} color="danger" className="float-right">
-          <i className="fas fa-trash"></i> Delete
+          <Trash size="1rem" className="mb-1" /> Delete
         </Button>
         <CardTitle tag="h5">{user.username}</CardTitle>
         <CardSubtitle tag="h6" className="mb-2 text-muted">
@@ -36,7 +37,7 @@ export default function ListUsers({ users, user }: IListUsersProps): JSX.Element
   return (
     <>
       <a href="/users/add" className="text-right d-block">
-        <i className="fas fa-plus"></i> Create User
+        <Plus size="1rem" className="mb-1" /> Create User
       </a>
       <hr />
       {users.map((user) => (

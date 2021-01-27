@@ -1,4 +1,5 @@
 import React from 'react'
+import { LogOut, Settings } from 'react-feather'
 import { Jumbotron, Nav, Navbar, NavbarBrand, NavItem, NavLink } from 'reactstrap'
 import { Page } from '../../models/Pages'
 import { User } from '../../models/User'
@@ -25,12 +26,12 @@ export function Header({ title, user, repo, branch, path, active }: IHeaderProps
           <Nav className="ml-auto" navbar>
             <NavItem>
               <NavLink href="/users/list">
-                <i className="fas fa-cogs"></i> Admin
+                <Settings size="1rem" className="mb-1" /> Admin
               </NavLink>
             </NavItem>
             <NavItem>
               <NavLink href="/logout">
-                <i className="fas fa-sign-out-alt"></i> Log out
+                <LogOut size="1rem" className="mb-1" /> Log out
               </NavLink>
             </NavItem>
           </Nav>
