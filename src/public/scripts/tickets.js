@@ -27,7 +27,7 @@
     xhr.open('POST', `/repo/${repo}/issues/move/${id}`)
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
     xhr.addEventListener('load', function () {
-      cell.appendChild(document.querySelector(`[data-id="${id}"]`))
+      window.location.reload()
     })
     const formData = new FormData()
     formData.set('status', status)

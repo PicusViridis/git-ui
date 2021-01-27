@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import { MoreThan } from 'typeorm'
+import { updatePriority, updateRelease } from '../libs/issuePriority'
 import { Issue } from '../models/Issue'
 import { Release } from '../models/Release'
 import { User } from '../models/User'
@@ -28,6 +29,7 @@ export async function saveIssue(req: Request<P & I> & { user: User }, res: Respo
   const { id, repo } = req.params
   const { title, type, description, release } = req.body
   if (id) {
+    await updateRelease(id, release)
     await Issue.getRepository().update(id, { title, type, description, release })
   } else {
     const author = { id: req.user.id }
@@ -41,6 +43,7 @@ export async function saveIssue(req: Request<P & I> & { user: User }, res: Respo
 export async function moveIssue(req: Request<I>, res: Response): Promise<void> {
   const { id } = req.params
   const { status, priority } = req.body
+  await updatePriority(id, priority)
   await Issue.getRepository().update(id, { status, priority })
   res.sendStatus(204)
 }
