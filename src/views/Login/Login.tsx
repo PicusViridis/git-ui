@@ -2,7 +2,7 @@ import React from 'react'
 import { Alert, Button, Card, CardBody, Form, FormGroup, Input, Label } from 'reactstrap'
 
 interface ILoginProps {
-  error: unknown
+  error?: string
 }
 
 export default function Test({ error }: ILoginProps): JSX.Element {

@@ -5,6 +5,7 @@ import { Header } from '../Header/Header'
 import { Nav } from '../Nav/Nav'
 
 interface ILayoutProps {
+  title: string
   user?: User
   repo: string
   branch: string
@@ -14,7 +15,16 @@ interface ILayoutProps {
   children: ReactNode
 }
 
-export default function Layout({ user, repo, branch, path, branches, active, children }: ILayoutProps): JSX.Element {
+export default function Layout({
+  title,
+  user,
+  repo,
+  branch,
+  path,
+  branches,
+  active,
+  children,
+}: ILayoutProps): JSX.Element {
   return (
     <html>
       <head>
@@ -30,7 +40,7 @@ export default function Layout({ user, repo, branch, path, branches, active, chi
         <script type="text/javascript" src="/scripts/tickets.js" defer></script>
       </head>
       <body className="pb-5">
-        <Header user={user} repo={repo} branch={branch} path={path} active={active} />
+        <Header title={title} user={user} repo={repo} branch={branch} path={path} active={active} />
         <Container>
           <Nav repo={repo} branch={branch} path={path} branches={branches} active={active} />
           {children}
