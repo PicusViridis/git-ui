@@ -2,7 +2,7 @@ import React from 'react'
 import { Card, CardBody, CardTitle } from 'reactstrap'
 import { Issue, Status, Type } from '../../models/Issue'
 
-const colors: { [key in Type]: string } = {
+export const colors: { [key in Type]: string } = {
   bug: 'danger',
   feature: 'warning',
 }

@@ -1,4 +1,4 @@
-import { format } from 'date-fns'
+import { differenceInDays, format } from 'date-fns'
 import React from 'react'
 import { Table } from 'reactstrap'
 import { Release } from '../../models/Release'
@@ -25,7 +25,7 @@ export default function Releases({ releases, repo }: IReleasesProps): JSX.Elemen
       </thead>
       <tbody>
         {!releases.length && (
-          <td className="text-muted p-5" colSpan={5}>
+          <td className="text-muted p-5" colSpan={3}>
             No release found
           </td>
         )}
@@ -35,7 +35,9 @@ export default function Releases({ releases, repo }: IReleasesProps): JSX.Elemen
               <a href={`/repo/${repo}/releases/edit/${release.id}`}>{release.name}</a>
             </td>
             <td>{format(release.createdAt, 'PPP')}</td>
-            <td>{format(release.dueDate, 'PPP')}</td>
+            <td className={differenceInDays(release.dueDate, new Date()) <= 7 ? 'text-danger' : ''}>
+              {format(release.dueDate, 'PPP')}
+            </td>
           </tr>
         ))}
       </tbody>

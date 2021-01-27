@@ -6,7 +6,7 @@ type I = { id?: number }
 
 export async function getReleases(req: Request<P>, res: Response): Promise<void> {
   const { repo } = req.params
-  const releases = await Release.getRepository().find({ where: { repo }, order: { updatedAt: 'DESC' } })
+  const releases = await Release.getRepository().find({ where: { repo }, order: { dueDate: 'ASC' } })
   res.render('Releases/Releases', { releases })
 }
 
