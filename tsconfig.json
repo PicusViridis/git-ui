@@ -12,7 +12,10 @@
     "jsx": "react",
     "strictPropertyInitialization": false,
     "outDir": "dist",
-    "downlevelIteration": true
+    "downlevelIteration": true,
+    "strict": true,
+    "typeRoots": ["./@types", "./node_modules/@type"],
+    "skipLibCheck": true
   },
   "include": ["./src/*.ts", "./src/*.tsx", "migrations/*.ts"],
   "exclude": ["./tests/*.ts", "./tests/*.tsx"]

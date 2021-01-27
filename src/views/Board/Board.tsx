@@ -54,7 +54,7 @@ export default function Board({ release, issues, repo }: IBoardProps): JSX.Eleme
             <td style={oddStyle} {...cellProps(issue, 'doing', repo)}>
               <Ticket issue={issue} status="doing" repo={repo} />
             </td>
-            <td className="board-cell" {...cellProps(issue, 'done', repo)}>
+            <td {...cellProps(issue, 'done', repo)}>
               <Ticket issue={issue} status="done" repo={repo} />
             </td>
           </tr>

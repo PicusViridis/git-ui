@@ -29,7 +29,7 @@ export default function AddIssue({ issue, repo, releases }: IIssueProps): JSX.El
         <Label for="release">Release</Label>
         <Input id="release" name="release" type="select" value={issue?.release?.id} onChange={noop} required>
           <option></option>
-          {releases.map((release) => (
+          {releases?.map((release) => (
             <option key={release.id} value={release.id}>
               {release.name} ({format(release.dueDate, 'PPP')})
             </option>

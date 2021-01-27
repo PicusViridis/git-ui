@@ -1,11 +1,11 @@
-import { Request, Response } from 'express'
 import { MoreThan } from 'typeorm'
-import { Issue } from '../models/Issue'
-import { Release } from '../models/Release'
+import { Issue } from '../../models/Issue'
+import { Release } from '../../models/Release'
+import { Request, Response } from '../../types'
 
-type P = { repo: string }
+type Req = Request<{ repo: string }>
 
-export async function getBoard(req: Request<P>, res: Response): Promise<void> {
+export async function getBoard(req: Req, res: Response): Promise<void> {
   const { repo } = req.params
   const release = await Release.getRepository().findOne({
     where: { repo, dueDate: MoreThan(new Date().toISOString()) },

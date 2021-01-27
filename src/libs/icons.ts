@@ -1,4 +1,4 @@
-const icons = {
+const icons: Record<string, string> = {
   js: 'file_type_js.svg',
   html: 'file_type_html.svg',
   css: 'file_type_css.svg',
@@ -29,6 +29,6 @@ export function getIcon(type: 'file' | 'folder', name: string): string {
   if (type === 'folder') {
     return 'default_folder.svg'
   }
-  const ext = name.split('.').pop()
+  const ext = name.split('.').pop() || ''
   return icons[ext] || 'default_file.svg'
 }

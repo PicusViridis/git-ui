@@ -1,6 +1,6 @@
 import { getMockReq, getMockRes } from '@jest-mock/express'
 import { Request, Response } from 'express'
-import { getLogin, getLogout, postLogin } from '../../src/controllers/session'
+import { getLogin, getLogout, postLogin } from '../../src/controllers/session/session'
 
 const { res } = getMockRes()
 

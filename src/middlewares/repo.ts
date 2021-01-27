@@ -9,7 +9,7 @@ export function repo(active: string) {
     const { repo, branch = 'master' } = req.params
     const { path = '.' } = req.query
     const branches = await RepositoryService.listBranches(repo)
-    res.locals = { repo, path, branch, branches, active }
+    res.locals = { ...res.locals, repo, path, branch, branches, active }
     return next()
   }
 }
