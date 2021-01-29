@@ -8,9 +8,7 @@ const getCommitDiffMock = RepositoryService.getCommitDiff as jest.Mock
 
 describe('getCommit', () => {
   const req = getMockReq<Req>({ params: { hash: 'hash' } })
-  const { res, clearMockRes } = getMockRes<Res>({
-    locals: { repo: 'repo', branch: 'branch', path: 'path' },
-  })
+  const { res, clearMockRes } = getMockRes<Res>({ locals: { repo: 'repo', branch: 'branch', path: 'path' } })
 
   beforeEach(() => {
     clearMockRes()
