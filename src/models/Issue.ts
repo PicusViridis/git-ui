@@ -19,7 +19,7 @@ export type Status = typeof statuses[number]
 
 @Entity()
 export class Issue {
-  static get repository(): Repository<Issue> {
+  static getRepository(): Repository<Issue> {
     return getConnection().getRepository(Issue)
   }
 

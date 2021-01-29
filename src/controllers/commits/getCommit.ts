@@ -1,9 +1,8 @@
 import { Request, Response } from 'express'
 import { RepositoryService } from '../../libs/repositories'
-import { User } from '../../models/User'
 
 type Req = Request<{ hash: string }>
-type Res = Response<string, { repo: string; branch: string; path: string; user: User }>
+type Res = Response<string, { repo: string; path: string }>
 
 export async function getCommit(req: Req, res: Res): Promise<void> {
   const { repo, path } = res.locals

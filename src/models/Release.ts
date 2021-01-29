@@ -12,7 +12,7 @@ import { Issue } from './Issue'
 
 @Entity()
 export class Release {
-  static get repository(): Repository<Release> {
+  static getRepository(): Repository<Release> {
     return getConnection().getRepository(Release)
   }
 

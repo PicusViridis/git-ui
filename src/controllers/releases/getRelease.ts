@@ -8,7 +8,7 @@ export async function getRelease(req: Req, res: Response): Promise<void> {
   if (!id) {
     res.render('Releases/Release')
   } else {
-    const release = await Release.repository.findOne(id, { relations: ['issues'] })
+    const release = await Release.getRepository().findOne(id, { relations: ['issues'] })
     res.render('Releases/Release', { release })
   }
 }

@@ -1,8 +1,9 @@
 import { Request, Response } from 'express'
 import { MAX_COMMIT_PER_PAGE, RepositoryService } from '../../libs/repositories'
+import { Locals } from '../../middlewares/repo'
 import { ICommitsProps } from '../../views/Commits/Commits'
 
-function getPagination(page: number, count: number, path: string): ICommitsProps['pagination'] {
+export function getPagination(page: number, count: number, path: string): ICommitsProps['pagination'] {
   const maxPage = Math.ceil(count / MAX_COMMIT_PER_PAGE)
   const first = page === 1 ? undefined : `${path}?page=1`
   const previous = page === 1 ? undefined : `${path}?page=${page - 1}`
@@ -12,7 +13,7 @@ function getPagination(page: number, count: number, path: string): ICommitsProps
 }
 
 type Req = Request<unknown, unknown, unknown, { page?: number }>
-type Res = Response<string, { repo: string; branch: string; path: string }>
+type Res = Response<string, Locals>
 
 export async function getCommits(req: Req, res: Res): Promise<void> {
   const { repo, branch, path } = res.locals

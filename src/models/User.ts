@@ -10,7 +10,7 @@ import {
 
 @Entity()
 export class User {
-  static get repository(): Repository<User> {
+  static getRepository(): Repository<User> {
     return getConnection().getRepository(User)
   }
 
