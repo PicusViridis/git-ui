@@ -3,7 +3,7 @@ import { MoreThan } from 'typeorm'
 import { Issue } from '../../models/Issue'
 import { Release } from '../../models/Release'
 
-type Req = Request<{ repo: string; id?: number }>
+export type Req = Request<{ repo: string; id: string }>
 
 export async function getIssue(req: Req, res: Response): Promise<void> {
   const { id, repo } = req.params

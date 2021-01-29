@@ -1,7 +1,7 @@
-import { Between, MoreThan } from 'typeorm'
+import { Between } from 'typeorm'
 import { Issue } from '../models/Issue'
 
-export async function updatePriority(id: number, priority: number): Promise<void> {
+export async function updatePriority(id: string, priority: number): Promise<void> {
   const issue = await Issue.getRepository().findOne(id, { relations: ['release'] })
   if (issue) {
     const translate = issue.priority < priority ? 'priority - 1' : 'priority + 1'
@@ -12,21 +12,5 @@ export async function updatePriority(id: number, priority: number): Promise<void
       { priority: () => translate }
     )
     await Issue.getRepository().update(id, { priority })
-  }
-}
-
-export async function updateRelease(id: number, releaseId: number): Promise<void> {
-  const issue = await Issue.getRepository().findOne(id, { relations: ['release'] })
-  if (issue) {
-    const result = await Issue.getRepository().findOne({
-      where: { release: { id: releaseId } },
-      order: { priority: 'DESC' },
-    })
-    const priority = result ? result.priority + 1 : 0
-    await Issue.getRepository().update(
-      { release: { id: issue.release.id }, priority: MoreThan(issue.priority) },
-      { priority: () => 'priority - 1' }
-    )
-    await Issue.getRepository().update(id, { priority, ...(releaseId && { release: { id: releaseId } }) })
   }
 }
