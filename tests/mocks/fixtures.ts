@@ -1,32 +1,30 @@
-import { IBreadcrumb, ICommit, IFile, IRepository, IRepositoryMeta } from '../../src/models/interfaces'
+import { ICommitsProps } from '../../src/views/Commits/Commits'
 
-export const mockCommit: ICommit = {
+export const mockCommit: ICommitsProps['commits'][number] = {
   date: 'last commit date',
-  hash: '01234567',
-  fullHash: '0123456789abcdef',
+  hash: '0123456789abcdef',
   message: 'test commit message',
   author: 'test commit author',
-  timestamp: 123456789,
 }
 
-export const mockRepository: IRepository = {
+export const mockRepository = {
   name: 'test-repo',
   lastCommit: mockCommit,
 }
 
-export const mockBreadcrumb1: IBreadcrumb = {
+export const mockBreadcrumb1 = {
   name: 'Path 1',
   path: 'path1',
   isActive: false,
 }
 
-export const mockBreadcrumb2: IBreadcrumb = {
+export const mockBreadcrumb2 = {
   name: 'Path 2',
   path: 'path2',
   isActive: true,
 }
 
-export const mockRepositoryMeta: IRepositoryMeta = {
+export const mockRepositoryMeta = {
   name: 'test-repo',
   branch: 'test-branch-1',
   branches: ['test-branch-1', 'test-branch-2'],
@@ -34,7 +32,7 @@ export const mockRepositoryMeta: IRepositoryMeta = {
   path: 'filepath',
 }
 
-export const mockFile: IFile = {
+export const mockFile = {
   icon: 'file-icon',
   lastCommit: mockCommit,
   name: 'file name',

@@ -6,7 +6,7 @@ export function serializeUser(user: User, done: (err: unknown, id?: string) => v
 }
 
 export function deserializeUser(username: string, done: (err: unknown, user?: User) => void): Promise<void> {
-  return User.repository
+  return User.getRepository()
     .findOne({ where: { username } })
     .then((user) => {
       done(null, user)
@@ -19,7 +19,7 @@ export function localStrategy(
   password: string,
   done: (error: unknown, user?: User) => void
 ): Promise<void> {
-  return User.repository
+  return User.getRepository()
     .findOne({ where: { username, password: sha256(password).toString() } })
     .then((user) => {
       done(null, user)
