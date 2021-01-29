@@ -12,12 +12,12 @@ export function getPagination(page: number, count: number, path: string): ICommi
   return { page, maxPage, first, previous, next, last }
 }
 
-type Req = Request<unknown, unknown, unknown, { page?: number }>
-type Res = Response<string, Locals>
+export type Req = Request<never, unknown, unknown, { page?: string }>
+export type Res = Response<string, Locals>
 
 export async function getCommits(req: Req, res: Res): Promise<void> {
   const { repo, branch, path } = res.locals
-  const page = req.query.page || 1
+  const page = Number(req.query.page) || 1
   const [commits, count] = await RepositoryService.getCommits(repo, path, branch, page)
   const pagination = getPagination(page, count, req.path)
   res.render('Commits/Commits', { commits, pagination })

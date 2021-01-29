@@ -1,11 +1,6 @@
-import { getMockReq, getMockRes } from '@jest-mock/express'
-import { Request, Response } from 'express'
-import mockdate from 'mockdate'
-import { getCommits, getPagination } from '../../../src/controllers/commits/getCommits'
+import { getCommits, getPagination, Req, Res } from '../../../src/controllers/commits/getCommits'
 import { RepositoryService } from '../../../src/libs/repositories'
-import { Locals } from '../../../src/middlewares/repo'
-
-mockdate.set('2020-01-01T00:00:00.000Z')
+import { getMockReq, getMockRes } from '../../__mocks__/express'
 
 jest.mock('../../../src/libs/repositories')
 
@@ -43,13 +38,13 @@ describe('getPagination', () => {
 })
 
 describe('getCommits', () => {
-  let req: Request<unknown, unknown, unknown, { page?: number }>
-  let res: Response<string, Locals>
+  const req = getMockReq<Req>({ params: { hash: 'hash' } })
+  const { res, clearMockRes } = getMockRes<Res>({
+    locals: { repo: 'repo', branch: 'branch', path: 'path' },
+  })
 
   beforeEach(() => {
-    req = getMockReq({ params: { hash: 'hash' } })
-    res = getMockRes({ locals: { repo: 'repo', branch: 'branch', path: 'path' } }).res as Response<string, Locals>
-
+    clearMockRes()
     getCommitsMock.mockResolvedValue(['commits', 10])
   })
 

@@ -1,19 +1,16 @@
-import { Request, Response } from 'express'
-import mockdate from 'mockdate'
-import { getCommit } from '../../../src/controllers/commits/getCommit'
+import { getCommit, Req, Res } from '../../../src/controllers/commits/getCommit'
 import { RepositoryService } from '../../../src/libs/repositories'
-import { Locals } from '../../../src/middlewares/repo'
 import { getMockReq, getMockRes } from '../../__mocks__/express'
-
-mockdate.set('2020-01-01T00:00:00.000Z')
 
 jest.mock('../../../src/libs/repositories')
 
 const getCommitDiffMock = RepositoryService.getCommitDiff as jest.Mock
 
 describe('getCommit', () => {
-  const req = getMockReq<Request<{ hash: string }>>({ params: { hash: 'hash' } })
-  const { res, clearMockRes } = getMockRes<Response<string, Locals>>()
+  const req = getMockReq<Req>({ params: { hash: 'hash' } })
+  const { res, clearMockRes } = getMockRes<Res>({
+    locals: { repo: 'repo', branch: 'branch', path: 'path' },
+  })
 
   beforeEach(() => {
     clearMockRes()
