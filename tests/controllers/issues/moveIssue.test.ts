@@ -24,7 +24,7 @@ describe('moveIssue', () => {
 
   it('should update priority', async () => {
     await moveIssue(req, res)
-    expect(updatePriorityMock).toHaveBeenCalledWith(8, 7)
+    expect(updatePriorityMock).toHaveBeenCalledWith('8', 7)
   })
 
   it('should update status', async () => {
