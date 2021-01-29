@@ -8,9 +8,7 @@ const getStreamMock = RepositoryService.getStream as jest.Mock
 
 describe('downloadFile', () => {
   const req = getMockReq()
-  const { res, clearMockRes } = getMockRes<Res>({
-    locals: { repo: 'repo', branch: 'branch', path: 'path' },
-  })
+  const { res, clearMockRes } = getMockRes<Res>({ locals: { repo: 'repo', branch: 'branch', path: 'path' } })
 
   beforeEach(() => {
     clearMockRes()

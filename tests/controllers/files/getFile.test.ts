@@ -11,9 +11,7 @@ const getFilesMock = RepositoryService.getFiles as jest.Mock
 
 describe('getFile', () => {
   const req = getMockReq()
-  const { res, clearMockRes } = getMockRes<Res>({
-    locals: { repo: 'repo', branch: 'branch', path: 'path' },
-  })
+  const { res, clearMockRes } = getMockRes<Res>({ locals: { repo: 'repo', branch: 'branch', path: 'path' } })
 
   beforeEach(() => {
     clearMockRes()
