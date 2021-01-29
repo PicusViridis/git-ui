@@ -12,6 +12,10 @@ import { Issue } from './Issue'
 
 @Entity()
 export class Release {
+  static get repository(): Repository<Release> {
+    return getConnection().getRepository(Release)
+  }
+
   @PrimaryGeneratedColumn()
   id: number
 
@@ -32,8 +36,4 @@ export class Release {
 
   @OneToMany(() => Issue, (issue) => issue.release)
   issues: Issue[]
-
-  static getRepository(): Repository<Release> {
-    return getConnection().getRepository(Release)
-  }
 }

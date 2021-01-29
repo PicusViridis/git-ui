@@ -5,6 +5,6 @@ type Req = Request<{ username: string }>
 
 export async function deleteUser(req: Req, res: Response): Promise<void> {
   const { username } = req.params
-  await User.getRepository().delete(username)
+  await User.repository.delete(username)
   res.redirect('/users/list')
 }

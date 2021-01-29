@@ -10,6 +10,10 @@ import {
 
 @Entity()
 export class User {
+  static get repository(): Repository<User> {
+    return getConnection().getRepository(User)
+  }
+
   @PrimaryGeneratedColumn()
   id: number
 
@@ -24,8 +28,4 @@ export class User {
 
   @UpdateDateColumn()
   updatedAt: Date
-
-  static getRepository(): Repository<User> {
-    return getConnection().getRepository(User)
-  }
 }

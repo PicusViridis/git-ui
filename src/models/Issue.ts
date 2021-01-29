@@ -19,6 +19,10 @@ export type Status = typeof statuses[number]
 
 @Entity()
 export class Issue {
+  static get repository(): Repository<Issue> {
+    return getConnection().getRepository(Issue)
+  }
+
   @PrimaryGeneratedColumn()
   id: number
 
@@ -54,8 +58,4 @@ export class Issue {
 
   @UpdateDateColumn()
   updatedAt: Date
-
-  static getRepository(): Repository<Issue> {
-    return getConnection().getRepository(Issue)
-  }
 }

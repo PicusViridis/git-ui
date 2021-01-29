@@ -5,6 +5,6 @@ type Req = Request<{ repo: string; id: number }>
 
 export async function deleteIssue(req: Req, res: Response): Promise<void> {
   const { id, repo } = req.params
-  await Issue.getRepository().delete(id)
+  await Issue.repository.delete(id)
   res.redirect(`/repo/${repo}/issues/list`)
 }
