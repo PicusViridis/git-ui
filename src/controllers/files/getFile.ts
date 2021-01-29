@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import { RepositoryService } from '../../libs/repositories'
 
-type Res = Response<string, { repo: string; branch: string; path: string }>
+export type Res = Response<string, { repo: string; branch: string; path: string }>
 
 export async function getFile(req: Request, res: Res): Promise<void> {
   const { repo, branch, path } = res.locals
