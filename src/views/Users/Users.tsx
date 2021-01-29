@@ -10,7 +10,7 @@ interface IUserCardProps {
 }
 
 function UserCard({ user, canDelete }: IUserCardProps): JSX.Element {
-  const href = canDelete ? `/users/delete-user/${user.username}` : undefined
+  const href = canDelete ? `/users/delete-user/${user.id}` : undefined
 
   return (
     <Card className="mb-4">
