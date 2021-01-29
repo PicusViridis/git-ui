@@ -1,4 +1,4 @@
-import { Request, Response } from '../../types'
+import { Request, Response } from 'express'
 
 export function getLogin(req: Request, res: Response): void {
   const [error] = req.flash('error')

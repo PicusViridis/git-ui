@@ -1,5 +1,5 @@
+import { Request, Response } from 'express'
 import { RepositoryService } from '../../libs/repositories'
-import { Request, Response } from '../../types'
 
 type Res = Response<string, { repo: string; branch: string; path: string }>
 

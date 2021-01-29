@@ -1,6 +1,6 @@
+import { Request, Response } from 'express'
 import { RepositoryService } from '../../libs/repositories'
 import { User } from '../../models/User'
-import { Request, Response } from '../../types'
 
 type Req = Request<{ hash: string }>
 type Res = Response<string, { repo: string; branch: string; path: string; user: User }>

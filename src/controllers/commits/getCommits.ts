@@ -1,5 +1,5 @@
+import { Request, Response } from 'express'
 import { MAX_COMMIT_PER_PAGE, RepositoryService } from '../../libs/repositories'
-import { Request, Response } from '../../types'
 import { ICommitsProps } from '../../views/Commits/Commits'
 
 function getPagination(page: number, count: number, path: string): ICommitsProps['pagination'] {

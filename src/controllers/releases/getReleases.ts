@@ -1,5 +1,5 @@
+import { Request, Response } from 'express'
 import { Release } from '../../models/Release'
-import { Request, Response } from '../../types'
 
 type Req = Request<{ repo: string }>
 

@@ -1,6 +1,6 @@
+import { Request, Response } from 'express'
 import { updatePriority } from '../../libs/issuePriority'
 import { Issue, Status } from '../../models/Issue'
-import { Request, Response } from '../../types'
 
 type Req = Request<{ id: number }, unknown, { status: Status; priority: number }>
 

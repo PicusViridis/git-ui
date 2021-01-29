@@ -1,6 +1,6 @@
 import sha256 from 'crypto-js/sha256'
+import { Request, Response } from 'express'
 import { User } from '../../models/User'
-import { Request, Response } from '../../types'
 
 type Req = Request<unknown, unknown, { username: string; password: string }>
 

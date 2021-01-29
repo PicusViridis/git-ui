@@ -1,6 +1,6 @@
+import { Request, Response } from 'express'
 import { updateRelease } from '../../libs/issuePriority'
 import { Issue, Type } from '../../models/Issue'
-import { Request, Response } from '../../types'
 
 type Req = Request<
   { repo: string; id?: number },
