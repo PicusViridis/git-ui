@@ -1,24 +1,28 @@
 const path = require('path')
 require('dotenv').config({ path: path.join(__dirname, 'config', '.env.test') })
 
+const common = {
+  preset: 'ts-jest',
+  clearMocks: true,
+  resetMocks: true,
+  restoreMocks: true,
+  modulePathIgnorePatterns: ['<rootDir>/dist/'],
+}
+
 module.exports = {
   projects: [
     {
+      ...common,
       displayName: 'dom',
-      preset: 'ts-jest',
-      clearMocks: true,
-      setupFilesAfterEnv: ['./tests/setupTests.ts'],
-      modulePathIgnorePatterns: ['<rootDir>/dist/'],
       testEnvironment: 'jsdom',
-      testMatch: ['**/tests/**/*.test.tsx'],
+      setupFilesAfterEnv: ['<rootDir>/tests/setupTests.ts'],
+      testMatch: ['<rootDir>/tests/**/*.test.tsx'],
     },
     {
+      ...common,
       displayName: 'node',
-      preset: 'ts-jest',
-      clearMocks: true,
-      modulePathIgnorePatterns: ['<rootDir>/dist/'],
       testEnvironment: 'node',
-      testMatch: ['**/tests/**/*.test.ts'],
+      testMatch: ['<rootDir>/tests/**/*.test.ts'],
     },
   ],
 }

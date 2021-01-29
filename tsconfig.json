@@ -14,9 +14,8 @@
     "outDir": "dist",
     "downlevelIteration": true,
     "strict": true,
-    "typeRoots": ["./@types", "./node_modules/@type"],
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "typeRoots": ["@types", "./node_modules/@types"]
   },
-  "include": ["./src/*.ts", "./src/*.tsx", "migrations/*.ts"],
-  "exclude": ["./tests/*.ts", "./tests/*.tsx"]
+  "include": ["src", "migrations", "tests"]
 }
