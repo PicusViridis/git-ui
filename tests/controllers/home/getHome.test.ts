@@ -8,7 +8,7 @@ const listRepositoriesMock = RepositoryService.listRepositories as jest.Mock
 
 describe('getHome', () => {
   const req = getMockReq()
-  const { res, clearMockRes } = getMockRes({})
+  const { res, clearMockRes } = getMockRes()
 
   beforeEach(() => {
     clearMockRes()
