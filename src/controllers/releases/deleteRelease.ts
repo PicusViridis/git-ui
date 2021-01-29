@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import { Release } from '../../models/Release'
 
-type Req = Request<{ repo: string; id: number }>
+export type Req = Request<{ repo: string; id: string }>
 
 export async function deleteRelease(req: Req, res: Response): Promise<void> {
   const { id, repo } = req.params

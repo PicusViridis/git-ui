@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import { Release } from '../../models/Release'
 
-type Req = Request<{ id?: number }>
+export type Req = Request<{ id: string }>
 
 export async function getRelease(req: Req, res: Response): Promise<void> {
   const { id } = req.params
