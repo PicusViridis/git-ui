@@ -1,7 +1,6 @@
-import { Request } from 'express'
 import mockdate from 'mockdate'
 import { MoreThan } from 'typeorm'
-import { getBoard } from '../../../src/controllers/board/getBoard'
+import { getBoard, Req } from '../../../src/controllers/board/getBoard'
 import { Issue } from '../../../src/models/Issue'
 import { Release } from '../../../src/models/Release'
 import { getMockReq, getMockRes } from '../../__mocks__/express'
@@ -13,7 +12,7 @@ jest.mock('../../../src/models/Release')
 jest.mock('../../../src/models/Issue')
 
 describe('getBoard', () => {
-  const req = getMockReq<Request<{ repo: string }>>({ params: { repo: 'repo' } })
+  const req = getMockReq<Req>({ params: { repo: 'repo' } })
   const { res, clearMockRes } = getMockRes()
 
   let releaseMock: RepoMock<Release>
