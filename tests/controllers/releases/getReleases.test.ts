@@ -4,7 +4,6 @@ import { getMockReq, getMockRes } from '../../__mocks__/express'
 import { mockRepository, RepoMock } from '../../__mocks__/repository'
 
 jest.mock('../../../src/models/Release')
-jest.mock('../../../src/models/Release')
 
 describe('getReleases', () => {
   const req = getMockReq<Req>({ params: { repo: 'repo' } })
