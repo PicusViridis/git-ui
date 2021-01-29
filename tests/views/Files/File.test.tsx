@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import React from 'react'
 import File from '../../../src/views/Files/File'
-import { mockRepositoryMeta } from '../../__mocks__/fixtures'
+import { mockRepositoryMeta } from '../../mocks/fixtures'
 
 describe('File', () => {
   it('Should render content as is', () => {

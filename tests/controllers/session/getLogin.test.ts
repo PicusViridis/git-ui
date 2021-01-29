@@ -1,5 +1,5 @@
 import { getLogin } from '../../../src/controllers/session/getLogin'
-import { getMockReq, getMockRes } from '../../__mocks__/express'
+import { getMockReq, getMockRes } from '../../mocks/express'
 
 describe('getLogin', () => {
   it('should render login page with error', () => {

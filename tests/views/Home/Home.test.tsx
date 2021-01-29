@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import React from 'react'
 import Home from '../../../src/views/Home/Home'
-import { mockRepository } from '../../__mocks__/fixtures'
+import { mockRepository } from '../../mocks/fixtures'
 
 describe('Home', () => {
   it('Should render repository name', () => {

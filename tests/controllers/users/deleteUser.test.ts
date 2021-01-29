@@ -1,7 +1,7 @@
 import { deleteUser, Req } from '../../../src/controllers/users/deleteUser'
 import { User } from '../../../src/models/User'
-import { getMockReq, getMockRes } from '../../__mocks__/express'
-import { mockRepository, RepoMock } from '../../__mocks__/repository'
+import { getMockReq, getMockRes } from '../../mocks/express'
+import { mockRepository, RepoMock } from '../../mocks/repository'
 
 jest.mock('../../../src/models/User')
 

@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import React from 'react'
 import Commits from '../../../src/views/Commits/Commits'
-import { mockCommit, mockPagination, mockRepositoryMeta } from '../../__mocks__/fixtures'
+import { mockCommit, mockPagination, mockRepositoryMeta } from '../../mocks/fixtures'
 
 describe('Commits', () => {
   it('Should render commit message', () => {

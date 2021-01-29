@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import React from 'react'
 import { BranchSelect, BreadcrumbLink } from '../../../src/views/Nav/Nav'
-import { mockBreadcrumb1, mockBreadcrumb2, mockRepositoryMeta } from '../../__mocks__/fixtures'
+import { mockBreadcrumb1, mockBreadcrumb2, mockRepositoryMeta } from '../../mocks/fixtures'
 
 describe('BranchSelect', () => {
   it('should render branch name', () => {

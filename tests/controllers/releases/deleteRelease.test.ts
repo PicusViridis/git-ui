@@ -1,7 +1,7 @@
 import { deleteRelease, Req } from '../../../src/controllers/releases/deleteRelease'
 import { Release } from '../../../src/models/Release'
-import { getMockReq, getMockRes } from '../../__mocks__/express'
-import { mockRepository, RepoMock } from '../../__mocks__/repository'
+import { getMockReq, getMockRes } from '../../mocks/express'
+import { mockRepository, RepoMock } from '../../mocks/repository'
 
 jest.mock('../../../src/models/Release')
 

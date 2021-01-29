@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import React from 'react'
 import Header from '../../../src/views/Header/Header'
-import { mockUser1 } from '../../__mocks__/fixtures'
+import { mockUser1 } from '../../mocks/fixtures'
 
 describe('Header', () => {
   it('Should show the header button if user is present', () => {

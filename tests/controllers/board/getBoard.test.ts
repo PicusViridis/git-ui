@@ -3,8 +3,8 @@ import { MoreThan } from 'typeorm'
 import { getBoard, Req } from '../../../src/controllers/board/getBoard'
 import { Issue } from '../../../src/models/Issue'
 import { Release } from '../../../src/models/Release'
-import { getMockReq, getMockRes } from '../../__mocks__/express'
-import { mockRepository, RepoMock } from '../../__mocks__/repository'
+import { getMockReq, getMockRes } from '../../mocks/express'
+import { mockRepository, RepoMock } from '../../mocks/repository'
 
 mockdate.set('2020-01-01T00:00:00.000Z')
 

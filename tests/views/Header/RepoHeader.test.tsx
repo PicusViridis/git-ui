@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import React from 'react'
 import Header from '../../../src/views/Header/RepoHeader'
-import { mockRepositoryMeta } from '../../__mocks__/fixtures'
+import { mockRepositoryMeta } from '../../mocks/fixtures'
 
 describe('Header', () => {
   it('should render repo name', () => {

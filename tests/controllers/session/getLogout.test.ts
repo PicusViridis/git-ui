@@ -1,5 +1,5 @@
 import { getLogout } from '../../../src/controllers/session/getLogout'
-import { getMockReq, getMockRes } from '../../__mocks__/express'
+import { getMockReq, getMockRes } from '../../mocks/express'
 
 describe('getLogout', () => {
   const req = getMockReq()

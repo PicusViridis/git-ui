@@ -1,6 +1,6 @@
 import { deserializeUser, localStrategy, serializeUser } from '../../src/libs/passport'
 import { User } from '../../src/models/User'
-import { mockUser1 } from '../__mocks__/fixtures'
+import { mockUser1 } from '../mocks/fixtures'
 
 jest.mock('../../src/models/User')
 

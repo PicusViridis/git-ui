@@ -1,6 +1,6 @@
 import { getCommit, Req, Res } from '../../../src/controllers/commits/getCommit'
 import { RepositoryService } from '../../../src/libs/repositories'
-import { getMockReq, getMockRes } from '../../__mocks__/express'
+import { getMockReq, getMockRes } from '../../mocks/express'
 
 jest.mock('../../../src/libs/repositories')
 
