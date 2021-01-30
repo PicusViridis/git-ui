@@ -1,13 +1,13 @@
 import { promises as fse } from 'fs'
 import { highlightAuto } from 'highlight.js'
 import { join } from 'path'
+import byteSize from 'pretty-bytes'
 import { config } from '../config'
 import { getIcon } from '../libs/icons'
 import { ICommitProps } from '../views/Commits/Commit'
 import { ICommitsProps } from '../views/Commits/Commits'
 import { IFilesProps } from '../views/Files/Files'
 import { IHomeProps } from '../views/Home/Home'
-import { convertBytes } from './convert'
 import { GitService } from './git'
 import { logger } from './logger'
 
@@ -85,7 +85,7 @@ export const RepositoryService = {
   async getSize(repoName: string, currentPath: string, branch: string): Promise<string> {
     const repoPath = join(repoDir, repoName)
     const size = await GitService.getSize(repoPath, currentPath, branch)
-    return convertBytes(Number(size))
+    return byteSize(Number(size))
   },
 
   async getStream(repoName: string, currentPath: string, branch: string): Promise<string> {
