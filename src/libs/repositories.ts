@@ -78,7 +78,7 @@ export const RepositoryService = {
       return ''
     } else {
       const rawContent = await GitService.getContent(repoPath, currentPath, branch)
-      return highlightAuto(rawContent.join('\n')).value
+      return highlightAuto(rawContent).value
     }
   },
 
@@ -90,8 +90,7 @@ export const RepositoryService = {
 
   async getStream(repoName: string, currentPath: string, branch: string): Promise<string> {
     const repoPath = join(repoDir, repoName)
-    const stream = await GitService.getContent(repoPath, currentPath, branch)
-    return stream.join('\n')
+    return GitService.getContent(repoPath, currentPath, branch)
   },
 
   async getCommits(
@@ -111,6 +110,6 @@ export const RepositoryService = {
     const repoPath = join(repoDir, repoName)
     const [commit] = await GitService.log(repoPath, currentPath, branch, `-1`)
     const diff = await GitService.getDiffs(repoPath, currentPath, branch)
-    return { message: commit.message, diff: diff.join('\n') }
+    return { message: commit.message, diff }
   },
 }

@@ -1,28 +1,14 @@
-import { exec } from 'child_process'
+import { execAndLog } from 'async-exec'
 import { formatDistance, fromUnixTime } from 'date-fns'
 import { promises as fse } from 'fs'
-import { logger } from '../libs/logger'
 import { ICommitsProps } from '../views/Commits/Commits'
 
-const LOG_FORMAT = '%H::%an::%at::%s' // Hash::Author::Date::Message
-
-function asyncExec(command: string): Promise<string[]> {
-  return new Promise((resolve, reject) => {
-    logger.debug('command_execution', { command })
-    exec(command, (err, stdout) => {
-      if (err) {
-        reject(err)
-      } else {
-        resolve(stdout.split('\n').filter(Boolean))
-      }
-    })
-  })
-}
+export const LOG_FORMAT = '%H::%an::%at::%s' // Hash::Author::Date::Message
 
 export const GitService = {
   async log(repoPath: string, filePath: string, branch = '', params = '-1'): Promise<ICommitsProps['commits']> {
-    const lines = await asyncExec(`git -C ${repoPath} log ${params} --format=${LOG_FORMAT} ${branch} -- ${filePath}`)
-    return lines.map((line) => {
+    const lines = await execAndLog(`git -C ${repoPath} log ${params} --format=${LOG_FORMAT} ${branch} -- ${filePath}`)
+    return lines.split('\n').map((line) => {
       const [hash, author, timestamp, message] = line.split('::')
       const date = formatDistance(fromUnixTime(Number(timestamp)), Date.now(), { addSuffix: true })
       return { hash, author, date, message }
@@ -30,7 +16,7 @@ export const GitService = {
   },
 
   async countCommits(repoPath: string, filePath: string, branch = ''): Promise<number> {
-    const result = await asyncExec(`git -C ${repoPath} rev-list --count ${branch} -- ${filePath}`)
+    const result = await execAndLog(`git -C ${repoPath} rev-list --count ${branch} -- ${filePath}`)
     return Number(result)
   },
 
@@ -39,16 +25,16 @@ export const GitService = {
     filePath: string,
     branch = ''
   ): Promise<{ type: 'file' | 'folder'; path: string }[]> {
-    const result = await asyncExec(`git -C ${repoPath} ls-tree ${branch} ${filePath}`)
-    return result.map((line) => {
+    const result = await execAndLog(`git -C ${repoPath} ls-tree ${branch} ${filePath}`)
+    return result.split('\n').map((line) => {
       const [, type, , path] = line.split(/\s+/)
       return { type: type === 'blob' ? 'file' : 'folder', path }
     })
   },
 
   async listBranches(repoPath: string): Promise<string[]> {
-    const result = await asyncExec(`git -C ${repoPath} branch`)
-    return result.map((name) => name.replace(/\*?\s+/, ''))
+    const result = await execAndLog(`git -C ${repoPath} branch`)
+    return result.split('\n').map((name) => name.replace(/\*?\s+/, ''))
   },
 
   async isGitRepo(repoPath: string): Promise<boolean> {
@@ -57,7 +43,7 @@ export const GitService = {
       return false
     }
     try {
-      await asyncExec(`git -C ${repoPath} rev-parse`)
+      await execAndLog(`git -C ${repoPath} rev-parse`)
       return true
     } catch (error) {
       if (error.message.includes('fatal: not a git repository')) {
@@ -67,22 +53,22 @@ export const GitService = {
     }
   },
 
-  async getContent(repoPath: string, filePath: string, branch: string): Promise<string[]> {
-    return asyncExec(`git -C ${repoPath} show ${branch}:${filePath}`)
+  async getContent(repoPath: string, filePath: string, branch: string): Promise<string> {
+    return execAndLog(`git -C ${repoPath} show ${branch}:${filePath}`)
   },
 
-  async getSize(repoPath: string, filePath: string, branch: string): Promise<string[]> {
-    return asyncExec(`git -C ${repoPath} cat-file -s ${branch}:${filePath}`)
+  async getSize(repoPath: string, filePath: string, branch: string): Promise<string> {
+    return execAndLog(`git -C ${repoPath} cat-file -s ${branch}:${filePath}`)
   },
 
   async isBinary(repoPath: string, filePath: string): Promise<boolean> {
     const emptyTreeHash = '4b825dc642cb6eb9a060e54bf8d69288fbee4904'
-    const result = await asyncExec(`git -C ${repoPath} diff-tree -p ${emptyTreeHash} HEAD -- ${filePath}`)
+    const result = await execAndLog(`git -C ${repoPath} diff-tree -p ${emptyTreeHash} HEAD -- ${filePath}`)
     return result.includes(`Binary files /dev/null and b/${filePath} differ`)
   },
 
-  async getDiffs(repoPath: string, filePath: string, branch: string): Promise<string[]> {
-    const [parent] = await asyncExec(`git -C ${repoPath} log --pretty=%P -1 ${branch}`)
-    return asyncExec(`git -C ${repoPath} diff-tree -w -p ${parent} ${branch} -- ${filePath}`)
+  async getDiffs(repoPath: string, filePath: string, branch: string): Promise<string> {
+    const [parent] = await execAndLog(`git -C ${repoPath} log --pretty=%P -1 ${branch}`)
+    return execAndLog(`git -C ${repoPath} diff-tree -w -p ${parent} ${branch} -- ${filePath}`)
   },
 }
