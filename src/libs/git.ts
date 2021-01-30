@@ -4,6 +4,7 @@ import { promises as fse } from 'fs'
 import { ICommitsProps } from '../views/Commits/Commits'
 
 export const LOG_FORMAT = '%H::%an::%at::%s' // Hash::Author::Date::Message
+export const EMPTY_TREE_HASH = '4b825dc642cb6eb9a060e54bf8d69288fbee4904'
 
 export const GitService = {
   async log(repoPath: string, filePath: string, branch = '', params = '-1'): Promise<ICommitsProps['commits']> {
@@ -15,7 +16,7 @@ export const GitService = {
     })
   },
 
-  async countCommits(repoPath: string, filePath: string, branch = ''): Promise<number> {
+  async countCommits(repoPath: string, filePath: string, branch: string): Promise<number> {
     const result = await execAndLog(`git -C ${repoPath} rev-list --count ${branch} -- ${filePath}`)
     return Number(result)
   },
@@ -62,13 +63,13 @@ export const GitService = {
   },
 
   async isBinary(repoPath: string, filePath: string): Promise<boolean> {
-    const emptyTreeHash = '4b825dc642cb6eb9a060e54bf8d69288fbee4904'
-    const result = await execAndLog(`git -C ${repoPath} diff-tree -p ${emptyTreeHash} HEAD -- ${filePath}`)
+    const result = await execAndLog(`git -C ${repoPath} diff-tree -p ${EMPTY_TREE_HASH} HEAD -- ${filePath}`)
     return result.includes(`Binary files /dev/null and b/${filePath} differ`)
   },
 
   async getDiffs(repoPath: string, filePath: string, branch: string): Promise<string> {
-    const [parent] = await execAndLog(`git -C ${repoPath} log --pretty=%P -1 ${branch}`)
-    return execAndLog(`git -C ${repoPath} diff-tree -w -p ${parent} ${branch} -- ${filePath}`)
+    const log = await execAndLog(`git -C ${repoPath} log --pretty=%P -1 ${branch}`)
+    const [parent] = log.split('\n')
+    return execAndLog(`git -C ${repoPath} diff-tree -w -p ${parent || EMPTY_TREE_HASH} ${branch} -- ${filePath}`)
   },
 }
