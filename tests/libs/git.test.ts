@@ -1,4 +1,4 @@
-import { execAndLog } from 'async-exec'
+import exec from 'async-exec'
 import { promises as fse } from 'fs'
 import mockdate from 'mockdate'
 import { EMPTY_TREE_HASH, GitService, LOG_FORMAT } from '../../src/libs/git'
@@ -7,11 +7,11 @@ mockdate.set('2020-01-01T00:00:00.000Z')
 
 jest.mock('async-exec')
 
-const execMock = execAndLog as jest.Mock
+const execMock = exec as jest.Mock
 
 describe('log', () => {
   beforeEach(() => {
-    execMock.mockResolvedValue('fullhash1::author1::1577836600::message1\nfullhash2::author2::1577836400::message2')
+    execMock.mockResolvedValue('fullhash1::author1::1577836600::message1\nfullhash2::author2::1577836400::message2\n')
   })
 
   it('should execute log command with parameters', async () => {
@@ -35,7 +35,7 @@ describe('log', () => {
 
 describe('countCommits', () => {
   beforeEach(() => {
-    execMock.mockResolvedValue('10')
+    execMock.mockResolvedValue('10\n')
   })
 
   it('should execute rev-list command with parameters', async () => {
@@ -51,7 +51,7 @@ describe('countCommits', () => {
 
 describe('listFiles', () => {
   beforeEach(() => {
-    execMock.mockResolvedValue('size tree hex    file1\nsize blob hex    file1')
+    execMock.mockResolvedValue('size tree hex    file1\nsize blob hex    file1\n')
   })
 
   it('should execute ls-tree command with parameters', async () => {
@@ -70,7 +70,7 @@ describe('listFiles', () => {
 
 describe('listBranches', () => {
   beforeEach(() => {
-    execMock.mockResolvedValue('* master\ndevelop')
+    execMock.mockResolvedValue('* master\ndevelop\n')
   })
 
   it('should execute branch command with parameters', async () => {
@@ -88,7 +88,7 @@ describe('isGitRepo', () => {
   let statSpy: jest.SpyInstance
 
   beforeEach(() => {
-    execMock.mockResolvedValue('* master\ndevelop')
+    execMock.mockResolvedValue('* master\ndevelop\n')
     statSpy = jest.spyOn(fse, 'stat')
     statSpy.mockImplementation(() => Promise.resolve({ isDirectory: jest.fn().mockReturnValue(true) }))
   })
@@ -123,7 +123,7 @@ describe('isGitRepo', () => {
 
 describe('getContent', () => {
   beforeEach(() => {
-    execMock.mockResolvedValue('{\n"toto": "tutu"\n}')
+    execMock.mockResolvedValue('{\n"toto": "tutu"\n}\n')
   })
 
   it('should execute show command with parameters', async () => {
@@ -133,13 +133,13 @@ describe('getContent', () => {
 
   it('should return content', async () => {
     const result = await GitService.getContent('repoPath', 'filePath', 'branch')
-    expect(result).toBe('{\n"toto": "tutu"\n}')
+    expect(result).toBe('{\n"toto": "tutu"\n}\n')
   })
 })
 
 describe('getSize', () => {
   beforeEach(() => {
-    execMock.mockResolvedValue('140')
+    execMock.mockResolvedValue('140\n')
   })
 
   it('should execute cat-file command with parameters', async () => {
@@ -147,15 +147,15 @@ describe('getSize', () => {
     expect(execMock).toHaveBeenCalledWith('git -C repoPath cat-file -s branch:filePath')
   })
 
-  it('should return content', async () => {
+  it('should return size', async () => {
     const result = await GitService.getSize('repoPath', 'filePath', 'branch')
-    expect(result).toBe('140')
+    expect(result).toBe('140\n')
   })
 })
 
 describe('isBinary', () => {
   beforeEach(() => {
-    execMock.mockResolvedValue('diff --git a/filePath b/filePath')
+    execMock.mockResolvedValue('diff --git a/filePath b/filePath\n')
   })
 
   it('should execute diff-tree command with parameters', async () => {
@@ -164,7 +164,7 @@ describe('isBinary', () => {
   })
 
   it('should return true if file is binary', async () => {
-    execMock.mockResolvedValue('Binary files /dev/null and b/filePath differ')
+    execMock.mockResolvedValue('Binary files /dev/null and b/filePath differ\n')
     const result = await GitService.isBinary('repoPath', 'filePath')
     expect(result).toBe(true)
   })
@@ -177,27 +177,27 @@ describe('isBinary', () => {
 
 describe('getDiffs', () => {
   it('should execute log command with parameters', async () => {
-    execMock.mockResolvedValueOnce('')
+    execMock.mockResolvedValueOnce('\n')
     await GitService.getDiffs('repoPath', 'filePath', 'branch')
     expect(execMock).toHaveBeenCalledWith(`git -C repoPath log --pretty=%P -1 branch`)
   })
 
   it('should execute diff-tree command with parameters', async () => {
-    execMock.mockResolvedValueOnce('parentHash')
+    execMock.mockResolvedValueOnce('parentHash\n')
     await GitService.getDiffs('repoPath', 'filePath', 'branch')
     expect(execMock).toHaveBeenCalledWith(`git -C repoPath diff-tree -w -p parentHash branch -- filePath`)
   })
 
   it('should execute diff-tree command with default hash if no parent', async () => {
-    execMock.mockResolvedValueOnce('')
+    execMock.mockResolvedValueOnce('\n')
     await GitService.getDiffs('repoPath', 'filePath', 'branch')
     expect(execMock).toHaveBeenCalledWith(`git -C repoPath diff-tree -w -p ${EMPTY_TREE_HASH} branch -- filePath`)
   })
 
   it('should return diff', async () => {
-    execMock.mockResolvedValueOnce('')
-    execMock.mockResolvedValueOnce('diffs')
+    execMock.mockResolvedValueOnce('\n')
+    execMock.mockResolvedValueOnce('diffs\n')
     const result = await GitService.getDiffs('repoPath', 'filePath', 'branch')
-    expect(result).toBe('diffs')
+    expect(result).toBe('diffs\n')
   })
 })
