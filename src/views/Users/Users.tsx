@@ -1,5 +1,5 @@
 import { format } from 'date-fns'
-import React from 'react'
+import React, { PropsWithChildren } from 'react'
 import { Plus, Trash } from 'react-feather'
 import { Button, Card, CardBody, CardSubtitle, CardTitle } from 'reactstrap'
 import { User } from '../../models/User'
@@ -9,15 +9,31 @@ interface IUserCardProps {
   canDelete: boolean
 }
 
-function UserCard({ user, canDelete }: IUserCardProps): JSX.Element {
-  const href = canDelete ? `/users/delete-user/${user.id}` : undefined
+function DeleteButton({ user, canDelete, children }: PropsWithChildren<IUserCardProps>): JSX.Element {
+  const common = { color: 'danger', className: 'float-right' }
 
+  if (canDelete) {
+    return (
+      <Button as="a" href={`/users/delete-user/${user.id}`} outline={!canDelete} {...common}>
+        {children}
+      </Button>
+    )
+  }
+
+  return (
+    <Button disabled={!canDelete} outline={!canDelete} {...common}>
+      {children}
+    </Button>
+  )
+}
+
+function UserCard({ user, canDelete }: IUserCardProps): JSX.Element {
   return (
     <Card className="mb-4">
       <CardBody className="flex ">
-        <Button as="a" href={href} disabled={!canDelete} outline={!canDelete} color="danger" className="float-right">
+        <DeleteButton user={user} canDelete={canDelete}>
           <Trash size="1rem" className="mb-1" /> Delete
-        </Button>
+        </DeleteButton>
         <CardTitle tag="h5">{user.username}</CardTitle>
         <CardSubtitle tag="h6" className="mb-2 text-muted">
           Created at {format(user.createdAt, 'PPP')}
@@ -41,7 +57,7 @@ export default function ListUsers({ users, user }: IListUsersProps): JSX.Element
       </a>
       <hr />
       {users.map((user) => (
-        <UserCard key={user.id} user={user} canDelete={user.username === username} />
+        <UserCard key={user.id} user={user} canDelete={user.username !== username} />
       ))}
     </>
   )
