@@ -9,7 +9,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "prestart": "typeorm migration:run",
-    "start": "ts-node src/index.ts",
+    "start": "node dist/src/index.js",
     "start:dev": "nodemon -r dotenv/config --inspect=9999 src/index.ts",
     "test": "jest --runInBand",
     "typeorm:dev": "node -r ts-node/register -r dotenv/config ./node_modules/typeorm/cli.js",
