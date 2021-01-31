@@ -16,15 +16,16 @@ RUN yarn install --production=false
 COPY tsconfig.json .
 COPY tsconfig.build.json .
 COPY ormconfig.js .
+COPY @types/ ./@types
 COPY migrations ./migrations
 COPY src ./src
 
 # Build
 RUN yarn build
-RUN cp -r src/fonts dist/src/
+RUN cp -r src/public dist/src/
 
 RUN yarn install --force --production --ignore-scripts --prefer-offline
-RUN rm -rf tsconfig.json tsconfig.build.json src
+RUN rm -rf tsconfig.json tsconfig.build.json src @types
 
 # Create data directory
 RUN mkdir /data
