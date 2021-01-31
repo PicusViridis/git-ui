@@ -108,7 +108,7 @@ export const RepositoryService = {
     return [commits, count]
   },
 
-  async getCommitDiff(repoName: string, currentPath: string, hash: string): Promise<ICommitProps['commit']> {
+  async getCommitDiff(repoName: string, currentPath: string, hash: string): Promise<ICommitProps> {
     const repoPath = join(repoDir, repoName)
     const [commit] = await GitService.log(repoPath, currentPath, hash, `-1`)
     const diff = await GitService.getDiffs(repoPath, currentPath, hash)
