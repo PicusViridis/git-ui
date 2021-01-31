@@ -1,7 +1,7 @@
+import { getMockReq, getMockRes } from '@jest-mock/express'
 import { Between } from 'typeorm'
 import { moveIssue, Req, updatePriority } from '../../../src/controllers/issues/moveIssue'
 import { Issue } from '../../../src/models/Issue'
-import { getMockReq, getMockRes } from '../../mocks/express'
 import { mockRepository, RepoMock } from '../../mocks/repository'
 
 jest.mock('../../../src/models/Issue')

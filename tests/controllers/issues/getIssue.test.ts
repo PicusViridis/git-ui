@@ -1,10 +1,10 @@
+import { getMockReq, getMockRes } from '@jest-mock/express'
 import { Request } from 'express'
 import mockdate from 'mockdate'
 import { MoreThan } from 'typeorm'
 import { getIssue, Req } from '../../../src/controllers/issues/getIssue'
 import { Issue } from '../../../src/models/Issue'
 import { Release } from '../../../src/models/Release'
-import { getMockReq, getMockRes } from '../../mocks/express'
 import { mockRepository, RepoMock } from '../../mocks/repository'
 
 mockdate.set('2020-01-01T00:00:00.000Z')

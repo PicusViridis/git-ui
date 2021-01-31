@@ -1,6 +1,6 @@
+import { getMockReq, getMockRes } from '@jest-mock/express'
 import { getHome } from '../../../src/controllers/home/getHome'
 import { RepositoryService } from '../../../src/libs/repositories'
-import { getMockReq, getMockRes } from '../../mocks/express'
 
 jest.mock('../../../src/libs/repositories')
 

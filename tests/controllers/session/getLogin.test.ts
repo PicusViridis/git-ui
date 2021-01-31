@@ -1,5 +1,5 @@
+import { getMockReq, getMockRes } from '@jest-mock/express'
 import { getLogin } from '../../../src/controllers/session/getLogin'
-import { getMockReq, getMockRes } from '../../mocks/express'
 
 describe('getLogin', () => {
   it('should render login page with error', () => {
