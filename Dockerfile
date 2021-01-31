@@ -27,6 +27,10 @@ RUN cp -r src/public dist/src/
 RUN yarn install --force --production --ignore-scripts --prefer-offline
 RUN rm -rf tsconfig.json tsconfig.build.json src @types
 
+# Create repos directory
+RUN mkdir /app/repos
+RUN chown -R node:node /app/repos
+
 # Create db directory
 RUN mkdir /app/db
 RUN chown -R node:node /app/db
