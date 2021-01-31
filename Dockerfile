@@ -15,7 +15,7 @@ RUN yarn install --production=false
 # Copy sources
 COPY tsconfig.json .
 COPY ormconfig.js .
-COPY migration ./migration
+COPY migrations ./migrations
 COPY src ./src
 
 # Build
