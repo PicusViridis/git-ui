@@ -4,7 +4,7 @@ import { Jumbotron, Nav, Navbar, NavbarBrand, NavItem, NavLink } from 'reactstra
 import { Page } from '../../models/Pages'
 import { User } from '../../models/User'
 
-interface IHeaderProps {
+export interface IHeaderProps {
   title: string
   user?: User
   repo: string
