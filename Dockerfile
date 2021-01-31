@@ -27,17 +27,17 @@ RUN cp -r src/public dist/src/
 RUN yarn install --force --production --ignore-scripts --prefer-offline
 RUN rm -rf tsconfig.json tsconfig.build.json src @types
 
-# Create data directory
-RUN mkdir /data
-RUN chown -R node:node /data
+# Create db directory
+RUN mkdir /app/db
+RUN chown -R node:node /app/db
 
 # Create session directory
-RUN mkdir /sessions
-RUN chown -R node:node /sessions
+RUN mkdir /app/sessions
+RUN chown -R node:node /app/sessions
 
 # Create logs directory
-RUN mkdir /app/dist/logs
-RUN chown -R node:node /app/dist/logs
+RUN mkdir /app/logs
+RUN chown -R node:node /app/logs
 
 USER node
 
