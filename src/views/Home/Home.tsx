@@ -13,16 +13,16 @@ export default function Home({ repositories }: IHomeProps): JSX.Element {
     <>
       <Container>
         {repositories.map((repo) => (
-          <>
-            <div key={repo.name}>
+          <React.Fragment key={repo.name}>
+            <div>
               <a href={`/repo/${repo.name}/master/files`}>
                 <strong>{repo.name}</strong>
               </a>
               <br />
               <small>Updated {repo.lastUpdateDate}</small>
             </div>
-            <hr key={`hr${repo.name}`} />
-          </>
+            <hr />
+          </React.Fragment>
         ))}
       </Container>
     </>

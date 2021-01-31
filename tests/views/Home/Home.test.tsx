@@ -1,21 +1,29 @@
 import { render, screen } from '@testing-library/react'
 import React from 'react'
-import Home from '../../../src/views/Home/Home'
-import { mockRepository } from '../../mocks/fixtures'
+import Home, { IHomeProps } from '../../../src/views/Home/Home'
 
 describe('Home', () => {
-  it('Should render repository name', () => {
-    render(<Home repositories={[mockRepository]} />)
-    expect(screen.queryByText('test-repo')).toBeInTheDocument()
+  const props: IHomeProps = {
+    repositories: [
+      {
+        name: 'name',
+        lastUpdateDate: 'lastUpdateDate',
+      },
+    ],
+  }
+
+  it('should render repository name', () => {
+    render(<Home {...props} />)
+    expect(screen.getByText('name')).toBeInTheDocument()
   })
 
-  it('Should render repository link', () => {
-    render(<Home repositories={[mockRepository]} />)
-    expect(screen.queryByText('test-repo').parentElement).toHaveAttribute('href', '/repo/test-repo/files')
+  it('should render repository link', () => {
+    render(<Home {...props} />)
+    expect(screen.getByText('name').parentElement).toHaveAttribute('href', '/repo/name/master/files')
   })
 
-  it('Should render repository date', () => {
-    render(<Home repositories={[mockRepository]} />)
-    expect(screen.queryByText('Updated last commit date')).toBeInTheDocument()
+  it('should render repository date', () => {
+    render(<Home {...props} />)
+    expect(screen.getByText('Updated lastUpdateDate')).toBeInTheDocument()
   })
 })
