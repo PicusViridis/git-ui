@@ -49,8 +49,10 @@ export const RepositoryService = {
     const repoPath = join(repoDir, repoName)
     const files = await GitService.listFiles(repoPath, currentPath + '/', branch)
     const mapped = await Promise.all(
-      files.map(async ({ type, path }) => {
-        const name = path.split('/').pop() || ''
+      files.map(async (file) => {
+        const { type } = file
+        const path = file.path + (type === 'folder' ? '/' : '')
+        const name = file.path.split('/').pop() || ''
         const icon = getIcon(type, name)
         const [lastCommit] = await GitService.log(repoPath, path, branch)
         return { type, icon, name, path, lastCommit }
@@ -74,8 +76,8 @@ export const RepositoryService = {
 
   async getContent(repoName: string, currentPath: string, branch: string): Promise<string> {
     const repoPath = join(repoDir, repoName)
-    if (await GitService.isBinary(repoPath, currentPath)) {
-      return ''
+    if (await GitService.isBinary(repoPath, currentPath, branch)) {
+      return 'Cannot preview binary file'
     } else {
       const rawContent = await GitService.getContent(repoPath, currentPath, branch)
       return highlightAuto(rawContent).value
@@ -85,7 +87,7 @@ export const RepositoryService = {
   async getSize(repoName: string, currentPath: string, branch: string): Promise<string> {
     const repoPath = join(repoDir, repoName)
     const size = await GitService.getSize(repoPath, currentPath, branch)
-    return byteSize(Number(size))
+    return byteSize(Number(size), { binary: true })
   },
 
   async getStream(repoName: string, currentPath: string, branch: string): Promise<string> {
@@ -106,10 +108,10 @@ export const RepositoryService = {
     return [commits, count]
   },
 
-  async getCommitDiff(repoName: string, currentPath: string, branch: string): Promise<ICommitProps['commit']> {
+  async getCommitDiff(repoName: string, currentPath: string, hash: string): Promise<ICommitProps['commit']> {
     const repoPath = join(repoDir, repoName)
-    const [commit] = await GitService.log(repoPath, currentPath, branch, `-1`)
-    const diff = await GitService.getDiffs(repoPath, currentPath, branch)
+    const [commit] = await GitService.log(repoPath, currentPath, hash, `-1`)
+    const diff = await GitService.getDiffs(repoPath, currentPath, hash)
     return { message: commit.message, diff }
   },
 }
