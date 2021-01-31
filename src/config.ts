@@ -10,6 +10,7 @@ const env = cleanEnv(
     LOG_LEVEL: str({ choices: ['debug', 'info', 'warn', 'error'], default: 'info' }),
     SESSION_DIR: str(),
     REPO_DIR: str(),
+    COOKIE_DOMAIN: str(),
   },
   { dotEnvPath: null }
 )
@@ -36,7 +37,7 @@ export const config: IConfig = {
     saveUninitialized: false,
     store: new FileStore({ path: env.SESSION_DIR }),
     name: 'sid',
-    cookie: { domain: 'localhost', httpOnly: false, secure: false },
+    cookie: { domain: env.COOKIE_DOMAIN, httpOnly: false, secure: false },
   },
   repoDir: env.REPO_DIR,
 }
