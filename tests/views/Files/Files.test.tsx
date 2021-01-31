@@ -1,31 +1,44 @@
 import { render, screen } from '@testing-library/react'
 import React from 'react'
-import Files from '../../../src/views/Files/Files'
-import { mockFile, mockRepositoryMeta } from '../../mocks/fixtures'
+import Files, { IFilesProps } from '../../../src/views/Files/Files'
 
 describe('Files', () => {
+  const props: IFilesProps = {
+    files: [
+      {
+        path: 'path',
+        name: 'name',
+        type: 'file',
+        icon: 'icon',
+        lastCommit: { message: 'message', date: 'date' },
+      },
+    ],
+    repo: 'repo',
+    branch: 'branch',
+  }
+
   it('should render file name', () => {
-    render(<Files repo={mockRepositoryMeta} files={[mockFile]} />)
-    expect(screen.queryByText('file name')).toBeInTheDocument()
+    render(<Files {...props} />)
+    expect(screen.queryByText('name')).toBeInTheDocument()
   })
 
   it('should render last commit message', () => {
-    render(<Files repo={mockRepositoryMeta} files={[mockFile]} />)
-    expect(screen.queryByText('test commit message')).toBeInTheDocument()
+    render(<Files {...props} />)
+    expect(screen.queryByText('message')).toBeInTheDocument()
   })
 
   it('should render last commit date', () => {
-    render(<Files repo={mockRepositoryMeta} files={[mockFile]} />)
-    expect(screen.queryByText('last commit date')).toBeInTheDocument()
+    render(<Files {...props} />)
+    expect(screen.queryByText('date')).toBeInTheDocument()
   })
 
   it('should render file link', () => {
-    render(<Files repo={mockRepositoryMeta} files={[mockFile]} />)
-    expect(screen.queryByText('file name')).toHaveAttribute('href', '/repo/test-repo/file/test-branch-1?path=filepath')
+    render(<Files {...props} />)
+    expect(screen.queryByText('name')).toHaveAttribute('href', '/repo/repo/branch/files?path=path')
   })
 
   it('should render file icon', () => {
-    const { baseElement } = render(<Files repo={mockRepositoryMeta} files={[mockFile]} />)
-    expect(baseElement.querySelector('img')).toHaveAttribute('src', '/icons/file-icon')
+    const { baseElement } = render(<Files {...props} />)
+    expect(baseElement.querySelector('img')).toHaveAttribute('src', '/icons/icon')
   })
 })

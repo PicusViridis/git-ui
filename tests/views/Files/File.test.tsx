@@ -1,29 +1,28 @@
 import { render, screen } from '@testing-library/react'
 import React from 'react'
-import File from '../../../src/views/Files/File'
-import { mockRepositoryMeta } from '../../mocks/fixtures'
+import File, { IFileProps } from '../../../src/views/Files/File'
 
 describe('File', () => {
-  it('Should render content as is', () => {
-    render(<File repo={mockRepositoryMeta} content="<p>Coucou</p>" />)
-    expect(screen.queryByText('Coucou')).toBeInTheDocument()
+  const props: IFileProps = {
+    size: '5MB',
+    content: '<p>Content</p>',
+    repo: 'repo',
+    branch: 'branch',
+    path: 'path',
+  }
+
+  it('should render content as is', () => {
+    render(<File {...props} />)
+    expect(screen.queryByText('Content')).toBeInTheDocument()
   })
 
-  it('Should render message if content is missing', () => {
-    render(<File repo={mockRepositoryMeta} />)
-    expect(screen.queryByText('Cannot preview binary file.')).toBeInTheDocument()
+  it('should render file size', () => {
+    render(<File {...props} />)
+    expect(screen.queryByText('5MB')).toBeInTheDocument()
   })
 
-  it('Should render file size', () => {
-    render(<File repo={mockRepositoryMeta} size="5Mb" />)
-    expect(screen.queryByText('5Mb')).toBeInTheDocument()
-  })
-
-  it('Should render download link', () => {
-    render(<File repo={mockRepositoryMeta} size="5Mb" />)
-    expect(screen.queryByText('Download file')).toHaveAttribute(
-      'href',
-      '/repo/test-repo/download/test-branch-1?path=filepath'
-    )
+  it('should render download link', () => {
+    render(<File {...props} />)
+    expect(screen.queryByText('Download file')).toHaveAttribute('href', '/repo/repo/branch/files/download?path=path')
   })
 })

@@ -2,9 +2,9 @@ import React from 'react'
 import { Download } from 'react-feather'
 import { Card, CardHeader } from 'reactstrap'
 
-interface IFileProps {
-  size?: string
-  content?: string
+export interface IFileProps {
+  size: string
+  content: string
   repo: string
   branch: string
   path: string
@@ -19,7 +19,7 @@ export default function File({ size, content, repo, branch, path }: IFileProps):
         </a>
         {size}
       </CardHeader>
-      <pre className="hljs m-0" dangerouslySetInnerHTML={{ __html: content || 'Cannot preview binary file' }} />
+      <pre className="hljs m-0" dangerouslySetInnerHTML={{ __html: content }} />
     </Card>
   )
 }
