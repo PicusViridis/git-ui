@@ -1,11 +1,20 @@
 import { render, screen } from '@testing-library/react'
 import React from 'react'
-import Diff from '../../../src/views/Commits/Commit'
-import { mockRepositoryMeta } from '../../mocks/fixtures'
+import Commit, { ICommitProps } from '../../../src/views/Commits/Commit'
 
-describe('Diff', () => {
-  it('Should render HTML diff', () => {
-    render(<Diff diff="<p>Coucou</p>" repo={mockRepositoryMeta} />)
-    expect(screen.queryByText('Coucou')).toBeInTheDocument()
+describe('Commit', () => {
+  const props: ICommitProps = {
+    message: 'message',
+    diff: '<p>Diff</p>',
+  }
+
+  it('should render commit message', () => {
+    render(<Commit {...props} />)
+    expect(screen.getByText('message')).toBeInTheDocument()
+  })
+
+  it('should render HTML diff', () => {
+    render(<Commit {...props} />)
+    expect(screen.getByText('Diff')).toBeInTheDocument()
   })
 })

@@ -13,7 +13,7 @@ describe('getCommit', () => {
   beforeEach(() => {
     clearMockRes()
 
-    getCommitDiffMock.mockResolvedValue('diff')
+    getCommitDiffMock.mockResolvedValue({ message: 'message', diff: 'diff' })
   })
 
   it('should get commit diff', async () => {
@@ -23,6 +23,9 @@ describe('getCommit', () => {
 
   it('should render commit page with commit diff', async () => {
     await getCommit(req, res)
-    expect(res.render).toHaveBeenCalledWith('Commits/Commit', { commit: 'diff' })
+    expect(res.render).toHaveBeenCalledWith('Commits/Commit', {
+      message: 'message',
+      diff: '<div class="d2h-wrapper">\n    \n</div>',
+    })
   })
 })
