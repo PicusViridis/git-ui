@@ -90,11 +90,11 @@ describe('isGitRepo', () => {
   beforeEach(() => {
     execMock.mockResolvedValue('* master\ndevelop\n')
     statSpy = jest.spyOn(fse, 'stat')
-    statSpy.mockImplementation(() => Promise.resolve({ isDirectory: jest.fn().mockReturnValue(true) }))
+    statSpy.mockResolvedValue({ isDirectory: jest.fn().mockReturnValue(true) })
   })
 
   it('should return false if path is not a directory', async () => {
-    statSpy.mockImplementation(() => Promise.resolve({ isDirectory: jest.fn().mockReturnValue(false) }))
+    statSpy.mockResolvedValue({ isDirectory: jest.fn().mockReturnValue(false) })
     const result = await GitService.isGitRepo('repoPath')
     expect(result).toBe(false)
   })
