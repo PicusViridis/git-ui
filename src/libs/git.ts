@@ -71,8 +71,8 @@ export const GitService = {
     return exec(`git -C ${repoPath} cat-file -s ${branch}:${filePath}`)
   },
 
-  async isBinary(repoPath: string, filePath: string): Promise<boolean> {
-    const result = await exec(`git -C ${repoPath} diff-tree -p ${EMPTY_TREE_HASH} HEAD -- ${filePath}`)
+  async isBinary(repoPath: string, filePath: string, branch: string): Promise<boolean> {
+    const result = await exec(`git -C ${repoPath} diff-tree -p ${EMPTY_TREE_HASH} ${branch} -- ${filePath}`)
     return result.includes(`Binary files /dev/null and b/${filePath} differ`)
   },
 

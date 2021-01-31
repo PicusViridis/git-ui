@@ -159,18 +159,18 @@ describe('isBinary', () => {
   })
 
   it('should execute diff-tree command with parameters', async () => {
-    await GitService.isBinary('repoPath', 'filePath')
-    expect(execMock).toHaveBeenCalledWith(`git -C repoPath diff-tree -p ${EMPTY_TREE_HASH} HEAD -- filePath`)
+    await GitService.isBinary('repoPath', 'filePath', 'branch')
+    expect(execMock).toHaveBeenCalledWith(`git -C repoPath diff-tree -p ${EMPTY_TREE_HASH} branch -- filePath`)
   })
 
   it('should return true if file is binary', async () => {
     execMock.mockResolvedValue('Binary files /dev/null and b/filePath differ\n')
-    const result = await GitService.isBinary('repoPath', 'filePath')
+    const result = await GitService.isBinary('repoPath', 'filePath', 'branch')
     expect(result).toBe(true)
   })
 
   it('should return false if file is not binary', async () => {
-    const result = await GitService.isBinary('repoPath', 'filePath')
+    const result = await GitService.isBinary('repoPath', 'filePath', 'branch')
     expect(result).toBe(false)
   })
 })
