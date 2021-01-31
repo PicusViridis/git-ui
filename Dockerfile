@@ -31,6 +31,10 @@ RUN rm -rf tsconfig.json tsconfig.build.json src @types
 RUN mkdir /data
 RUN chown -R node:node /data
 
+# Create session directory
+RUN mkdir /sessions
+RUN chown -R node:node /sessions
+
 # Create logs directory
 RUN mkdir /app/dist/logs
 RUN chown -R node:node /app/dist/logs
