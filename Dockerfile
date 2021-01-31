@@ -40,8 +40,8 @@ RUN mkdir /app/sessions
 RUN chown -R node:node /app/sessions
 
 # Create logs directory
-RUN mkdir /app/logs
-RUN chown -R node:node /app/logs
+RUN mkdir /app/dist/logs
+RUN chown -R node:node /app/dist/logs
 
 USER node
 
