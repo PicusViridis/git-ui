@@ -17,6 +17,6 @@ describe('ListUsers', () => {
 
   it('should enable delete if user is the same as session user', () => {
     render(<ListUsers user={mockUser1} users={[mockUser2]} />)
-    expect(screen.getByRole('link', { name: /Delete/i })).toHaveAttribute('href', '/users/delete-user/2')
+    expect(screen.getByRole('link', { name: /Delete/i })).toHaveAttribute('href', '/users/delete/2')
   })
 })

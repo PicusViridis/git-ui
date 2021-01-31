@@ -14,7 +14,7 @@ function DeleteButton({ user, canDelete, children }: PropsWithChildren<IUserCard
 
   if (canDelete) {
     return (
-      <Button as="a" href={`/users/delete-user/${user.id}`} outline={!canDelete} {...common}>
+      <Button as="a" href={`/users/delete/${user.id}`} outline={!canDelete} {...common}>
         {children}
       </Button>
     )
