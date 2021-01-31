@@ -19,7 +19,7 @@ function toBreadcrumb(repo: string, currentPath: string) {
   return result
 }
 
-interface INavProps {
+export interface INavProps {
   repo: string
   branch: string
   path: string
