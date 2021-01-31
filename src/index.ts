@@ -20,11 +20,13 @@ passport.serializeUser(serializeUser)
 passport.deserializeUser(deserializeUser)
 passport.use(new Strategy(localStrategy))
 
+const ext = config.environment === 'development' ? 'tsx' : 'js'
+
 createConnection().then(() => {
   const app = express()
   app.set('views', path.join(__dirname, 'views'))
-  app.set('view engine', config.environment === 'development' ? 'tsx' : 'js')
-  app.engine('tsx', render({ cache: false, layout: 'Layout/Layout' }))
+  app.set('view engine', ext)
+  app.engine(ext, render({ cache: false, layout: 'Layout/Layout' }))
   app.use(serve(path.join(__dirname, 'public')))
   app.use(cookieParser())
   app.use(bodyParser.urlencoded({ extended: true }))
