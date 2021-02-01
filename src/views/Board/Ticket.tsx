@@ -7,7 +7,7 @@ export const colors: { [key in Type]: string } = {
   feature: 'warning',
 }
 
-interface ITicketProps {
+export interface ITicketProps {
   status: Status
   issue: Issue
   repo: string

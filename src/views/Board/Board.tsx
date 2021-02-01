@@ -18,7 +18,7 @@ function cellProps(issue: Issue, status: Status, repo: string) {
   }
 }
 
-interface IBoardProps {
+export interface IBoardProps {
   release?: Release
   issues: Issue[]
   repo: string
