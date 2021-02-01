@@ -1,14 +1,11 @@
 import { render, screen } from '@testing-library/react'
-import mockdate from 'mockdate'
 import React from 'react'
 import Board, { IBoardProps } from '../../../src/views/Board/Board'
-import { mockIssue1, mockIssue2, mockRelease } from '../../mocks/fixtures'
-
-mockdate.set('2020-01-01T00:00:00.000Z')
+import { mockIssue1, mockIssue2, mockRelease1 } from '../../mocks/fixtures'
 
 describe('Board', () => {
   const props: IBoardProps = {
-    release: mockRelease,
+    release: mockRelease1,
     issues: [mockIssue1, mockIssue2],
     repo: 'repo',
   }

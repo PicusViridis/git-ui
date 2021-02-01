@@ -1,10 +1,7 @@
 import { render, screen } from '@testing-library/react'
-import mockdate from 'mockdate'
 import React from 'react'
 import { ITicketProps, Ticket } from '../../../src/views/Board/Ticket'
 import { mockIssue1, mockIssue2, mockIssue3 } from '../../mocks/fixtures'
-
-mockdate.set('2020-01-01T00:00:00.000Z')
 
 describe('Ticket', () => {
   const props: ITicketProps = {

@@ -6,26 +6,36 @@ export const mockUser1: User = {
   id: 1,
   username: 'user1',
   password: 'pass1',
-  createdAt: new Date(),
-  updatedAt: new Date(),
+  createdAt: new Date('2020-01-01T00:00:00.000Z'),
+  updatedAt: new Date('2020-01-01T00:00:00.000Z'),
 }
 
 export const mockUser2: User = {
   id: 2,
   username: 'user2',
   password: 'pass2',
-  createdAt: new Date(),
-  updatedAt: new Date(),
+  createdAt: new Date('2020-01-01T00:00:00.000Z'),
+  updatedAt: new Date('2020-01-01T00:00:00.000Z'),
 }
 
-export const mockRelease: Release = {
+export const mockRelease1: Release = {
   id: 1,
   name: 'release1',
   repo: 'repo',
   issues: [],
-  dueDate: new Date(),
-  createdAt: new Date(),
-  updatedAt: new Date(),
+  dueDate: new Date('2020-01-01T00:00:00.000Z'),
+  createdAt: new Date('2020-01-01T00:00:00.000Z'),
+  updatedAt: new Date('2020-01-01T00:00:00.000Z'),
+}
+
+export const mockRelease2: Release = {
+  id: 2,
+  name: 'release2',
+  repo: 'repo',
+  issues: [],
+  dueDate: new Date('2021-01-01T00:00:00.000Z'),
+  createdAt: new Date('2020-01-01T00:00:00.000Z'),
+  updatedAt: new Date('2020-01-01T00:00:00.000Z'),
 }
 
 export const mockIssue1: Issue = {
@@ -35,12 +45,12 @@ export const mockIssue1: Issue = {
   author: mockUser1,
   points: 5,
   priority: 1,
-  release: mockRelease,
+  release: mockRelease1,
   repo: 'repo',
   status: 'doing',
   type: 'bug',
-  createdAt: new Date(),
-  updatedAt: new Date(),
+  createdAt: new Date('2020-01-01T00:00:00.000Z'),
+  updatedAt: new Date('2020-01-01T00:00:00.000Z'),
 }
 
 export const mockIssue2: Issue = {
@@ -50,12 +60,12 @@ export const mockIssue2: Issue = {
   author: mockUser2,
   points: 3,
   priority: 2,
-  release: mockRelease,
+  release: mockRelease1,
   repo: 'repo',
   status: 'to do',
   type: 'feature',
-  createdAt: new Date(),
-  updatedAt: new Date(),
+  createdAt: new Date('2020-01-01T00:00:00.000Z'),
+  updatedAt: new Date('2020-01-01T00:00:00.000Z'),
 }
 
 export const mockIssue3: Issue = {
@@ -65,10 +75,10 @@ export const mockIssue3: Issue = {
   author: mockUser1,
   points: 5,
   priority: 1,
-  release: mockRelease,
+  release: mockRelease1,
   repo: 'repo',
   status: 'doing',
   type: 'bug',
-  createdAt: new Date(),
-  updatedAt: new Date(),
+  createdAt: new Date('2020-01-01T00:00:00.000Z'),
+  updatedAt: new Date('2020-01-01T00:00:00.000Z'),
 }
