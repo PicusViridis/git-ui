@@ -6,15 +6,16 @@ import { Issue } from '../../models/Issue'
 import { Release } from '../../models/Release'
 import { noop } from '../utils'
 
-interface IIssueProps {
+export interface IIssueProps {
   issue?: Issue
   releases?: Release[]
   repo: string
 }
 
 export default function AddIssue({ issue, repo, releases }: IIssueProps): JSX.Element {
+  const action = `/repo/${repo}/issues/edit` + (issue ? `/${issue.id}` : '')
   return (
-    <Form action={`/repo/${repo}/issues/edit/${issue?.id || ''}`} method="POST">
+    <Form action={action} method="POST">
       <Row>
         <Col sm={5}>
           <FormGroup>

@@ -12,7 +12,7 @@ const bulletStyle: CSSProperties = {
   borderRadius: '0.5rem',
 }
 
-interface IIssuesProps {
+export interface IIssuesProps {
   issues: Issue[]
   repo: string
 }
@@ -35,9 +35,11 @@ export default function Issues({ issues, repo }: IIssuesProps): JSX.Element {
       </thead>
       <tbody>
         {!issues.length && (
-          <td className="text-muted p-5" colSpan={4}>
-            No issue found
-          </td>
+          <tr>
+            <td className="text-muted p-5" colSpan={4}>
+              No issue found
+            </td>
+          </tr>
         )}
         {issues.map((issue) => (
           <tr key={issue.id}>
