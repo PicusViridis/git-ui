@@ -8,7 +8,7 @@ jest.mock('../../../src/models/Release')
 jest.mock('../../../src/models/Issue')
 
 describe('saveIssue', () => {
-  const body = { title: 'title', type: 'bug', description: 'description', release: 1 }
+  const body = { title: 'title', type: 'bug', description: 'description', points: 5, release: 1 }
   const req = getMockReq<Req>({ params: { repo: 'repo', id: '8' }, body })
   const { res, clearMockRes } = getMockRes()
 
@@ -33,6 +33,7 @@ describe('saveIssue', () => {
       title: 'title',
       type: 'bug',
       description: 'description',
+      points: 5,
       release: { id: 1 },
     })
   })
@@ -46,6 +47,7 @@ describe('saveIssue', () => {
       title: 'title',
       type: 'bug',
       description: 'description',
+      points: 5,
       author: { id: 2 },
       release: { id: 1 },
     })

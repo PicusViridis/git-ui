@@ -41,7 +41,7 @@ export class Issue {
   @Column({ default: 'to do' })
   status: Status
 
-  @Column()
+  @Column({ default: 0 })
   priority: number
 
   @Column({ default: 0 })
