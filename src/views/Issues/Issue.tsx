@@ -1,12 +1,13 @@
 import { format } from 'date-fns'
 import React from 'react'
-import { Save, Trash, X } from 'react-feather'
+import { Download, Save, Trash } from 'react-feather'
 import {
   Button,
   ButtonGroup,
   Card,
   CardBody,
   CardDeck,
+  CardLink,
   CardTitle,
   Col,
   Form,
@@ -106,11 +107,17 @@ interface IAttachmentsProps {
 }
 
 function Attachments({ repo, issueId, attachments }: IAttachmentsProps) {
+  if (!attachments?.length) {
+    return null
+  }
+
   return (
     <div>
-      <h3>Attachments</h3>
+      <h3>
+        Attachments <DownloadAll repo={repo} issueId={issueId} />
+      </h3>
       <CardDeck>
-        {attachments?.map((attachment) => (
+        {attachments.map((attachment) => (
           <AttachmentCard key={attachment.id} attachment={attachment} repo={repo} issueId={issueId} />
         ))}
       </CardDeck>
@@ -128,13 +135,29 @@ function AttachmentCard({ repo, issueId, attachment }: IAttachmentProps) {
   return (
     <Card key={attachment.id} className="d-inline-block">
       <CardBody>
-        <CardTitle>
-          <a href={`/repo/${repo}/attachments/delete/${attachment.id}?issueId=${issueId}`} className="float-right">
-            <X />
-          </a>
-          {attachment.filename}
-        </CardTitle>
+        <CardTitle>{attachment.filename}</CardTitle>
+        <CardLink href={`/repo/${repo}/attachments/download/${attachment.id}`}>
+          <Download size={16} className="mb-1" /> Download
+        </CardLink>
+        <CardLink href={`/repo/${repo}/attachments/delete/${attachment.id}?issueId=${issueId}`}>
+          <Trash size={16} className="mb-1" /> Delete
+        </CardLink>
       </CardBody>
     </Card>
+  )
+}
+
+interface IDownloadProps {
+  repo: string
+  issueId: number
+}
+
+function DownloadAll({ repo, issueId }: IDownloadProps) {
+  return (
+    <a href={`/repo/${repo}/attachments/download?issueId=${issueId}`}>
+      <small style={{ fontSize: '1rem' }} className="float-right">
+        <Download size={16} className="mb-1" /> Download all
+      </small>
+    </a>
   )
 }

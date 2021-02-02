@@ -1,5 +1,7 @@
 import { Router } from 'express'
 import { deleteAttachment } from './controllers/attachments/deleteAttachment'
+import { downloadAttachment } from './controllers/attachments/downloadAttachment'
+import { downloadAttachments } from './controllers/attachments/downloadAttachments'
 import { getBoard } from './controllers/board/getBoard'
 import { getCommit } from './controllers/commits/getCommit'
 import { getCommits } from './controllers/commits/getCommits'
@@ -49,6 +51,8 @@ router.post('/repo/:repo/issues/move/:id', moveIssue)
 router.get('/repo/:repo/issues/delete/:id', deleteIssue)
 
 router.get('/repo/:repo/attachments/delete/:id', deleteAttachment)
+router.get('/repo/:repo/attachments/download', downloadAttachments)
+router.get('/repo/:repo/attachments/download/:id', downloadAttachment)
 
 router.use('/repo/:repo/releases', repo('releases'))
 router.get('/repo/:repo/releases/list', getReleases)
