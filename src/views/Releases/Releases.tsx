@@ -4,7 +4,7 @@ import { Plus } from 'react-feather'
 import { Table } from 'reactstrap'
 import { Release } from '../../models/Release'
 
-interface IReleasesProps {
+export interface IReleasesProps {
   releases: Release[]
   repo: string
 }
@@ -26,9 +26,11 @@ export default function Releases({ releases, repo }: IReleasesProps): JSX.Elemen
       </thead>
       <tbody>
         {!releases.length && (
-          <td className="text-muted p-5" colSpan={3}>
-            No release found
-          </td>
+          <tr>
+            <td className="text-muted p-5" colSpan={3}>
+              No release found
+            </td>
+          </tr>
         )}
         {releases.map((release) => (
           <tr key={release.id}>

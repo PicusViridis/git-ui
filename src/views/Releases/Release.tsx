@@ -5,14 +5,15 @@ import { Button, ButtonGroup, Form, FormGroup, Input, Label } from 'reactstrap'
 import { Release } from '../../models/Release'
 import { noop } from '../utils'
 
-interface IReleaseProps {
+export interface IReleaseProps {
   release?: Release
   repo: string
 }
 
 export default function AddRelease({ release, repo }: IReleaseProps): JSX.Element {
+  const action = `/repo/${repo}/releases/edit` + (release ? `/${release.id}` : '')
   return (
-    <Form action={`/repo/${repo}/releases/edit/${release?.id || ''}`} method="POST">
+    <Form action={action} method="POST">
       <FormGroup>
         <Label for="name">Name</Label>
         <Input id="name" name="name" type="text" value={release?.name} onChange={noop} required />
