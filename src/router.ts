@@ -43,7 +43,7 @@ router.use('/repo/:repo/issues', repo('issues'))
 router.get('/repo/:repo/issues/list', getIssues)
 router.get('/repo/:repo/issues/edit/:id?', getIssue)
 router.post('/repo/:repo/issues/edit/:id?', saveIssue)
-router.post('/repo/:repo/issues/move/:id?', moveIssue)
+router.post('/repo/:repo/issues/move/:id', moveIssue)
 router.get('/repo/:repo/issues/delete/:id', deleteIssue)
 
 router.use('/repo/:repo/releases', repo('releases'))
