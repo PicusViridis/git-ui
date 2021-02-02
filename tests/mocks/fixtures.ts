@@ -6,16 +6,16 @@ export const mockUser1: User = {
   id: 1,
   username: 'user1',
   password: 'pass1',
-  createdAt: new Date('2020-01-01T00:00:00.000Z'),
-  updatedAt: new Date('2020-01-01T00:00:00.000Z'),
+  createdAt: new Date('2018-01-01T00:00:00.000Z'),
+  updatedAt: new Date('2019-01-01T00:00:00.000Z'),
 }
 
 export const mockUser2: User = {
   id: 2,
   username: 'user2',
   password: 'pass2',
-  createdAt: new Date('2020-01-01T00:00:00.000Z'),
-  updatedAt: new Date('2020-01-01T00:00:00.000Z'),
+  createdAt: new Date('2018-01-01T00:00:00.000Z'),
+  updatedAt: new Date('2019-01-01T00:00:00.000Z'),
 }
 
 export const mockRelease1: Release = {
@@ -24,8 +24,8 @@ export const mockRelease1: Release = {
   repo: 'repo',
   issues: [],
   dueDate: new Date('2020-01-01T00:00:00.000Z'),
-  createdAt: new Date('2020-01-01T00:00:00.000Z'),
-  updatedAt: new Date('2020-01-01T00:00:00.000Z'),
+  createdAt: new Date('2018-01-01T00:00:00.000Z'),
+  updatedAt: new Date('2019-01-01T00:00:00.000Z'),
 }
 
 export const mockRelease2: Release = {
@@ -34,8 +34,8 @@ export const mockRelease2: Release = {
   repo: 'repo',
   issues: [],
   dueDate: new Date('2021-01-01T00:00:00.000Z'),
-  createdAt: new Date('2020-01-01T00:00:00.000Z'),
-  updatedAt: new Date('2020-01-01T00:00:00.000Z'),
+  createdAt: new Date('2018-01-01T00:00:00.000Z'),
+  updatedAt: new Date('2019-01-01T00:00:00.000Z'),
 }
 
 export const mockIssue1: Issue = {
@@ -49,8 +49,8 @@ export const mockIssue1: Issue = {
   repo: 'repo',
   status: 'doing',
   type: 'bug',
-  createdAt: new Date('2020-01-01T00:00:00.000Z'),
-  updatedAt: new Date('2020-01-01T00:00:00.000Z'),
+  createdAt: new Date('2018-01-01T00:00:00.000Z'),
+  updatedAt: new Date('2019-01-01T00:00:00.000Z'),
 }
 
 export const mockIssue2: Issue = {
@@ -64,8 +64,8 @@ export const mockIssue2: Issue = {
   repo: 'repo',
   status: 'to do',
   type: 'feature',
-  createdAt: new Date('2020-01-01T00:00:00.000Z'),
-  updatedAt: new Date('2020-01-01T00:00:00.000Z'),
+  createdAt: new Date('2018-01-01T00:00:00.000Z'),
+  updatedAt: new Date('2019-01-01T00:00:00.000Z'),
 }
 
 export const mockIssue3: Issue = {
@@ -79,6 +79,6 @@ export const mockIssue3: Issue = {
   repo: 'repo',
   status: 'doing',
   type: 'bug',
-  createdAt: new Date('2020-01-01T00:00:00.000Z'),
-  updatedAt: new Date('2020-01-01T00:00:00.000Z'),
+  createdAt: new Date('2018-01-01T00:00:00.000Z'),
+  updatedAt: new Date('2019-01-01T00:00:00.000Z'),
 }
