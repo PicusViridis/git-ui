@@ -1,7 +1,20 @@
 import { format } from 'date-fns'
 import React from 'react'
-import { Save, Trash } from 'react-feather'
-import { Button, ButtonGroup, Col, Form, FormGroup, Input, Label, Row } from 'reactstrap'
+import { Save, Trash, X } from 'react-feather'
+import {
+  Button,
+  ButtonGroup,
+  Card,
+  CardBody,
+  CardDeck,
+  CardTitle,
+  Col,
+  Form,
+  FormGroup,
+  Input,
+  Label,
+  Row,
+} from 'reactstrap'
 import { Attachment } from '../../models/Attachment'
 import { Issue } from '../../models/Issue'
 import { Release } from '../../models/Release'
@@ -81,22 +94,47 @@ export default function AddIssue({ issue, repo, releases }: IIssueProps): JSX.El
           </ButtonGroup>
         </FormGroup>
       </Form>
-      <Attachments attachments={issue?.attachments} />
+      {issue && <Attachments repo={repo} issueId={issue.id} attachments={issue?.attachments} />}
     </>
   )
 }
 
 interface IAttachmentsProps {
+  repo: string
+  issueId: number
   attachments?: Attachment[]
 }
 
-function Attachments({ attachments }: IAttachmentsProps) {
+function Attachments({ repo, issueId, attachments }: IAttachmentsProps) {
   return (
     <div>
       <h3>Attachments</h3>
-      {attachments?.map((attachment) => (
-        <div key={attachment.id}>{attachment.filename}</div>
-      ))}
+      <CardDeck>
+        {attachments?.map((attachment) => (
+          <AttachmentCard key={attachment.id} attachment={attachment} repo={repo} issueId={issueId} />
+        ))}
+      </CardDeck>
     </div>
+  )
+}
+
+interface IAttachmentProps {
+  repo: string
+  issueId: number
+  attachment: Attachment
+}
+
+function AttachmentCard({ repo, issueId, attachment }: IAttachmentProps) {
+  return (
+    <Card key={attachment.id} className="d-inline-block">
+      <CardBody>
+        <CardTitle>
+          <a href={`/repo/${repo}/attachments/delete/${attachment.id}?issueId=${issueId}`} className="float-right">
+            <X />
+          </a>
+          {attachment.filename}
+        </CardTitle>
+      </CardBody>
+    </Card>
   )
 }
