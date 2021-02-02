@@ -10,6 +10,7 @@ const env = cleanEnv(
     LOG_LEVEL: str({ choices: ['debug', 'info', 'warn', 'error'], default: 'info' }),
     SESSION_DIR: str(),
     REPO_DIR: str(),
+    UPLOAD_DIR: str(),
     COOKIE_DOMAIN: str(),
   },
   { dotEnvPath: null }
@@ -22,6 +23,7 @@ interface IConfig {
   logLevel: 'debug' | 'info' | 'warn' | 'error'
   session: SessionOptions
   repoDir: string
+  uploadDir: string
 }
 
 const FileStore = filestore(session)
@@ -40,4 +42,5 @@ export const config: IConfig = {
     cookie: { domain: env.COOKIE_DOMAIN, httpOnly: false, secure: false },
   },
   repoDir: env.REPO_DIR,
+  uploadDir: env.UPLOAD_DIR,
 }

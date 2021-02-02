@@ -21,6 +21,7 @@ import { addUser } from './controllers/users/addUser'
 import { deleteUser } from './controllers/users/deleteUser'
 import { getUsers } from './controllers/users/getUsers'
 import { postUser } from './controllers/users/postUser'
+import { fileUpload } from './middlewares/fileUpload'
 import { repo } from './middlewares/repo'
 import { hasSession } from './middlewares/session'
 
@@ -42,7 +43,7 @@ router.get('/users/delete/:id', deleteUser)
 router.use('/repo/:repo/issues', repo('issues'))
 router.get('/repo/:repo/issues/list', getIssues)
 router.get('/repo/:repo/issues/edit/:id?', getIssue)
-router.post('/repo/:repo/issues/edit/:id?', saveIssue)
+router.post('/repo/:repo/issues/edit/:id?', fileUpload, saveIssue)
 router.post('/repo/:repo/issues/move/:id', moveIssue)
 router.get('/repo/:repo/issues/delete/:id', deleteIssue)
 

@@ -1,4 +1,5 @@
 import { Request, Response } from 'express'
+import { Attachment } from '../../models/Attachment'
 import { Issue, Type } from '../../models/Issue'
 
 export type Req = Request<
@@ -7,15 +8,36 @@ export type Req = Request<
   { title: string; type: Type; description: string; release: number; points: number }
 >
 
+function mapAttachment(id: number) {
+  return function (file: Express.Multer.File) {
+    return { issue: { id }, filename: file.originalname, filepath: file.filename, mime: file.mimetype }
+  }
+}
+
 export async function saveIssue(req: Req, res: Response): Promise<void> {
-  const { id, repo } = req.params
-  const { title, type, description, release, points } = req.body
+  const { id } = req.params
+  const { release } = req.body
   await Issue.getRepository().update({ release: { id: release } }, { priority: () => 'priority + 1' })
   if (id) {
-    await Issue.getRepository().update(id, { title, type, description, points, release: { id: release } })
+    await updateIssue(req, res)
   } else {
-    const author = { id: req.user?.id }
-    await Issue.getRepository().save({ repo, title, type, description, points, author, release: { id: release } })
+    await createIssue(req, res)
   }
-  res.redirect(`/repo/${repo}/issues/list`)
+}
+
+async function updateIssue(req: Req, res: Response): Promise<void> {
+  const { id, repo } = req.params
+  const { release, ...body } = req.body
+  await Issue.getRepository().update(id, { ...body, release: { id: release } })
+  await Attachment.getRepository().save(Object.values(req.files).map(mapAttachment(Number(id))))
+  res.redirect(`/repo/${repo}/issues/edit/${id}`)
+}
+
+async function createIssue(req: Req, res: Response): Promise<void> {
+  const { repo } = req.params
+  const { release, ...body } = req.body
+  const author = { id: req.user?.id }
+  const issue = await Issue.getRepository().save({ ...body, repo, author, release: { id: release } })
+  await Attachment.getRepository().save(Object.values(req.files).map(mapAttachment(issue.id)))
+  res.redirect(`/repo/${repo}/issues/edit/${issue.id}`)
 }
