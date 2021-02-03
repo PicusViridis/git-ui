@@ -38,7 +38,9 @@ describe('getIssue', () => {
 
   it('should get issue', async () => {
     await getIssue(req, res)
-    expect(issueMock.findOne).toHaveBeenCalledWith('id', { relations: ['release', 'attachments'] })
+    expect(issueMock.findOne).toHaveBeenCalledWith('id', {
+      relations: ['release', 'attachments', 'comments', 'comments.author'],
+    })
   })
 
   it('should add issue release in releases array', async () => {

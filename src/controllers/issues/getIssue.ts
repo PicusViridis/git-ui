@@ -22,7 +22,9 @@ export async function addIssue(req: Req, res: Response): Promise<void> {
 
 export async function editIssue(req: Req, res: Response): Promise<void> {
   const { id, repo } = req.params
-  const issue = await Issue.getRepository().findOne(id, { relations: ['release', 'attachments'] })
+  const issue = await Issue.getRepository().findOne(id, {
+    relations: ['release', 'attachments', 'comments', 'comments.author'],
+  })
   if (!issue) {
     return res.render('404')
   }

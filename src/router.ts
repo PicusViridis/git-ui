@@ -3,6 +3,8 @@ import { deleteAttachment } from './controllers/attachments/deleteAttachment'
 import { downloadAttachment } from './controllers/attachments/downloadAttachment'
 import { downloadAttachments } from './controllers/attachments/downloadAttachments'
 import { getBoard } from './controllers/board/getBoard'
+import { deleteComment } from './controllers/comments/deleteComment'
+import { saveComment } from './controllers/comments/saveComment'
 import { getCommit } from './controllers/commits/getCommit'
 import { getCommits } from './controllers/commits/getCommits'
 import { downloadFile } from './controllers/files/downloadFile'
@@ -53,6 +55,9 @@ router.get('/repo/:repo/issues/delete/:id', deleteIssue)
 router.get('/repo/:repo/attachments/delete/:id', deleteAttachment)
 router.get('/repo/:repo/attachments/download', downloadAttachments)
 router.get('/repo/:repo/attachments/download/:id', downloadAttachment)
+
+router.get('/repo/:repo/comments/delete/:id', deleteComment)
+router.post('/repo/:repo/comments/edit', saveComment)
 
 router.use('/repo/:repo/releases', repo('releases'))
 router.get('/repo/:repo/releases/list', getReleases)

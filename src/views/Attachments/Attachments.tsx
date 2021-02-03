@@ -32,6 +32,7 @@ export function Attachments({ repo, issueId, attachments }: IAttachmentsProps): 
 
   return (
     <div>
+      <hr className="my-4" />
       <h3>
         Attachments <DownloadAll repo={repo} issueId={issueId} />
       </h3>

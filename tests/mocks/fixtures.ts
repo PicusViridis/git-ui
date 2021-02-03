@@ -1,4 +1,5 @@
 import { Attachment } from '../../src/models/Attachment'
+import { Comment } from '../../src/models/Comment'
 import { Issue } from '../../src/models/Issue'
 import { Release } from '../../src/models/Release'
 import { User } from '../../src/models/User'
@@ -51,6 +52,7 @@ export const mockIssue1: Issue = {
   status: 'doing',
   type: 'bug',
   attachments: [],
+  comments: [],
   createdAt: new Date('2018-01-01T00:00:00.000Z'),
   updatedAt: new Date('2019-01-01T00:00:00.000Z'),
 }
@@ -67,6 +69,7 @@ export const mockIssue2: Issue = {
   status: 'to do',
   type: 'feature',
   attachments: [],
+  comments: [],
   createdAt: new Date('2018-01-01T00:00:00.000Z'),
   updatedAt: new Date('2019-01-01T00:00:00.000Z'),
 }
@@ -83,6 +86,7 @@ export const mockIssue3: Issue = {
   status: 'doing',
   type: 'bug',
   attachments: [],
+  comments: [],
   createdAt: new Date('2018-01-01T00:00:00.000Z'),
   updatedAt: new Date('2019-01-01T00:00:00.000Z'),
 }
@@ -93,6 +97,15 @@ export const mockAttachment1: Attachment = {
   filepath: 'filepath',
   issue: mockIssue1,
   mime: 'mime',
+  createdAt: new Date('2018-01-01T00:00:00.000Z'),
+  updatedAt: new Date('2019-01-01T00:00:00.000Z'),
+}
+
+export const mockComment1: Comment = {
+  id: 2,
+  author: mockUser1,
+  content: 'content',
+  issue: mockIssue1,
   createdAt: new Date('2018-01-01T00:00:00.000Z'),
   updatedAt: new Date('2019-01-01T00:00:00.000Z'),
 }
@@ -109,6 +122,7 @@ export const mockIssue4: Issue = {
   status: 'doing',
   type: 'bug',
   attachments: [mockAttachment1],
+  comments: [mockComment1],
   createdAt: new Date('2018-01-01T00:00:00.000Z'),
   updatedAt: new Date('2019-01-01T00:00:00.000Z'),
 }
