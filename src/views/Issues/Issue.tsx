@@ -1,24 +1,10 @@
 import { format } from 'date-fns'
 import React from 'react'
-import { Download, Save, Trash } from 'react-feather'
-import {
-  Button,
-  ButtonGroup,
-  Card,
-  CardBody,
-  CardDeck,
-  CardLink,
-  CardTitle,
-  Col,
-  Form,
-  FormGroup,
-  Input,
-  Label,
-  Row,
-} from 'reactstrap'
-import { Attachment } from '../../models/Attachment'
+import { Save, Trash } from 'react-feather'
+import { Button, ButtonGroup, Col, Form, FormGroup, Input, Label, Row } from 'reactstrap'
 import { Issue } from '../../models/Issue'
 import { Release } from '../../models/Release'
+import { Attachments } from '../Attachments/Attachments'
 import { noop } from '../utils'
 
 export interface IIssueProps {
@@ -97,67 +83,5 @@ export default function AddIssue({ issue, repo, releases }: IIssueProps): JSX.El
       </Form>
       {issue && <Attachments repo={repo} issueId={issue.id} attachments={issue?.attachments} />}
     </>
-  )
-}
-
-interface IAttachmentsProps {
-  repo: string
-  issueId: number
-  attachments?: Attachment[]
-}
-
-function Attachments({ repo, issueId, attachments }: IAttachmentsProps) {
-  if (!attachments?.length) {
-    return null
-  }
-
-  return (
-    <div>
-      <h3>
-        Attachments <DownloadAll repo={repo} issueId={issueId} />
-      </h3>
-      <CardDeck>
-        {attachments.map((attachment) => (
-          <AttachmentCard key={attachment.id} attachment={attachment} repo={repo} issueId={issueId} />
-        ))}
-      </CardDeck>
-    </div>
-  )
-}
-
-interface IAttachmentProps {
-  repo: string
-  issueId: number
-  attachment: Attachment
-}
-
-function AttachmentCard({ repo, issueId, attachment }: IAttachmentProps) {
-  return (
-    <Card key={attachment.id} className="d-inline-block">
-      <CardBody>
-        <CardTitle>{attachment.filename}</CardTitle>
-        <CardLink href={`/repo/${repo}/attachments/download/${attachment.id}`}>
-          <Download size={16} className="mb-1" /> Download
-        </CardLink>
-        <CardLink href={`/repo/${repo}/attachments/delete/${attachment.id}?issueId=${issueId}`}>
-          <Trash size={16} className="mb-1" /> Delete
-        </CardLink>
-      </CardBody>
-    </Card>
-  )
-}
-
-interface IDownloadProps {
-  repo: string
-  issueId: number
-}
-
-function DownloadAll({ repo, issueId }: IDownloadProps) {
-  return (
-    <a href={`/repo/${repo}/attachments/download?issueId=${issueId}`}>
-      <small style={{ fontSize: '1rem' }} className="float-right">
-        <Download size={16} className="mb-1" /> Download all
-      </small>
-    </a>
   )
 }

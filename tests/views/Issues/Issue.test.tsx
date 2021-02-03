@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import React from 'react'
 import Issue, { IIssueProps } from '../../../src/views/Issues/Issue'
-import { mockIssue1, mockRelease1, mockRelease2 } from '../../mocks/fixtures'
+import { mockIssue1, mockIssue4, mockRelease1, mockRelease2 } from '../../mocks/fixtures'
 
 describe('Issue', () => {
   const props: IIssueProps = {
@@ -73,5 +73,15 @@ describe('Issue', () => {
   it('should not render delete issue button without issue', () => {
     render(<Issue {...props} issue={undefined} />)
     expect(screen.queryByText('Delete')).not.toBeInTheDocument()
+  })
+
+  it('should not render attachments section without issue', () => {
+    render(<Issue {...props} issue={undefined} />)
+    expect(screen.queryByText('Attachments')).not.toBeInTheDocument()
+  })
+
+  it('should render attachments section if attachments are present', () => {
+    render(<Issue {...props} issue={mockIssue4} />)
+    expect(screen.queryByText('Attachments')).toBeInTheDocument()
   })
 })
