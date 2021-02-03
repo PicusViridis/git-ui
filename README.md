@@ -16,17 +16,17 @@ You can use the [docker-compose.yml](./docker-compose.yml) provided as an exampl
 
 ### Using source code (production)
 
--   Download the latest release of git-ui
--   Install packages using command `yarn install --production`
--   Make sure that your system is configured with the appropriate environment variables (see below)
--   Run project using command `yarn start`
+- Download the latest release of git-ui
+- Install packages using command `yarn install --production`
+- Make sure that your system is configured with the appropriate environment variables (see below)
+- Run project using command `yarn start`
 
 ### Using source code (development)
 
--   Download the latest release of git-ui
--   Install packages using command `yarn install`
--   Rename [.env.template](./.env.template) to `.env` and fill it with appropriate values
--   Run project using command `yarn start:dev`
+- Download the latest release of git-ui
+- Install packages using command `yarn install`
+- Rename [.env.template](./.env.template) to `.env` and fill it with appropriate values
+- Run project using command `yarn start:dev`
 
 ## Running Git UI
 
@@ -38,9 +38,15 @@ Make sure that `git` is installed on your server as git command are used by the 
 
 ## Environment variables
 
-| Variable    | Value type                     | Description                     |
-| ----------- | ------------------------------ | ------------------------------- |
-| NODE_ENV    | development \| production      | Environment of the application  |
-| APP_KEY     | string                         | App key for session             |
-| COOKIE_NAME | string                         | Cookie name for storing session |
-| LOG_LEVEL   | debug \| info \| warn \| error | Level of the loger              |
+| Variable      | Value type                     | Default value | Description                                      |
+| ------------- | ------------------------------ | ------------- | ------------------------------------------------ |
+| NODE_ENV      | development \| production      |               | Environment of the application                   |
+| APP_KEY       | string                         |               | App key for session                              |
+| APP_PORT      | number                         | 80            | App port                                         |
+| LOG_LEVEL     | debug \| info \| warn \| error | info          | Level of the loger                               |
+| SESSION_DIR   | string                         |               | Directory to store session                       |
+| REPO_DIR      | string                         |               | Directory where repositories are stored          |
+| UPLOAD_DIR    | string                         |               | Directory to store attachments                   |
+| DB_PATH       | string                         |               | Path of sqlite database                          |
+| COOKIE_DOMAIN | string                         |               | Domain of the session cookie                     |
+| MYSQL_LOGGING | boolean                        |               | Should mysql queries be logged to console or not |

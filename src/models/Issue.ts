@@ -4,10 +4,12 @@ import {
   Entity,
   getConnection,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   Repository,
   UpdateDateColumn,
 } from 'typeorm'
+import { Attachment } from './Attachment'
 import { Release } from './Release'
 import { User } from './User'
 
@@ -58,4 +60,7 @@ export class Issue {
 
   @UpdateDateColumn()
   updatedAt: Date
+
+  @OneToMany(() => Attachment, (attachment) => attachment.issue)
+  attachments: Attachment[]
 }

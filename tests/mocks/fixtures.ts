@@ -1,3 +1,4 @@
+import { Attachment } from '../../src/models/Attachment'
 import { Issue } from '../../src/models/Issue'
 import { Release } from '../../src/models/Release'
 import { User } from '../../src/models/User'
@@ -49,6 +50,7 @@ export const mockIssue1: Issue = {
   repo: 'repo',
   status: 'doing',
   type: 'bug',
+  attachments: [],
   createdAt: new Date('2018-01-01T00:00:00.000Z'),
   updatedAt: new Date('2019-01-01T00:00:00.000Z'),
 }
@@ -64,6 +66,7 @@ export const mockIssue2: Issue = {
   repo: 'repo',
   status: 'to do',
   type: 'feature',
+  attachments: [],
   createdAt: new Date('2018-01-01T00:00:00.000Z'),
   updatedAt: new Date('2019-01-01T00:00:00.000Z'),
 }
@@ -79,6 +82,33 @@ export const mockIssue3: Issue = {
   repo: 'repo',
   status: 'doing',
   type: 'bug',
+  attachments: [],
+  createdAt: new Date('2018-01-01T00:00:00.000Z'),
+  updatedAt: new Date('2019-01-01T00:00:00.000Z'),
+}
+
+export const mockAttachment1: Attachment = {
+  id: 2,
+  filename: 'filename',
+  filepath: 'filepath',
+  issue: mockIssue1,
+  mime: 'mime',
+  createdAt: new Date('2018-01-01T00:00:00.000Z'),
+  updatedAt: new Date('2019-01-01T00:00:00.000Z'),
+}
+
+export const mockIssue4: Issue = {
+  id: 4,
+  title: 'title1',
+  description: 'a'.repeat(100),
+  author: mockUser1,
+  points: 5,
+  priority: 1,
+  release: mockRelease1,
+  repo: 'repo',
+  status: 'doing',
+  type: 'bug',
+  attachments: [mockAttachment1],
   createdAt: new Date('2018-01-01T00:00:00.000Z'),
   updatedAt: new Date('2019-01-01T00:00:00.000Z'),
 }
