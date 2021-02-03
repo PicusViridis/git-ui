@@ -23,10 +23,10 @@ describe('getIssue', () => {
     clearMockRes()
 
     releaseMock = mockRepository(Release.getRepository as jest.Mock)
-    releaseMock.find.mockResolvedValue('releases')
+    releaseMock.find.mockResolvedValue([{ id: 'releaseId' }])
 
     issueMock = mockRepository(Issue.getRepository as jest.Mock)
-    issueMock.findOne.mockResolvedValue('issue')
+    issueMock.findOne.mockResolvedValue({ release: { id: 'releaseId' } })
   })
 
   it('should get releases', async () => {
@@ -38,17 +38,29 @@ describe('getIssue', () => {
 
   it('should get issue', async () => {
     await getIssue(req, res)
-    expect(issueMock.findOne).toHaveBeenCalledWith('id', { relations: ['release'] })
+    expect(issueMock.findOne).toHaveBeenCalledWith('id', { relations: ['release', 'attachments'] })
+  })
+
+  it('should add issue release in releases array', async () => {
+    await getIssue(req, res)
+    expect(res.render).toHaveBeenCalledWith('Issues/Issue', {
+      releases: [{ id: 'releaseId' }],
+      issue: { release: { id: 'releaseId' } },
+    })
   })
 
   it('should render issue page with release and issue', async () => {
+    releaseMock.find.mockResolvedValue([{ id: 'releaseId2' }])
     await getIssue(req, res)
-    expect(res.render).toHaveBeenCalledWith('Issues/Issue', { releases: 'releases', issue: 'issue' })
+    expect(res.render).toHaveBeenCalledWith('Issues/Issue', {
+      releases: [{ id: 'releaseId2' }, { id: 'releaseId' }],
+      issue: { release: { id: 'releaseId' } },
+    })
   })
 
   it('should render issue page with releases if id is not present', async () => {
     const req = getMockReq<Request<{ repo: string; id: string }>>({ params: { repo: 'repo' } })
     await getIssue(req, res)
-    expect(res.render).toHaveBeenCalledWith('Issues/Issue', { releases: 'releases' })
+    expect(res.render).toHaveBeenCalledWith('Issues/Issue', { releases: [{ id: 'releaseId' }] })
   })
 })
