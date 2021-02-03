@@ -15,7 +15,7 @@ export async function downloadAttachments(req: Req, res: Response): Promise<void
   for (const attachment of attachments) {
     archive.file(path.join(config.uploadDir, attachment.filepath), { name: attachment.filename })
   }
-  res.setHeader('Content-disposition', `attachment; filename=attachments.zip`)
+  res.set('Content-disposition', `attachment; filename=attachments.zip`)
   res.set('Content-Type', 'application/zip')
   archive.finalize()
 }
