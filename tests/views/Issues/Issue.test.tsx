@@ -84,4 +84,14 @@ describe('Issue', () => {
     render(<Issue {...props} issue={mockIssue4} />)
     expect(screen.queryByText('Attachments')).toBeInTheDocument()
   })
+
+  it('should not render comment section without issue', () => {
+    render(<Issue {...props} issue={undefined} />)
+    expect(screen.queryByText('Comments')).not.toBeInTheDocument()
+  })
+
+  it('should render comment section if comment are present', () => {
+    render(<Issue {...props} issue={mockIssue4} />)
+    expect(screen.queryByText('Comments')).toBeInTheDocument()
+  })
 })

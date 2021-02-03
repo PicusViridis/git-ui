@@ -5,6 +5,7 @@ import { Button, ButtonGroup, Col, Form, FormGroup, Input, Label, Row } from 're
 import { Issue } from '../../models/Issue'
 import { Release } from '../../models/Release'
 import { Attachments } from '../Attachments/Attachments'
+import { Comments } from '../Comments/Comments'
 import { noop } from '../utils'
 
 export interface IIssueProps {
@@ -82,6 +83,7 @@ export default function AddIssue({ issue, repo, releases }: IIssueProps): JSX.El
         </FormGroup>
       </Form>
       {issue && <Attachments repo={repo} issueId={issue.id} attachments={issue?.attachments} />}
+      {issue && <Comments repo={repo} issueId={issue.id} comments={issue?.comments} />}
     </>
   )
 }

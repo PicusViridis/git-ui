@@ -10,6 +10,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm'
 import { Attachment } from './Attachment'
+import { Comment } from './Comment'
 import { Release } from './Release'
 import { User } from './User'
 
@@ -63,4 +64,7 @@ export class Issue {
 
   @OneToMany(() => Attachment, (attachment) => attachment.issue)
   attachments: Attachment[]
+
+  @OneToMany(() => Comment, (comment) => comment.issue)
+  comments: Comment[]
 }
