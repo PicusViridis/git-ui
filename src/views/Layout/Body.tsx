@@ -1,5 +1,6 @@
 import React, { PropsWithChildren } from 'react'
 import { Container } from 'reactstrap'
+import { Page } from '../../models/Pages'
 import { User } from '../../models/User'
 import { Header } from '../Header/Header'
 import { Nav } from '../Nav/Nav'
@@ -11,7 +12,7 @@ export interface IBodyProps {
   branch: string
   path: string
   branches: string[]
-  active: 'files' | 'commits' | 'issues'
+  active: Page
 }
 
 export function Body({ title, user, branches, children, ...props }: PropsWithChildren<IBodyProps>): JSX.Element {

@@ -28,7 +28,7 @@ export interface INavProps {
 }
 
 export function Nav({ repo, branch, branches, path, active }: INavProps): JSX.Element | null {
-  if (!repo || active === 'issues' || active === 'releases' || active === 'board') {
+  if (!repo) {
     return null
   }
 

@@ -42,8 +42,5 @@ describe('Header', () => {
     render(<Header {...props} repo="repo" />)
     expect(screen.getByText('Files')).toHaveAttribute('href', '/repo/repo/branch/files?path=path')
     expect(screen.getByText('Commits')).toHaveAttribute('href', '/repo/repo/branch/commits?path=path')
-    expect(screen.getByText('Issues')).toHaveAttribute('href', '/repo/repo/issues/list')
-    expect(screen.getByText('Releases')).toHaveAttribute('href', '/repo/repo/releases/list')
-    expect(screen.getByText('Board')).toHaveAttribute('href', '/repo/repo/board')
   })
 })

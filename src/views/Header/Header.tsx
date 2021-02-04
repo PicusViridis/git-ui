@@ -51,21 +51,6 @@ export function Header({ title, user, repo, branch, path, active }: IHeaderProps
                 Commits
               </NavLink>
             </NavItem>
-            <NavItem>
-              <NavLink className={className('issues')} href={`/repo/${repo}/issues/list`}>
-                Issues
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink className={className('releases')} href={`/repo/${repo}/releases/list`}>
-                Releases
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink className={className('board')} href={`/repo/${repo}/board`}>
-                Board
-              </NavLink>
-            </NavItem>
           </Nav>
         )}
       </Jumbotron>

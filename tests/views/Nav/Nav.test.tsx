@@ -16,21 +16,6 @@ describe('Nav', () => {
     expect(baseElement.firstChild).toBeEmptyDOMElement()
   })
 
-  it('should render nothing if active page is issues', () => {
-    const { baseElement } = render(<Nav {...props} active="issues" />)
-    expect(baseElement.firstChild).toBeEmptyDOMElement()
-  })
-
-  it('should render nothing if active page is releases', () => {
-    const { baseElement } = render(<Nav {...props} active="releases" />)
-    expect(baseElement.firstChild).toBeEmptyDOMElement()
-  })
-
-  it('should render nothing if active page is board', () => {
-    const { baseElement } = render(<Nav {...props} active="board" />)
-    expect(baseElement.firstChild).toBeEmptyDOMElement()
-  })
-
   it('should render current branch name', () => {
     render(<Nav {...props} />)
     expect(screen.getByDisplayValue('active branch')).toBeInTheDocument()

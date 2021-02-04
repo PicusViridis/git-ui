@@ -1,1 +1,1 @@
-export type Page = 'files' | 'commits' | 'issues' | 'releases' | 'board'
+export type Page = 'files' | 'commits'

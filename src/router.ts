@@ -1,24 +1,9 @@
 import { Router } from 'express'
-import { deleteAttachment } from './controllers/attachments/deleteAttachment'
-import { downloadAttachment } from './controllers/attachments/downloadAttachment'
-import { downloadAttachments } from './controllers/attachments/downloadAttachments'
-import { getBoard } from './controllers/board/getBoard'
-import { deleteComment } from './controllers/comments/deleteComment'
-import { saveComment } from './controllers/comments/saveComment'
 import { getCommit } from './controllers/commits/getCommit'
 import { getCommits } from './controllers/commits/getCommits'
 import { downloadFile } from './controllers/files/downloadFile'
 import { getFile } from './controllers/files/getFile'
 import { getHome } from './controllers/home/getHome'
-import { deleteIssue } from './controllers/issues/deleteIssue'
-import { getIssue } from './controllers/issues/getIssue'
-import { getIssues } from './controllers/issues/getIssues'
-import { moveIssue } from './controllers/issues/moveIssue'
-import { saveIssue } from './controllers/issues/saveIssue'
-import { deleteRelease } from './controllers/releases/deleteRelease'
-import { getRelease } from './controllers/releases/getRelease'
-import { getReleases } from './controllers/releases/getReleases'
-import { saveRelease } from './controllers/releases/saveRelease'
 import { getLogin } from './controllers/session/getLogin'
 import { getLogout } from './controllers/session/getLogout'
 import { postLogin } from './controllers/session/postLogin'
@@ -26,7 +11,6 @@ import { addUser } from './controllers/users/addUser'
 import { deleteUser } from './controllers/users/deleteUser'
 import { getUsers } from './controllers/users/getUsers'
 import { postUser } from './controllers/users/postUser'
-import { fileUpload } from './middlewares/fileUpload'
 import { repo } from './middlewares/repo'
 import { hasSession } from './middlewares/session'
 
@@ -44,29 +28,6 @@ router.get('/users/list', getUsers)
 router.get('/users/add', addUser)
 router.post('/users/add', postUser)
 router.get('/users/delete/:id', deleteUser)
-
-router.use('/repo/:repo/issues', repo('issues'))
-router.get('/repo/:repo/issues/list', getIssues)
-router.get('/repo/:repo/issues/edit/:id?', getIssue)
-router.post('/repo/:repo/issues/edit/:id?', fileUpload, saveIssue)
-router.post('/repo/:repo/issues/move/:id', moveIssue)
-router.get('/repo/:repo/issues/delete/:id', deleteIssue)
-
-router.get('/repo/:repo/attachments/delete/:id', deleteAttachment)
-router.get('/repo/:repo/attachments/download', downloadAttachments)
-router.get('/repo/:repo/attachments/download/:id', downloadAttachment)
-
-router.get('/repo/:repo/comments/delete/:id', deleteComment)
-router.post('/repo/:repo/comments/edit', saveComment)
-
-router.use('/repo/:repo/releases', repo('releases'))
-router.get('/repo/:repo/releases/list', getReleases)
-router.get('/repo/:repo/releases/edit/:id?', getRelease)
-router.post('/repo/:repo/releases/edit/:id?', saveRelease)
-router.get('/repo/:repo/releases/delete/:id', deleteRelease)
-
-router.use('/repo/:repo/board', repo('board'))
-router.get('/repo/:repo/board', getBoard)
 
 router.use('/repo/:repo/:branch/files', repo('files'))
 router.get('/repo/:repo/:branch/files', getFile)

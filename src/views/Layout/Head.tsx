@@ -17,7 +17,6 @@ export function Head({ title }: IHeadProps): JSX.Element {
       />
       <script type="text/javascript" src="/scripts/copy.js" defer></script>
       <script type="text/javascript" src="/scripts/change-branch.js" defer></script>
-      <script type="text/javascript" src="/scripts/tickets.js" defer></script>
       <style>.d2h-files-diff &#123; height: unset &#125;</style>
     </>
   )
