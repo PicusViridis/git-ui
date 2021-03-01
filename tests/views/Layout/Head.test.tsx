@@ -5,6 +5,6 @@ import { Head } from '../../../src/views/Layout/Head'
 describe('Head', () => {
   it('should render title in page title', () => {
     render(<Head title="Title" />)
-    expect(screen.getByText('Git UI - Title')).toBeInTheDocument()
+    expect(screen.getByText('Mini Git - Title')).toBeInTheDocument()
   })
 })

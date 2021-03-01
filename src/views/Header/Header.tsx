@@ -21,7 +21,7 @@ export function Header({ title, user, repo, branch, path, active }: IHeaderProps
   return (
     <header>
       <Navbar color="primary" dark expand="md">
-        <NavbarBrand href="/">Git UI</NavbarBrand>
+        <NavbarBrand href="/">Mini Git</NavbarBrand>
         {user && (
           <Nav className="ml-auto" navbar>
             <NavItem>

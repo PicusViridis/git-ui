@@ -7,7 +7,7 @@ interface IHeadProps {
 export function Head({ title }: IHeadProps): JSX.Element {
   return (
     <>
-      <title>Git UI - {title}</title>
+      <title>Mini Git - {title}</title>
       <link rel="icon" type="image/png" href="/favicon.svg" />
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/diff2html@3.2.0/bundles/css/diff2html.min.css" />

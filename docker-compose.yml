@@ -2,7 +2,7 @@ version: '3'
 
 services:
   gitui:
-    image: saramorillon/git-ui:latest
+    image: saramorillon/mini-git:latest
     container_name: gitui
     restart: always
     ports:
