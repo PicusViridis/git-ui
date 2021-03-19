@@ -1,8 +1,8 @@
+import { downloadFile, Res } from '@/controllers/files/downloadFile'
+import { RepositoryService } from '@/libs/repositories'
 import { getMockReq, getMockRes } from '@jest-mock/express'
-import { downloadFile, Res } from '../../../src/controllers/files/downloadFile'
-import { RepositoryService } from '../../../src/libs/repositories'
 
-jest.mock('../../../src/libs/repositories')
+jest.mock('@/libs/repositories')
 
 const getStreamMock = RepositoryService.getStream as jest.Mock
 

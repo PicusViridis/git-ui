@@ -1,8 +1,8 @@
+import { getCommit, Req, Res } from '@/controllers/commits/getCommit'
+import { RepositoryService } from '@/libs/repositories'
 import { getMockReq, getMockRes } from '@jest-mock/express'
-import { getCommit, Req, Res } from '../../../src/controllers/commits/getCommit'
-import { RepositoryService } from '../../../src/libs/repositories'
 
-jest.mock('../../../src/libs/repositories')
+jest.mock('@/libs/repositories')
 
 const getCommitDiffMock = RepositoryService.getCommitDiff as jest.Mock
 

@@ -1,8 +1,8 @@
+import { getCommits, getPagination, Req, Res } from '@/controllers/commits/getCommits'
+import { RepositoryService } from '@/libs/repositories'
 import { getMockReq, getMockRes } from '@jest-mock/express'
-import { getCommits, getPagination, Req, Res } from '../../../src/controllers/commits/getCommits'
-import { RepositoryService } from '../../../src/libs/repositories'
 
-jest.mock('../../../src/libs/repositories')
+jest.mock('@/libs/repositories')
 
 const getCommitsMock = RepositoryService.getCommits as jest.Mock
 

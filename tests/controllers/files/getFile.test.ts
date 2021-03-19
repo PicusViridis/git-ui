@@ -1,8 +1,8 @@
+import { getFile, Res } from '@/controllers/files/getFile'
+import { RepositoryService } from '@/libs/repositories'
 import { getMockReq, getMockRes } from '@jest-mock/express'
-import { getFile, Res } from '../../../src/controllers/files/getFile'
-import { RepositoryService } from '../../../src/libs/repositories'
 
-jest.mock('../../../src/libs/repositories')
+jest.mock('@/libs/repositories')
 
 const getFileTypeMock = RepositoryService.getFileType as jest.Mock
 const getContentMock = RepositoryService.getContent as jest.Mock

@@ -1,6 +1,6 @@
+import Home, { IHomeProps } from '@/views/Home/Home'
 import { render, screen } from '@testing-library/react'
 import React from 'react'
-import Home, { IHomeProps } from '../../../src/views/Home/Home'
 
 describe('Home', () => {
   const props: IHomeProps = {

@@ -1,8 +1,8 @@
+import { getHome } from '@/controllers/home/getHome'
+import { RepositoryService } from '@/libs/repositories'
 import { getMockReq, getMockRes } from '@jest-mock/express'
-import { getHome } from '../../../src/controllers/home/getHome'
-import { RepositoryService } from '../../../src/libs/repositories'
 
-jest.mock('../../../src/libs/repositories')
+jest.mock('@/libs/repositories')
 
 const listRepositoriesMock = RepositoryService.listRepositories as jest.Mock
 

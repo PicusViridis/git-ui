@@ -1,6 +1,6 @@
+import { INavProps, Nav } from '@/views/Nav/Nav'
 import { render, screen } from '@testing-library/react'
 import React from 'react'
-import { INavProps, Nav } from '../../../src/views/Nav/Nav'
 
 describe('Nav', () => {
   const props: INavProps = {

@@ -1,10 +1,10 @@
+import { GitService } from '@/libs/git'
+import { logger } from '@/libs/logger'
+import { RepositoryService } from '@/libs/repositories'
 import { promises as fse } from 'fs'
-import { GitService } from '../../src/libs/git'
-import { logger } from '../../src/libs/logger'
-import { RepositoryService } from '../../src/libs/repositories'
 
-jest.mock('../../src/libs/logger')
-jest.mock('../../src/libs/git')
+jest.mock('@/libs/logger')
+jest.mock('@/libs/git')
 
 describe('listRepositories', () => {
   let readdirSpy: jest.SpyInstance

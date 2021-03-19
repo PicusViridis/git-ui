@@ -1,4 +1,4 @@
-import { User } from '../../src/models/User'
+import { User } from '@/models/User'
 
 export const mockUser1: User = {
   id: 1,

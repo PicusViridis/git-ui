@@ -1,7 +1,7 @@
+import { EMPTY_TREE_HASH, GitService, LOG_FORMAT } from '@/libs/git'
 import exec from 'async-exec'
 import { promises as fse } from 'fs'
 import mockdate from 'mockdate'
-import { EMPTY_TREE_HASH, GitService, LOG_FORMAT } from '../../src/libs/git'
 
 mockdate.set('2020-01-01T00:00:00.000Z')
 
