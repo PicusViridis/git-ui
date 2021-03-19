@@ -114,4 +114,9 @@ export const RepositoryService = {
     const diff = await GitService.getDiffs(repoPath, currentPath, hash)
     return { message: commit.message, diff }
   },
+
+  async createRepository(repoName: string): Promise<void> {
+    const repoPath = join(repoDir, repoName)
+    await GitService.createRepository(repoPath)
+  },
 }

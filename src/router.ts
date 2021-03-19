@@ -4,6 +4,8 @@ import { getCommits } from './controllers/commits/getCommits'
 import { downloadFile } from './controllers/files/downloadFile'
 import { getFile } from './controllers/files/getFile'
 import { getHome } from './controllers/home/getHome'
+import { addRepo } from './controllers/repos/addRepo'
+import { postRepo } from './controllers/repos/postRepo'
 import { getLogin } from './controllers/session/getLogin'
 import { getLogout } from './controllers/session/getLogout'
 import { postLogin } from './controllers/session/postLogin'
@@ -23,6 +25,9 @@ router.use(hasSession())
 
 router.get('/', getHome)
 router.get('/logout', getLogout)
+
+router.get('/repos/add', addRepo)
+router.post('/repos/add', postRepo)
 
 router.get('/users/list', getUsers)
 router.get('/users/add', addUser)

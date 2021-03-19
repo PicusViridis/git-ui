@@ -81,4 +81,13 @@ export const GitService = {
     const [parent] = log.split('\n')
     return exec(`git -C ${repoPath} diff-tree -w -p ${parent || EMPTY_TREE_HASH} ${branch} -- ${filePath}`)
   },
+
+  async createRepository(repoPath: string): Promise<void> {
+    await exec(`mkdir -p ${repoPath}`)
+    await exec(`cd ${repoPath}; git init --bare`)
+    await exec(`cd ${repoPath}; touch git-daemon-export-ok`)
+    await exec(`cd ${repoPath}; cp hooks/post-update.sample hooks/post-update`)
+    await exec(`cd ${repoPath}; git config http.receivepack true`)
+    await exec(`cd ${repoPath}; git update-server-info`)
+  },
 }

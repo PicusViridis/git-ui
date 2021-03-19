@@ -200,4 +200,42 @@ describe('getDiffs', () => {
     const result = await GitService.getDiffs('repoPath', 'filePath', 'branch')
     expect(result).toBe('diffs\n')
   })
+
+  describe('createRepository', () => {
+    it('should create folder', async () => {
+      execMock.mockResolvedValue('\n')
+      await GitService.createRepository('repoPath')
+      expect(execMock).toHaveBeenCalledWith(`mkdir -p repoPath`)
+    })
+
+    it('should init git repository', async () => {
+      execMock.mockResolvedValue('\n')
+      await GitService.createRepository('repoPath')
+      expect(execMock).toHaveBeenCalledWith('cd repoPath; git init --bare')
+    })
+
+    it('should mark repository for export', async () => {
+      execMock.mockResolvedValue('\n')
+      await GitService.createRepository('repoPath')
+      expect(execMock).toHaveBeenCalledWith('cd repoPath; touch git-daemon-export-ok')
+    })
+
+    it('should copy post update hook', async () => {
+      execMock.mockResolvedValue('\n')
+      await GitService.createRepository('repoPath')
+      expect(execMock).toHaveBeenCalledWith('cd repoPath; cp hooks/post-update.sample hooks/post-update')
+    })
+
+    it('should configure http.receivepack', async () => {
+      execMock.mockResolvedValue('\n')
+      await GitService.createRepository('repoPath')
+      expect(execMock).toHaveBeenCalledWith('cd repoPath; git config http.receivepack true')
+    })
+
+    it('should update server info', async () => {
+      execMock.mockResolvedValue('\n')
+      await GitService.createRepository('repoPath')
+      expect(execMock).toHaveBeenCalledWith('cd repoPath; git update-server-info')
+    })
+  })
 })

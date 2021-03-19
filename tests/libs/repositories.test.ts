@@ -286,3 +286,10 @@ describe('getCommitDiff', () => {
     expect(result).toEqual({ message: 'message', diff: 'diff' })
   })
 })
+
+describe('createRepository', () => {
+  it('should create repository', async () => {
+    await RepositoryService.createRepository('repoName')
+    expect(GitService.createRepository).toHaveBeenCalledWith('repos/repoName')
+  })
+})
