@@ -1,3 +1,4 @@
+import exec from 'async-exec'
 import { promises as fse } from 'fs'
 import { highlightAuto } from 'highlight.js'
 import { join } from 'path'
@@ -9,13 +10,22 @@ import { ICommitsProps } from '../views/Commits/Commits'
 import { IFilesProps } from '../views/Files/Files'
 import { IHomeProps } from '../views/Home/Home'
 import { GitService } from './git'
-import { logger } from './logger'
 
 const { repoDir } = config
 
 export const MAX_COMMIT_PER_PAGE = 10
 
 export const RepositoryService = {
+  async isEmpty(repoName: string): Promise<boolean> {
+    const repoPath = join(repoDir, repoName)
+    try {
+      await GitService.log(repoPath, '.', 'master')
+      return false
+    } catch (error) {
+      return true
+    }
+  },
+
   async listRepositories(): Promise<IHomeProps['repositories']> {
     const repos = await fse.readdir(repoDir)
     const result = []
@@ -23,17 +33,11 @@ export const RepositoryService = {
       const repoPath = join(repoDir, repo)
       const isGitRepo = await GitService.isGitRepo(repoPath)
       if (isGitRepo) {
-        try {
-          const [{ date }] = await GitService.log(repoPath, '.')
-          result.push({ name: repo, lastUpdateDate: date })
-        } catch (error) {
-          logger.warn(`Ignoring empty repository "${repo}"`)
-        }
+        const updatedAt = await exec(`stat -c %y ${repoPath}`)
+        result.push({ name: repo, updatedAt: updatedAt.trim() })
       }
     }
-    return result.sort((repo1, repo2) => {
-      return repo2.lastUpdateDate.localeCompare(repo1.lastUpdateDate)
-    })
+    return result.sort((repo1, repo2) => repo2.updatedAt.localeCompare(repo1.updatedAt))
   },
 
   async getFileType(repoName: string, currentPath: string, branch: string): Promise<'file' | 'folder'> {

@@ -1,21 +1,45 @@
 import { GitService } from '@/libs/git'
-import { logger } from '@/libs/logger'
 import { RepositoryService } from '@/libs/repositories'
+import exec from 'async-exec'
 import { promises as fse } from 'fs'
 
 jest.mock('@/libs/logger')
 jest.mock('@/libs/git')
+jest.mock('async-exec')
+
+describe('isEmpty', () => {
+  const logMock = GitService.log as jest.Mock
+
+  it('should call log command', async () => {
+    logMock.mockResolvedValue('')
+    await RepositoryService.isEmpty('repoName')
+    expect(logMock).toHaveBeenCalledWith('repos/repoName', '.', 'master')
+  })
+
+  it('should return false if log command succeeds', async () => {
+    logMock.mockResolvedValue('')
+    const isEmpty = await RepositoryService.isEmpty('repoName')
+    expect(isEmpty).toBe(false)
+  })
+
+  it('should return true if log command fails', async () => {
+    logMock.mockRejectedValue(new Error())
+    const isEmpty = await RepositoryService.isEmpty('repoName')
+    expect(isEmpty).toBe(true)
+  })
+})
 
 describe('listRepositories', () => {
   let readdirSpy: jest.SpyInstance
 
   const isGitRepoMock = GitService.isGitRepo as jest.Mock
-  const logMock = GitService.log as jest.Mock
+  const execMock = exec as jest.Mock
 
   beforeEach(() => {
     readdirSpy = jest.spyOn(fse, 'readdir')
     readdirSpy.mockResolvedValue(['repoName'])
     isGitRepoMock.mockResolvedValue(false)
+    execMock.mockResolvedValue('updated at')
   })
 
   it('should check if path is git repo', async () => {
@@ -23,10 +47,9 @@ describe('listRepositories', () => {
     expect(isGitRepoMock).toHaveBeenCalledWith('repos/repoName')
   })
 
-  it('should do nothing if path is not a git repository', async () => {
-    const result = await RepositoryService.listRepositories()
-    expect(logMock).not.toHaveBeenCalled()
-    expect(result).toEqual([])
+  it('should not get update date if path is not a git repository', async () => {
+    await RepositoryService.listRepositories()
+    expect(execMock).not.toHaveBeenCalled()
   })
 
   it('should not add path to result if path is not a git repository', async () => {
@@ -34,42 +57,27 @@ describe('listRepositories', () => {
     expect(result).toEqual([])
   })
 
-  it('should get last commit date if path is a git repository', async () => {
+  it('should get update date if path is a git repository', async () => {
     isGitRepoMock.mockResolvedValue(true)
     await RepositoryService.listRepositories()
-    expect(logMock).toHaveBeenCalledWith('repos/repoName', '.')
-  })
-
-  it('should log if repository is empty', async () => {
-    isGitRepoMock.mockResolvedValue(true)
-    logMock.mockRejectedValue(new Error())
-    await RepositoryService.listRepositories()
-    expect(logger.warn).toHaveBeenCalledWith('Ignoring empty repository "repoName"')
-  })
-
-  it('should not add path to result if repository is empty', async () => {
-    isGitRepoMock.mockResolvedValue(true)
-    logMock.mockRejectedValue(new Error())
-    const result = await RepositoryService.listRepositories()
-    expect(result).toEqual([])
+    expect(execMock).toHaveBeenCalledWith('stat -c %y repos/repoName')
   })
 
   it('should add path to result', async () => {
     isGitRepoMock.mockResolvedValue(true)
-    logMock.mockResolvedValue([{ date: 'last commit date' }])
     const result = await RepositoryService.listRepositories()
-    expect(result).toEqual([{ name: 'repoName', lastUpdateDate: 'last commit date' }])
+    expect(result).toEqual([{ name: 'repoName', updatedAt: 'updated at' }])
   })
 
   it('should sort repositories by update date', async () => {
     readdirSpy.mockResolvedValue(['repo1', 'repo2'])
     isGitRepoMock.mockResolvedValue(true)
-    logMock.mockResolvedValueOnce([{ date: '2020-01-01T00:00:00.000Z' }])
-    logMock.mockResolvedValueOnce([{ date: '2021-01-01T00:00:00.000Z' }])
+    execMock.mockResolvedValueOnce('2020-01-01')
+    execMock.mockResolvedValueOnce('2021-01-01')
     const result = await RepositoryService.listRepositories()
     expect(result).toEqual([
-      { lastUpdateDate: '2021-01-01T00:00:00.000Z', name: 'repo2' },
-      { lastUpdateDate: '2020-01-01T00:00:00.000Z', name: 'repo1' },
+      { updatedAt: '2021-01-01', name: 'repo2' },
+      { updatedAt: '2020-01-01', name: 'repo1' },
     ])
   })
 })

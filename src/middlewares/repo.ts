@@ -20,8 +20,19 @@ export function repo(active: Page) {
   return async function (req: Request<P, unknown, unknown, Q>, res: Response, next: NextFunction): Promise<void> {
     const { repo, branch = 'master' } = req.params
     const { path = '.' } = req.query
-    const branches = await RepositoryService.listBranches(repo)
-    res.locals = { ...res.locals, title: repo, repo, path, branch, branches, active }
+    res.locals.title = repo
+    res.locals.repo = repo
+    res.locals.path = path
+    res.locals.branch = branch
+    res.locals.active = active
+
+    const isEmpty = await RepositoryService.isEmpty(repo)
+    if (isEmpty) {
+      res.render('Repos/Empty', { url: `${req.protocol}://${req.get('host')}` })
+      return
+    }
+
+    res.locals.branches = await RepositoryService.listBranches(repo)
     return next()
   }
 }

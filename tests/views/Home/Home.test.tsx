@@ -7,7 +7,7 @@ describe('Home', () => {
     repositories: [
       {
         name: 'name',
-        lastUpdateDate: 'lastUpdateDate',
+        updatedAt: '2021-01-01 00:00:00.000000000 +0000',
       },
     ],
   }
@@ -24,6 +24,6 @@ describe('Home', () => {
 
   it('should render repository date', () => {
     render(<Home {...props} />)
-    expect(screen.getByText('Updated lastUpdateDate')).toBeInTheDocument()
+    expect(screen.getByText('Updated Jan 1, 2021')).toBeInTheDocument()
   })
 })
