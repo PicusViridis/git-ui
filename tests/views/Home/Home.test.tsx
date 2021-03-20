@@ -7,7 +7,7 @@ describe('Home', () => {
     repositories: [
       {
         name: 'name',
-        updatedAt: '2021-01-01 00:00:00.000000000 +0000',
+        updatedAt: '2021-01-01 00:00:00',
       },
     ],
   }

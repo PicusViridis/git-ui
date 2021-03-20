@@ -3,7 +3,7 @@ import React from 'react'
 import { Plus } from 'react-feather'
 import { Container } from 'reactstrap'
 
-const FORMAT = 'yyyy-MM-dd HH:mm:ss.SSSSSSSSS XX'
+const FORMAT = 'yyyy-MM-dd HH:mm:ss'
 
 interface IRepositoryCardProps {
   repo: {

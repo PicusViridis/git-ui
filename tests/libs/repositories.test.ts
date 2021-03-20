@@ -60,7 +60,7 @@ describe('listRepositories', () => {
   it('should get update date if path is a git repository', async () => {
     isGitRepoMock.mockResolvedValue(true)
     await RepositoryService.listRepositories()
-    expect(execMock).toHaveBeenCalledWith('stat -c %y repos/repoName')
+    expect(execMock).toHaveBeenCalledWith('date -r repos/repoName "+%Y-%m-%d %H:%M:%S"')
   })
 
   it('should add path to result', async () => {

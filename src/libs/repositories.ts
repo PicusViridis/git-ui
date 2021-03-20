@@ -33,7 +33,7 @@ export const RepositoryService = {
       const repoPath = join(repoDir, repo)
       const isGitRepo = await GitService.isGitRepo(repoPath)
       if (isGitRepo) {
-        const updatedAt = await exec(`stat -c %y ${repoPath}`)
+        const updatedAt = await exec(`date -r ${repoPath} "+%Y-%m-%d %H:%M:%S"`)
         result.push({ name: repo, updatedAt: updatedAt.trim() })
       }
     }
