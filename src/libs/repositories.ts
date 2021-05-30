@@ -54,8 +54,7 @@ export const RepositoryService = {
     const files = await GitService.listFiles(repoPath, currentPath + '/', branch)
     const mapped = await Promise.all(
       files.map(async (file) => {
-        const { type } = file
-        const path = file.path + (type === 'folder' ? '/' : '')
+        const { type, path } = file
         const name = file.path.split('/').pop() || ''
         const icon = getIcon(type, name)
         const [lastCommit] = await GitService.log(repoPath, path, branch)

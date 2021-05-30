@@ -126,7 +126,7 @@ describe('getFiles', () => {
   it('should get last commit for each file', async () => {
     await RepositoryService.getFiles('repoName', 'currentPath', 'branch')
     expect(logMock).toHaveBeenCalledWith('repos/repoName', 'path2', 'branch')
-    expect(logMock).toHaveBeenCalledWith('repos/repoName', 'path2/', 'branch')
+    expect(logMock).toHaveBeenCalledWith('repos/repoName', 'path2', 'branch')
     expect(logMock).toHaveBeenCalledWith('repos/repoName', 'path1', 'branch')
   })
 
@@ -151,7 +151,7 @@ describe('getFiles', () => {
         icon: 'default_folder.svg',
         lastCommit: { author: 'author', date: 'date', hash: 'hash', message: 'message' },
         name: 'path2',
-        path: 'path2/',
+        path: 'path2',
         type: 'folder',
       },
     ])

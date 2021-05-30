@@ -16,12 +16,12 @@ describe('log', () => {
 
   it('should execute log command with parameters', async () => {
     await GitService.log('repoPath', 'filePath', 'branch', 'params')
-    expect(execMock).toHaveBeenCalledWith(`git -C repoPath log params --format=${LOG_FORMAT} branch -- filePath`)
+    expect(execMock).toHaveBeenCalledWith(`git -C repoPath log params --format=${LOG_FORMAT} branch -- "filePath"`)
   })
 
   it('should execute log command with default parameters', async () => {
     await GitService.log('repoPath', 'filePath')
-    expect(execMock).toHaveBeenCalledWith(`git -C repoPath log -1 --format=${LOG_FORMAT}  -- filePath`)
+    expect(execMock).toHaveBeenCalledWith(`git -C repoPath log -1 --format=${LOG_FORMAT}  -- "filePath"`)
   })
 
   it('should return log informations', async () => {
@@ -40,7 +40,7 @@ describe('countCommits', () => {
 
   it('should execute rev-list command with parameters', async () => {
     await GitService.countCommits('repoPath', 'filePath', 'branch')
-    expect(execMock).toHaveBeenCalledWith('git -C repoPath rev-list --count branch -- filePath')
+    expect(execMock).toHaveBeenCalledWith('git -C repoPath rev-list --count branch -- "filePath"')
   })
 
   it('should return number of commits', async () => {
@@ -51,19 +51,21 @@ describe('countCommits', () => {
 
 describe('listFiles', () => {
   beforeEach(() => {
-    execMock.mockResolvedValue('size tree hex    file1\nsize blob hex    file1\n')
+    execMock.mockResolvedValue(
+      '040000 blob 0feddd7c19a27c07ed35045ca5578c1584c802fa\tfile1\n040000 tree 0feddd7c19a27c07ed35045ca5578c1584c802fa\tfolder1\n'
+    )
   })
 
   it('should execute ls-tree command with parameters', async () => {
     await GitService.listFiles('repoPath', 'filePath', 'branch')
-    expect(execMock).toHaveBeenCalledWith('git -C repoPath ls-tree branch filePath')
+    expect(execMock).toHaveBeenCalledWith('git -C repoPath -c core.quotePath=off ls-tree branch "filePath"')
   })
 
   it('should return list of files', async () => {
     const result = await GitService.listFiles('repoPath', 'filePath', 'branch')
     expect(result).toEqual([
-      { type: 'folder', path: 'file1' },
       { type: 'file', path: 'file1' },
+      { type: 'folder', path: 'folder1' },
     ])
   })
 })
@@ -128,7 +130,7 @@ describe('getContent', () => {
 
   it('should execute show command with parameters', async () => {
     await GitService.getContent('repoPath', 'filePath', 'branch')
-    expect(execMock).toHaveBeenCalledWith('git -C repoPath show branch:filePath')
+    expect(execMock).toHaveBeenCalledWith('git -C repoPath show "branch:filePath"')
   })
 
   it('should return content', async () => {
@@ -144,7 +146,7 @@ describe('getSize', () => {
 
   it('should execute cat-file command with parameters', async () => {
     await GitService.getSize('repoPath', 'filePath', 'branch')
-    expect(execMock).toHaveBeenCalledWith('git -C repoPath cat-file -s branch:filePath')
+    expect(execMock).toHaveBeenCalledWith('git -C repoPath cat-file -s "branch:filePath"')
   })
 
   it('should return size', async () => {
@@ -160,7 +162,7 @@ describe('isBinary', () => {
 
   it('should execute diff-tree command with parameters', async () => {
     await GitService.isBinary('repoPath', 'filePath', 'branch')
-    expect(execMock).toHaveBeenCalledWith(`git -C repoPath diff-tree -p ${EMPTY_TREE_HASH} branch -- filePath`)
+    expect(execMock).toHaveBeenCalledWith(`git -C repoPath diff-tree -p ${EMPTY_TREE_HASH} branch -- "filePath"`)
   })
 
   it('should return true if file is binary', async () => {
@@ -185,13 +187,13 @@ describe('getDiffs', () => {
   it('should execute diff-tree command with parameters', async () => {
     execMock.mockResolvedValueOnce('parentHash\n')
     await GitService.getDiffs('repoPath', 'filePath', 'branch')
-    expect(execMock).toHaveBeenCalledWith(`git -C repoPath diff-tree -w -p parentHash branch -- filePath`)
+    expect(execMock).toHaveBeenCalledWith(`git -C repoPath diff-tree -w -p parentHash branch -- "filePath"`)
   })
 
   it('should execute diff-tree command with default hash if no parent', async () => {
     execMock.mockResolvedValueOnce('\n')
     await GitService.getDiffs('repoPath', 'filePath', 'branch')
-    expect(execMock).toHaveBeenCalledWith(`git -C repoPath diff-tree -w -p ${EMPTY_TREE_HASH} branch -- filePath`)
+    expect(execMock).toHaveBeenCalledWith(`git -C repoPath diff-tree -w -p ${EMPTY_TREE_HASH} branch -- "filePath"`)
   })
 
   it('should return diff', async () => {

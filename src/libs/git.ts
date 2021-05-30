@@ -8,7 +8,7 @@ export const EMPTY_TREE_HASH = '4b825dc642cb6eb9a060e54bf8d69288fbee4904'
 
 export const GitService = {
   async log(repoPath: string, filePath: string, branch = '', params = '-1'): Promise<ICommitsProps['commits']> {
-    const lines = await exec(`git -C ${repoPath} log ${params} --format=${LOG_FORMAT} ${branch} -- ${filePath}`)
+    const lines = await exec(`git -C ${repoPath} log ${params} --format=${LOG_FORMAT} ${branch} -- "${filePath}"`)
     return lines
       .split('\n')
       .filter(Boolean)
@@ -20,7 +20,7 @@ export const GitService = {
   },
 
   async countCommits(repoPath: string, filePath: string, branch: string): Promise<number> {
-    const result = await exec(`git -C ${repoPath} rev-list --count ${branch} -- ${filePath}`)
+    const result = await exec(`git -C ${repoPath} rev-list --count ${branch} -- "${filePath}"`)
     return Number(result)
   },
 
@@ -29,12 +29,12 @@ export const GitService = {
     filePath: string,
     branch = ''
   ): Promise<{ type: 'file' | 'folder'; path: string }[]> {
-    const result = await exec(`git -C ${repoPath} ls-tree ${branch} ${filePath}`)
+    const result = await exec(`git -C ${repoPath} -c core.quotePath=off ls-tree ${branch} "${filePath}"`)
     return result
       .split('\n')
       .filter(Boolean)
       .map((line) => {
-        const [, type, , path] = line.split(/\s+/)
+        const [, type, path] = line.match(/^\d{6} (blob|tree) [a-f0-9]{40}\t(.+)$/i) || []
         return { type: type === 'blob' ? 'file' : 'folder', path }
       })
   },
@@ -64,22 +64,22 @@ export const GitService = {
   },
 
   async getContent(repoPath: string, filePath: string, branch: string): Promise<string> {
-    return exec(`git -C ${repoPath} show ${branch}:${filePath}`)
+    return exec(`git -C ${repoPath} show "${branch}:${filePath}"`)
   },
 
   async getSize(repoPath: string, filePath: string, branch: string): Promise<string> {
-    return exec(`git -C ${repoPath} cat-file -s ${branch}:${filePath}`)
+    return exec(`git -C ${repoPath} cat-file -s "${branch}:${filePath}"`)
   },
 
   async isBinary(repoPath: string, filePath: string, branch: string): Promise<boolean> {
-    const result = await exec(`git -C ${repoPath} diff-tree -p ${EMPTY_TREE_HASH} ${branch} -- ${filePath}`)
+    const result = await exec(`git -C ${repoPath} diff-tree -p ${EMPTY_TREE_HASH} ${branch} -- "${filePath}"`)
     return result.includes(`Binary files /dev/null and b/${filePath} differ`)
   },
 
   async getDiffs(repoPath: string, filePath: string, branch: string): Promise<string> {
     const log = await exec(`git -C ${repoPath} log --pretty=%P -1 ${branch}`)
     const [parent] = log.split('\n')
-    return exec(`git -C ${repoPath} diff-tree -w -p ${parent || EMPTY_TREE_HASH} ${branch} -- ${filePath}`)
+    return exec(`git -C ${repoPath} diff-tree -w -p ${parent || EMPTY_TREE_HASH} ${branch} -- "${filePath}"`)
   },
 
   async createRepository(repoPath: string): Promise<void> {
