@@ -45,6 +45,7 @@ FROM bsources as bbuild
 
 COPY backend/tsconfig.json backend/
 COPY backend/tsconfig.build.json backend/
+COPY backend/ormconfig.js backend/
 COPY backend/src backend/src
 COPY backend/types backend/types
 COPY models/ models/
@@ -73,8 +74,8 @@ ENV PUBLIC_DIR=/app/dist/src/public
 
 COPY --from=dependencies --chown=node:node /app/backend/node_modules/ /app/node_modules/
 COPY --from=bbuild --chown=node:node /app/backend/dist/ /app/dist/
-COPY --from=fbuild --chown=node:node /app/frontend/dist/ /app/dist/src/public
+COPY --from=fbuild --chown=node:node /app/frontend/dist/ /app/dist/backend/src/public
 
 USER node
 
-CMD ["node", "dist/src/index.js"]
+CMD ["node", "dist/backend/src/index.js"]

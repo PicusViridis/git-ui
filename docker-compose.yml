@@ -11,10 +11,12 @@ services:
       - ./db:/app/db
       - ./logs:/app/logs
       - ./repos:/app/repos
+      - ./sessions:/app/sessions
     environment:
       - NODE_ENV=production
       - APP_KEY=appkey
       - COOKIE_DOMAIN=mydomain.com
+      - SESSION_DIR=/app/sessions
       - REPO_DIR=/app/repos
       - DB_PATH=/app/db
       - SERVER_URL=https://git.mydomain.com
