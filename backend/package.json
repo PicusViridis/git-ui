@@ -12,7 +12,7 @@
   },
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
-    "start": "node dist/src/index.js",
+    "start": "node src/index.js",
     "start:dev": "nodemon -r dotenv/config --inspect=9999 src/index.ts",
     "test": "jest --runInBand",
     "test:ci": "yarn test --ci --coverage",

@@ -2,7 +2,7 @@ version: "3"
 
 services:
   gitui:
-    image: saramorillon/mini-git:latest
+    image: test
     container_name: minigit
     restart: always
     ports:
@@ -13,6 +13,8 @@ services:
       - ./repos:/app/repos
       - ./sessions:/app/sessions
     environment:
+      - TYPEORM_CONNECTION=sqlite
+      - TYPEORM_DATABASE=/app/db/database.sqlite
       - NODE_ENV=production
       - APP_KEY=appkey
       - COOKIE_DOMAIN=mydomain.com

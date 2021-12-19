@@ -1,5 +1,6 @@
 import { bool, cleanEnv, num, str } from 'envalid'
 import session, { SessionOptions } from 'express-session'
+import { ContentSecurityPolicyOptions } from 'helmet/dist/middlewares/content-security-policy'
 import filestore from 'session-file-store'
 
 const env = cleanEnv(process.env, {
@@ -11,7 +12,7 @@ const env = cleanEnv(process.env, {
   COOKIE_DOMAIN: str(),
   SERVER_URL: str(),
   LOG_SILENT: bool({ default: false }),
-  PUBLIC_DIR: str({ default: undefined }),
+  PUBLIC_DIR: str(),
 })
 
 interface IConfig {
@@ -22,7 +23,8 @@ interface IConfig {
   repoDir: string
   serverUrl: string
   logSilent: boolean
-  publicDir?: string
+  publicDir: string
+  contentSecurityPolicy: ContentSecurityPolicyOptions
 }
 
 const FileStore = filestore(session)
@@ -43,4 +45,12 @@ export const config: IConfig = {
   serverUrl: env.SERVER_URL,
   logSilent: env.LOG_SILENT,
   publicDir: env.PUBLIC_DIR,
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'", "'unsafe-eval'", "'unsafe-inline'"],
+      styleSrc: ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'],
+      fontSrc: ["'self'", 'https://fonts.gstatic.com'],
+      scriptSrc: ["'self'", "'unsafe-inline'"],
+    },
+  },
 }
