@@ -1,7 +1,7 @@
 FROM node:12.22.6-alpine as base
 
-# RUN apk update
-# RUN apk --no-cache add python g++ make
+RUN apk update
+RUN apk --no-cache add git
 
 ENV NODE_ENV=production
 
