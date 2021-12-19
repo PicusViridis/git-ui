@@ -37,6 +37,6 @@ describe('User', () => {
 
   it('should render creation date', () => {
     render(<User user={mockUser1} refresh={jest.fn()} />)
-    expect(screen.getByText('Created at 01/01/2018, 1:00 AM')).toBeInTheDocument()
+    expect(screen.getByText('Created at 01/01/2018, 12:00 AM')).toBeInTheDocument()
   })
 })

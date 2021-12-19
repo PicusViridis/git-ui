@@ -49,22 +49,22 @@ export function restoreLocation(): void {
 
 export const mockUser1: IUser = {
   username: 'user1',
-  createdAt: '2018-01-01T00:00:00.000Z',
+  createdAt: '2018-01-01 00:00:00',
 }
 
 export const mockUser2: IUser = {
   username: 'user2',
-  createdAt: '2019-01-01T00:00:00.000Z',
+  createdAt: '2019-01-01 00:00:00',
 }
 
 export const mockRepo1: IRepository = {
   name: 'repo1',
-  updatedAt: '2019-01-01T00:00:00.000Z',
+  updatedAt: '2019-01-01 00:00:00',
 }
 
 export const mockRepo2: IRepository = {
   name: 'repo2',
-  updatedAt: '2020-01-01T00:00:00.000Z',
+  updatedAt: '2020-01-01 00:00:00',
 }
 
 export const mockFileMeta1: IFileMeta = {
@@ -73,7 +73,7 @@ export const mockFileMeta1: IFileMeta = {
   path: 'path1',
   type: FileType.FILE,
   lastCommit: {
-    date: '2019-01-01T00:00:00.000Z',
+    date: '2019-01-01 00:00:00',
     message: 'message1',
   },
 }
@@ -84,7 +84,7 @@ export const mockFileMeta2: IFileMeta = {
   path: 'path2',
   type: FileType.FOLDER,
   lastCommit: {
-    date: '2020-01-01T00:00:00.000Z',
+    date: '2020-01-01 00:00:00',
     message: 'message2',
   },
 }
@@ -102,7 +102,7 @@ export const mockFile2: IFile = {
 export const mockCommit1: ICommit = {
   hash: 'hash1',
   author: 'author1',
-  date: '2019-01-01T00:00:00.000Z',
+  date: '2019-01-01 00:00:00',
   message: 'message1',
   parent: 'parent1',
 }
@@ -110,7 +110,7 @@ export const mockCommit1: ICommit = {
 export const mockCommit2: ICommit = {
   hash: 'hash2',
   author: 'author2',
-  date: '2020-01-01T00:00:00.000Z',
+  date: '2020-01-01 00:00:00',
   message: 'message2',
   parent: 'parent2',
 }
