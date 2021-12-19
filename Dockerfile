@@ -1,48 +1,77 @@
-FROM node:lts-alpine
+FROM node:12.22.6-alpine as base
 
-RUN apk update
-RUN apk --no-cache add git python g++ make
+# RUN apk update
+# RUN apk --no-cache add python g++ make
 
 ENV NODE_ENV=production
 
 WORKDIR /app
 
-# Install packages
-COPY package.json .
-COPY yarn.lock .
-RUN yarn install --production=false
+####################
+##### Sources ######
+####################
 
-# Copy sources
-COPY tsconfig.json .
-COPY tsconfig.build.json .
-COPY ormconfig.js .
-COPY @types/ ./@types
-COPY migrations ./migrations
-COPY src ./src
+# Backend 
+FROM base as bsources
 
-# Build
-RUN yarn build
-RUN cp -r src/public dist/src/
+COPY backend/package.json backend/
+COPY backend/yarn.lock backend/
 
-RUN yarn install --force --production --ignore-scripts --prefer-offline
-RUN rm -rf tsconfig.json tsconfig.build.json src @types
+RUN yarn --cwd backend install --production=false
 
-# Create repos directory
-RUN mkdir /app/repos
-RUN chown -R node:node /app/repos
+# Frontend 
+FROM base as fsources
 
-# Create db directory
-RUN mkdir /app/db
-RUN chown -R node:node /app/db
+COPY frontend/package.json frontend/
+COPY frontend/yarn.lock frontend/
 
-# Create session directory
-RUN mkdir /app/sessions
-RUN chown -R node:node /app/sessions
+RUN yarn --cwd frontend install --production=false
 
-# Create logs directory
-RUN mkdir /app/dist/logs
-RUN chown -R node:node /app/dist/logs
+####################
+### Dependencies ###
+####################
+
+# Backend
+FROM bsources as dependencies
+
+RUN yarn --cwd backend install --frozen-lockfile --force --production --ignore-scripts --prefer-offline
+
+####################
+###### Build #######
+####################
+
+# Backend
+FROM bsources as bbuild
+
+COPY backend/tsconfig.json backend/
+COPY backend/tsconfig.build.json backend/
+COPY backend/src backend/src
+
+RUN yarn --cwd backend build
+
+# Frontend
+FROM fsources as fbuild
+
+COPY frontend/tsconfig.json frontend/
+COPY frontend/tsconfig.build.json frontend/
+COPY frontend/poi.config.js frontend/
+COPY frontend/public frontend/public
+COPY frontend/src frontend/src
+
+RUN yarn --cwd frontend build
+
+####################
+##### Release ######
+####################
+
+FROM base as release
+
+ENV PUBLIC_DIR=/app/dist/src/public
+
+COPY --from=dependencies --chown=node:node /app/backend/node_modules/ /app/node_modules/
+COPY --from=bbuild --chown=node:node /app/backend/dist/ /app/dist/
+COPY --from=fbuild --chown=node:node /app/frontend/dist/ /app/dist/src/public
 
 USER node
 
-CMD ["yarn", "start"]
+CMD ["node", "dist/src/index.js"]

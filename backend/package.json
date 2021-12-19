@@ -1,0 +1,71 @@
+{
+  "name": "mini-git",
+  "version": "2.1.2",
+  "main": "index.js",
+  "license": "MIT",
+  "author": {
+    "name": "Sara Morillon",
+    "url": "https://saramorillon.com/"
+  },
+  "repository": {
+    "url": "https://github.com/saramorillon/mini-git"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "start": "node dist/src/index.js",
+    "start:dev": "nodemon -r dotenv/config --inspect=9999 src/index.ts",
+    "test": "jest --runInBand",
+    "test:ci": "yarn test --ci --coverage",
+    "format": "prettier \"src/**/*.{ts,tsx}\" --write",
+    "lint": "eslint \"src/**/*.{ts,tsx}\"",
+    "docker:build": "docker build -t saramorillon/mini-git -f ../Dockerfile ..",
+    "docker:tag": "docker image tag saramorillon/mini-git saramorillon/mini-git:$npm_package_version",
+    "docker:push": "docker push -a saramorillon/mini-git"
+  },
+  "devDependencies": {
+    "@jest-mock/express": "^1.4.5",
+    "@mini-utils/eslint-config-typescript": "^1.0.6",
+    "@types/body-parser": "^1.19.2",
+    "@types/cookie-parser": "^1.4.2",
+    "@types/express": "^4.17.13",
+    "@types/express-session": "^1.17.4",
+    "@types/jest": "^27.0.3",
+    "@types/node": "^16.11.12",
+    "@types/passport": "^1.0.7",
+    "@types/passport-local": "^1.0.34",
+    "@types/session-file-store": "^1.2.2",
+    "@types/sqlite3": "^3.1.7",
+    "@typescript-eslint/eslint-plugin": "^5.6.0",
+    "@typescript-eslint/parser": "^5.6.0",
+    "dotenv": "^10.0.0",
+    "eslint": "^8.4.1",
+    "eslint-import-resolver-typescript": "^2.5.0",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-jest": "^25.3.0",
+    "jest": "^27.4.4",
+    "mockdate": "^3.0.5",
+    "nodemon": "^2.0.15",
+    "prettier": "^2.5.1",
+    "ts-jest": "^27.1.1",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.3"
+  },
+  "dependencies": {
+    "async-exec": "^1.1.0",
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.6",
+    "date-fns": "^2.27.0",
+    "envalid": "^7.2.2",
+    "express": "^4.17.1",
+    "express-session": "^1.17.2",
+    "helmet": "^4.6.0",
+    "isbinaryfile": "^4.0.8",
+    "passport": "^0.5.0",
+    "passport-local": "^1.0.0",
+    "reflect-metadata": "^0.1.13",
+    "session-file-store": "^1.5.0",
+    "sqlite3": "^5.0.2",
+    "typeorm": "^0.2.41",
+    "winston": "^3.3.3"
+  }
+}

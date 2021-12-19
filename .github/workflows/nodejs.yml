@@ -14,9 +14,15 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Install
-        run: yarn install
-      - name: Build
-        run: yarn build
-      - name: Test
-        run: yarn test
+      - name: Install (backend)
+        run: yarn --cwd backend install
+      - name: Build (backend)
+        run: yarn --cwd backend build
+      - name: Test (backend)
+        run: yarn --cwd backend test
+      - name: Install (frontend)
+        run: yarn --cwd frontend install
+      - name: Build (frontend)
+        run: yarn --cwd frontend build
+      - name: Test (frontend)
+        run: yarn --cwd frontend test

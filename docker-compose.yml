@@ -1,18 +1,20 @@
-version: '3'
+version: "3"
 
 services:
   gitui:
     image: saramorillon/mini-git:latest
-    container_name: gitui
+    container_name: minigit
     restart: always
     ports:
-      - 127.0.0.1:3000:3000
+      - 127.0.0.1:3000:80
     volumes:
       - ./db:/app/db
       - ./logs:/app/logs
       - ./repos:/app/repos
     environment:
-      - NODE_ENV=
-      - APP_KEY=
-      - COOKIE_NAME=
-      - LOG_LEVEL=
+      - NODE_ENV=production
+      - APP_KEY=appkey
+      - COOKIE_DOMAIN=mydomain.com
+      - REPO_DIR=/app/repos
+      - DB_PATH=/app/db
+      - SERVER_URL=https://git.mydomain.com

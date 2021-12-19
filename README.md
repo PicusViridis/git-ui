@@ -25,12 +25,12 @@ You can use the [docker-compose.yml](./docker-compose.yml) provided as an exampl
 
 - Download the latest release of mini-git
 - Install packages using command `yarn install`
-- Rename [.env.template](./.env.template) to `.env` and fill it with appropriate values
+- Rename [.env.template](./backend/.env.template) to `.env` and fill it with appropriate values
 - Run project using command `yarn start:dev`
 
 ## Running Mini Git
 
-Mini Git listens to port 3000
+Mini Git listens to port 80 by default.
 
 The default credentials are admin/admin.
 
@@ -38,15 +38,13 @@ Make sure that `git` is installed on your server as git command are used by the 
 
 ## Environment variables
 
-| Variable      | Value type                     | Default value | Description                                      |
-| ------------- | ------------------------------ | ------------- | ------------------------------------------------ |
-| NODE_ENV      | development \| production      |               | Environment of the application                   |
-| APP_KEY       | string                         |               | App key for session                              |
-| APP_PORT      | number                         | 80            | App port                                         |
-| LOG_LEVEL     | debug \| info \| warn \| error | info          | Level of the loger                               |
-| SESSION_DIR   | string                         |               | Directory to store session                       |
-| REPO_DIR      | string                         |               | Directory where repositories are stored          |
-| UPLOAD_DIR    | string                         |               | Directory to store attachments                   |
-| DB_PATH       | string                         |               | Path of sqlite database                          |
-| COOKIE_DOMAIN | string                         |               | Domain of the session cookie                     |
-| MYSQL_LOGGING | boolean                        |               | Should mysql queries be logged to console or not |
+| Variable      | Value type                | Default value | Description                                       |
+| ------------- | ------------------------- | ------------- | ------------------------------------------------- |
+| NODE_ENV      | development \| production |               | Environment of the application                    |
+| APP_KEY       | string                    |               | App key for session                               |
+| APP_PORT      | number                    | 80            | App port                                          |
+| COOKIE_DOMAIN | string                    |               | Domain of the session cookie                      |
+| SESSION_DIR   | string                    |               | Directory to store session                        |
+| REPO_DIR      | string                    |               | Directory where repositories are stored           |
+| DB_PATH       | string                    |               | Path of sqlite database                           |
+| SERVER_URL    | string                    |               | URL of the Git server, used to clone repositories |
