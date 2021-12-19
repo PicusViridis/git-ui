@@ -46,6 +46,8 @@ FROM bsources as bbuild
 COPY backend/tsconfig.json backend/
 COPY backend/tsconfig.build.json backend/
 COPY backend/src backend/src
+COPY backend/types backend/types
+COPY models/ models/
 
 RUN yarn --cwd backend build
 
@@ -57,6 +59,7 @@ COPY frontend/tsconfig.build.json frontend/
 COPY frontend/poi.config.js frontend/
 COPY frontend/public frontend/public
 COPY frontend/src frontend/src
+COPY models/ models/
 
 RUN yarn --cwd frontend build
 
