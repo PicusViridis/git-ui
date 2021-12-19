@@ -6,9 +6,9 @@ export async function getUsers(): Promise<IUser[]> {
 }
 
 export async function postUser(username: string, password: string): Promise<void> {
-  return request({ url: '/api/users', data: { username, password } }, undefined)
+  return request({ url: '/api/users', method: 'POST', data: { username, password } }, undefined)
 }
 
 export async function deleteUser(user: IUser): Promise<void> {
-  return request({ url: `/api/users/${user.username}` }, undefined)
+  return request({ url: `/api/users/${user.username}`, method: 'DELETE' }, undefined)
 }

@@ -10,7 +10,7 @@ export async function getSession(): Promise<IUser | null> {
 }
 
 export async function login(username: string, password: string): Promise<void> {
-  return request({ url: `/api/login`, data: { username, password } }, undefined)
+  return request({ url: `/api/login`, method: 'POST', data: { username, password } }, undefined)
 }
 
 export async function logout(): Promise<void> {

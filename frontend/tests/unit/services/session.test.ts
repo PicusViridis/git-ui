@@ -29,7 +29,7 @@ describe('login', () => {
   it('should log in', async () => {
     await login('username', 'password')
     expect(request).toHaveBeenCalledWith(
-      { url: '/api/login', data: { password: 'password', username: 'username' } },
+      { url: '/api/login', method: 'POST', data: { password: 'password', username: 'username' } },
       undefined
     )
   })
