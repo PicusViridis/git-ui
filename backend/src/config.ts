@@ -11,6 +11,7 @@ const env = cleanEnv(process.env, {
   COOKIE_DOMAIN: str(),
   SERVER_URL: str(),
   LOG_SILENT: bool({ default: false }),
+  PUBLIC_DIR: str({ default: undefined }),
 })
 
 interface IConfig {
@@ -21,6 +22,7 @@ interface IConfig {
   repoDir: string
   serverUrl: string
   logSilent: boolean
+  publicDir?: string
 }
 
 const FileStore = filestore(session)
@@ -40,4 +42,5 @@ export const config: IConfig = {
   repoDir: env.REPO_DIR,
   serverUrl: env.SERVER_URL,
   logSilent: env.LOG_SILENT,
+  publicDir: env.PUBLIC_DIR,
 }

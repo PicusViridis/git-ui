@@ -18,6 +18,7 @@ passport.use(new Strategy(localStrategy))
 
 createConnection().then(() => {
   const app = express()
+  config.publicDir && app.use(express.static(config.publicDir))
   app.use(cookieParser())
   app.use(json())
   app.use(urlencoded({ extended: true }))
