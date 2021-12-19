@@ -2,7 +2,7 @@ version: "3"
 
 services:
   gitui:
-    image: test
+    image: saramorillon/mini-git
     container_name: minigit
     restart: always
     ports:
