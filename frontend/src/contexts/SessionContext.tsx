@@ -11,7 +11,7 @@ export function SessionProvider({ children }: PropsWithChildren<unknown>): JSX.E
 
   return (
     <SessionContext.Provider value={session}>
-      <LoadContainer loading={loading} className="m4">
+      <LoadContainer loading={loading} className="m4 center">
         {children}
       </LoadContainer>
     </SessionContext.Provider>

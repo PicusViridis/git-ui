@@ -1,4 +1,4 @@
-import { Button, ButtonGroup } from '@blueprintjs/core'
+import { IconChevronLeft, IconChevronRight, IconChevronsLeft, IconChevronsRight } from '@tabler/icons'
 import React from 'react'
 import { LoadContainer } from '../../components/LoadContainer/LoadContainer'
 import { Commit } from './Commit'
@@ -14,15 +14,21 @@ export function Commits(): JSX.Element {
         <Commit key={commit.hash} commit={commit} repo={repo} branch={branch} path={path} />
       ))}
       <div className="center">
-        <ButtonGroup minimal>
-          <Button icon="chevron-backward" disabled={!canPrevious} onClick={first} title="First" />
-          <Button icon="chevron-left" disabled={!canPrevious} onClick={previous} title="Previous" />
-          <Button disabled>
-            Page {page} of {maxPage}
-          </Button>
-          <Button icon="chevron-right" disabled={!canNext} onClick={next} title="Next" />
-          <Button icon="chevron-forward" disabled={!canNext} onClick={last} title="Last" />
-        </ButtonGroup>
+        <button disabled={!canPrevious} onClick={first}>
+          <IconChevronsLeft />
+        </button>
+        <button disabled={!canPrevious} onClick={previous}>
+          <IconChevronLeft />
+        </button>
+        <span className="mx1">
+          Page {page} of {maxPage}
+        </span>
+        <button disabled={!canNext} onClick={next}>
+          <IconChevronRight />
+        </button>
+        <button disabled={!canNext} onClick={last}>
+          <IconChevronsRight />
+        </button>
       </div>
     </LoadContainer>
   )

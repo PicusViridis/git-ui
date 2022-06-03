@@ -1,4 +1,3 @@
-import { HTMLTable } from '@blueprintjs/core'
 import { formatDistance, parseISO } from 'date-fns'
 import React from 'react'
 import { NavLink } from 'react-router-dom'
@@ -14,7 +13,7 @@ export function Files({ files }: IFilesProps): JSX.Element {
   const { repo, branch } = useRepoParams()
 
   return (
-    <HTMLTable striped style={{ width: '100%' }}>
+    <table>
       <tbody>
         {files.map((file) => (
           <tr key={file.path}>
@@ -28,6 +27,6 @@ export function Files({ files }: IFilesProps): JSX.Element {
           </tr>
         ))}
       </tbody>
-    </HTMLTable>
+    </table>
   )
 }

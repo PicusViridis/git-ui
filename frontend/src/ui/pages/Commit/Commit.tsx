@@ -1,4 +1,3 @@
-import { H4 } from '@blueprintjs/core'
 import React from 'react'
 import { LoadContainer } from '../../components/LoadContainer/LoadContainer'
 import { Diff } from './Diff'
@@ -9,7 +8,7 @@ export function Commit(): JSX.Element {
 
   return (
     <LoadContainer loading={loading}>
-      <H4>{commit?.message}</H4>
+      <h4>{commit?.message}</h4>
       {diffs.map((diff, key) => (
         <Diff key={key} diff={diff} />
       ))}

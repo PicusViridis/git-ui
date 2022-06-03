@@ -1,8 +1,7 @@
-import { Divider, H4 } from '@blueprintjs/core'
 import { useFetch } from '@saramorillon/hooks'
 import { format, parseISO } from 'date-fns'
 import React from 'react'
-import { NavLink } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useTitle } from '../../../hooks/useTitle'
 import { getRepositories } from '../../../services/repository'
 import { makeUrl } from '../../../utils/utils'
@@ -16,11 +15,11 @@ export function Repos(): JSX.Element {
     <LoadContainer loading={loading}>
       {repositories.map((repo) => (
         <div key={repo.name} className="mt2">
-          <H4>
-            <NavLink to={makeUrl(repo.name, 'master', 'tree')}>{repo.name}</NavLink>
-          </H4>
+          <h4>
+            <Link to={makeUrl(repo.name, 'master', 'tree')}>{repo.name}</Link>
+          </h4>
           <p>Updated {format(parseISO(repo.updatedAt), 'PP')}</p>
-          <Divider />
+          <hr />
         </div>
       ))}
     </LoadContainer>

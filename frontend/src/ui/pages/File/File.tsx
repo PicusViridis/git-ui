@@ -1,4 +1,4 @@
-import { Button, Card, H5, Pre } from '@blueprintjs/core'
+import { IconDownload } from '@tabler/icons'
 import byteSize from 'pretty-bytes'
 import React from 'react'
 import { IFile } from '../../../../../models/File'
@@ -14,19 +14,15 @@ export function File({ file }: IFileProps): JSX.Element {
 
   return (
     <>
-      <Card className="flex justify-between items-center">
-        <H5 className="m0">{byteSize(file.size, { binary: true })}</H5>
-        <Button
-          minimal
-          icon="download"
-          onClick={() => window.location.assign(`/api${makeUrl(repo, branch, 'download', path)}`)}
-        >
-          Download file
-        </Button>
-      </Card>
-      <Pre className="m0">
+      <article className="flex justify-between items-center">
+        <h5 className="m0">{byteSize(file.size, { binary: true })}</h5>
+        <button onClick={() => window.location.assign(`/api${makeUrl(repo, branch, 'download', path)}`)}>
+          <IconDownload /> Download file
+        </button>
+      </article>
+      <pre>
         <code>{file.content || 'Cannot preview binary file'}</code>
-      </Pre>
+      </pre>
     </>
   )
 }

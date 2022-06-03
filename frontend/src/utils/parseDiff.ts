@@ -1,4 +1,3 @@
-import { Colors, Intent } from '@blueprintjs/core'
 import { Theme } from '@saramorillon/hooks'
 import { DiffBlock, LineType } from 'diff2html/lib/types'
 
@@ -9,7 +8,7 @@ export function parseName(oldName: string, newName: string) {
   return `${oldName} > ${newName}`
 }
 
-export function parseStatus(oldName: string, newName: string): [string, Intent] {
+export function parseStatus(oldName: string, newName: string): [string, 'warning' | 'success' | 'danger'] {
   if (oldName === newName) return ['CHANGED', 'warning']
   if (oldName === '/dev/null') return ['ADDED', 'success']
   if (newName === '/dev/null') return ['DELETED', 'danger']
@@ -18,19 +17,22 @@ export function parseStatus(oldName: string, newName: string): [string, Intent] 
 
 const colors = {
   dark: {
-    red: Colors.RED1 + '66',
-    green: Colors.FOREST1 + '66',
-    gray: Colors.DARK_GRAY5 + '66',
+    red: '#FF000066',
+    green: '#00F0066',
+    gray: '#88888866',
   },
   light: {
-    red: Colors.RED5 + '66',
-    green: Colors.FOREST5 + '66',
-    gray: Colors.LIGHT_GRAY1 + '66',
+    red: '#FF000066',
+    green: '#00F0066',
+    gray: '#88888866',
   },
 }
 
-export type DiffCell = { value: number | string; color?: string }
-type DiffCells = [DiffCell, DiffCell, DiffCell, DiffCell]
+export interface IDiffCell {
+  value: number | string
+  color?: string
+}
+type DiffCells = [IDiffCell, IDiffCell, IDiffCell, IDiffCell]
 
 export function parseLines(blocks: Pick<DiffBlock, 'lines'>[], theme: Theme) {
   const palette = colors[theme]

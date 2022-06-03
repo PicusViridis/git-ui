@@ -1,26 +1,40 @@
-import { HTMLSelect } from '@blueprintjs/core'
-import React from 'react'
+import { useFetch } from '@saramorillon/hooks'
+import React, { useCallback } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Page } from '../../../../../models/Pages'
 import { IRepoParams } from '../../../hooks/useParams'
-import { LoadContainer } from '../LoadContainer/LoadContainer'
-import { useBranches } from './useBranches'
+import { getBranches } from '../../../services/branch'
+import { makeUrl } from '../../../utils/utils'
 
 export interface IBranchSelectorProps extends IRepoParams {
   page: Page
 }
 
 export function BranchSelector({ repo, branch, page, path }: IBranchSelectorProps): JSX.Element {
-  const { loading, branches, onChange } = useBranches(repo, page, path)
+  const fetch = useCallback(() => getBranches(repo), [repo])
+  const [branches, { loading }] = useFetch(fetch, [])
+  const navigate = useNavigate()
+
+  const onChange = useCallback(
+    (branch: string) => {
+      navigate(makeUrl(repo, branch, page, path))
+    },
+    [navigate, repo, page, path]
+  )
 
   return (
-    <LoadContainer loading={loading} size={16} className="mx3">
-      <HTMLSelect value={branch} onChange={(e) => onChange(e.target.value)} disabled={branch.length < 2} minimal large>
+    <label aria-busy={loading && !branches.length}>
+      <select
+        value={branch}
+        onChange={(e) => onChange(e.target.value)}
+        disabled={(loading && !branches.length) || branches.length < 2}
+      >
         {branches.map((branch) => (
           <option key={branch} value={branch}>
             {branch}
           </option>
         ))}
-      </HTMLSelect>
-    </LoadContainer>
+      </select>
+    </label>
   )
 }

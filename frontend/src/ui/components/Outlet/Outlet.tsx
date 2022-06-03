@@ -17,13 +17,13 @@ export function PrivateOutlet() {
   const session = useContext(SessionContext)
   if (!session) return <Navigate to="/login" />
   return (
-    <div className="flex flex-column items-stretch" style={{ minHeight: '100vh' }}>
+    <>
       <Header />
-      <div className="py2 max-width-4 mx-auto flex-auto" style={{ minWidth: '60rem' }}>
+      <main className="max-width-4 mx-auto flex-auto" style={{ minHeight: 'calc(100vh - 555px)', minWidth: '60rem' }}>
         <Outlet />
-      </div>
+      </main>
       <Footer />
-    </div>
+    </>
   )
 }
 

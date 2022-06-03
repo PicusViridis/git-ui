@@ -1,4 +1,3 @@
-import { Card, Divider, H4 } from '@blueprintjs/core'
 import { useFetch } from '@saramorillon/hooks'
 import React from 'react'
 import { getServerUrl } from '../../../services/server'
@@ -13,15 +12,15 @@ export function Empty({ repo }: IEmptyProps): JSX.Element {
 
   return (
     <LoadContainer loading={loading}>
-      <H4>Clone this repository</H4>
-      <Card>
+      <h4>Clone this repository</h4>
+      <article>
         <code>
           git clone {url}/{repo}
         </code>
-      </Card>
-      <Divider />
-      <H4>Create a new repository on the command line</H4>
-      <Card>
+      </article>
+      <hr />
+      <h4>Create a new repository on the command line</h4>
+      <article>
         <code>touch README.md</code>
         <br />
         <code>git init</code>
@@ -35,16 +34,16 @@ export function Empty({ repo }: IEmptyProps): JSX.Element {
         </code>
         <br />
         <code>git push -u origin master</code>
-      </Card>
-      <Divider />
-      <H4>Push an existing repository from the command line</H4>
-      <Card>
+      </article>
+      <hr />
+      <h4>Push an existing repository from the command line</h4>
+      <article>
         <code>
           git remote add origin {url}/{repo}
         </code>
         <br />
         <code>git push -u origin master</code>
-      </Card>
+      </article>
     </LoadContainer>
   )
 }

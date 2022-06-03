@@ -1,5 +1,4 @@
-import { Button, Classes, Divider } from '@blueprintjs/core'
-import c from 'classnames'
+import { IconClipboard } from '@tabler/icons'
 import { formatDistance, parseISO } from 'date-fns'
 import React from 'react'
 import { NavLink } from 'react-router-dom'
@@ -23,22 +22,15 @@ export function Commit({ commit, repo, branch, path }: ICommitProps) {
         <div>
           <NavLink to={makeUrl(repo, branch, `commit/${commit.hash}`, path)}>{commit.message}</NavLink>
           <br />
-          <span className={c(Classes.SMALL, Classes.TEXT_MUTED)}>
+          <small>
             Commited {formatDistance(parseISO(commit.date), Date.now(), { addSuffix: true })} by <b>{commit.author}</b>
-          </span>
+          </small>
         </div>
-        <Button
-          icon="clipboard"
-          className={Classes.MONOSPACE_TEXT}
-          outlined
-          disabled={!authorized}
-          onClick={() => copy(commit.hash)}
-          loading={loading}
-        >
-          {commit.hash.slice(0, 7)}
-        </Button>
+        <button disabled={!authorized} onClick={() => copy(commit.hash)} aria-busy={loading}>
+          <IconClipboard /> {commit.hash.slice(0, 7)}
+        </button>
       </div>
-      <Divider className="my1" />
+      <hr />
     </>
   )
 }

@@ -1,8 +1,7 @@
-import { Card, Pre, Tag, TagProps } from '@blueprintjs/core'
 import { useTheme } from '@saramorillon/hooks'
 import { DiffFile } from 'diff2html/lib/types'
 import React from 'react'
-import { DiffCell, parseLines, parseName, parseStatus } from '../../../utils/parseDiff'
+import { IDiffCell, parseLines, parseName, parseStatus } from '../../../utils/parseDiff'
 
 export interface IDiffProps {
   diff: Pick<DiffFile, 'oldName' | 'newName' | 'blocks'>
@@ -16,10 +15,10 @@ export function Diff({ diff }: IDiffProps) {
 
   return (
     <div className="my2">
-      <Card>
+      <article>
         {name} <Status intent={intent}>{label}</Status>
-      </Card>
-      <Pre className="m0 flex">
+      </article>
+      <pre className="m0 flex">
         <div>
           {lines.map((line, key) => (
             <DiffCell key={key} cell={line[0]} />
@@ -40,7 +39,7 @@ export function Diff({ diff }: IDiffProps) {
             <DiffCell key={key} cell={line[3]} />
           ))}
         </div>
-      </Pre>
+      </pre>
     </div>
   )
 }
@@ -50,7 +49,7 @@ function Status(props: TagProps) {
 }
 
 interface IDiffLineProps {
-  cell: DiffCell
+  cell: IDiffCell
 }
 
 function DiffCell({ cell }: IDiffLineProps) {

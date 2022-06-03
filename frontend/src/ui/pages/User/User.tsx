@@ -1,29 +1,37 @@
-import { Button, FormGroup, InputGroup } from '@blueprintjs/core'
-import React from 'react'
-import { useUser } from './useUser'
+import { IconDeviceFloppy, IconLoader } from '@tabler/icons'
+import React, { FormEvent, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { postUser } from '../../../services/user'
 
 export function User(): JSX.Element {
-  const { loading, username, setUsername, password, setPassword, onSubmit } = useUser()
+  const navigate = useNavigate()
+  const [loading, setLoading] = useState(false)
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+
+  function onSubmit(e: FormEvent) {
+    e.preventDefault()
+    setLoading(true)
+    postUser(username, password).then(() => {
+      navigate('/users')
+    })
+  }
 
   return (
     <form onSubmit={onSubmit}>
-      <FormGroup label="Username" labelFor="username" labelInfo="*">
-        <InputGroup id="username" value={username} onChange={(e) => setUsername(e.target.value)} required />
-      </FormGroup>
+      <label>
+        Username *
+        <input value={username} onChange={(e) => setUsername(e.target.value)} required />
+      </label>
 
-      <FormGroup label="Password" labelFor="password" labelInfo="*">
-        <InputGroup
-          id="password"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-      </FormGroup>
+      <label>
+        Password *
+        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+      </label>
 
-      <Button icon="floppy-disk" type="submit" loading={loading}>
-        Save
-      </Button>
+      <strong>
+        <button>{loading ? <IconLoader className="icon spin" /> : <IconDeviceFloppy />} Save</button>
+      </strong>
     </form>
   )
 }

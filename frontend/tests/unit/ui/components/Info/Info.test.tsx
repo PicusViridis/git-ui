@@ -1,4 +1,3 @@
-import { Classes } from '@blueprintjs/core'
 import { useTheme } from '@saramorillon/hooks'
 import { render, screen } from '@testing-library/react'
 import mockdate from 'mockdate'
