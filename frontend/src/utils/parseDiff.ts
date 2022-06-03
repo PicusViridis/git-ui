@@ -29,8 +29,8 @@ const colors = {
   },
 }
 
-export type DiffCell = { value: number | string; color?: string }
-type DiffCells = [DiffCell, DiffCell, DiffCell, DiffCell]
+export type IDiffCell = { value: number | string; color?: string }
+type DiffCells = [IDiffCell, IDiffCell, IDiffCell, IDiffCell]
 
 export function parseLines(blocks: Pick<DiffBlock, 'lines'>[], theme: Theme) {
   const palette = colors[theme]
