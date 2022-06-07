@@ -13,29 +13,31 @@ export function Nav({ page }: INavProps): JSX.Element | null {
   const { repo, branch, path } = useRepoParams()
 
   return (
-    <div className="flex items-center">
-      <div role="tablist" className="mr-auto">
-        <Link role="tab" aria-selected to={makeUrl(repo, branch, 'tree', path)}>
+    <>
+      <div role="tablist">
+        <Link role="tab" aria-selected={page === 'tree'} to={makeUrl(repo, branch, 'tree', path)}>
           Files
         </Link>
-        <Link role="tab" to={makeUrl(repo, branch, 'commits', path)}>
+        <Link role="tab" aria-selected={page === 'commits'} to={makeUrl(repo, branch, 'commits', path)}>
           Commits
         </Link>
       </div>
-      {path && (
-        <nav aria-label="Breadcrumb">
-          <ul>
-            <li>
-              <BreadcrumbItem text={repo} href={makeUrl(repo, branch, page)} />
-            </li>
-            <Breadcrumb repo={repo} branch={branch} page={page} path={path} />
-          </ul>
-        </nav>
-      )}
-      <div className="ml-auto">
-        <BranchSelector repo={repo} branch={branch} page={page} path={path} />
+      <div className="flex items-center">
+        {path && (
+          <nav aria-label="Breadcrumb">
+            <ul>
+              <li>
+                <BreadcrumbItem text={repo} href={makeUrl(repo, branch, page)} />
+              </li>
+              <Breadcrumb repo={repo} branch={branch} page={page} path={path} />
+            </ul>
+          </nav>
+        )}
+        <div className="ml-auto">
+          <BranchSelector repo={repo} branch={branch} page={page} path={path} />
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 

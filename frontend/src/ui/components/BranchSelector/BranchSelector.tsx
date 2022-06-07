@@ -28,6 +28,7 @@ export function BranchSelector({ repo, branch, page, path }: IBranchSelectorProp
         value={branch}
         onChange={(e) => onChange(e.target.value)}
         disabled={(loading && !branches.length) || branches.length < 2}
+        className="p1 mt1"
       >
         {branches.map((branch) => (
           <option key={branch} value={branch}>
