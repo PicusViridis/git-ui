@@ -4,7 +4,7 @@ export function useCurrentTitle(): string {
   const [title, setTitle] = useState(document.title)
 
   const onTitleChanged = useCallback(() => {
-    setTitle(document.title)
+    setTitle(document.title.replace('Mini Git - ', ''))
   }, [])
 
   useEffect(() => {

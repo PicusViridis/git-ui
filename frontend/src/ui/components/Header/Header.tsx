@@ -26,7 +26,7 @@ export function Header(): JSX.Element {
       </nav>
 
       <header>
-        <h1 className="p4">{title}</h1>
+        <h1>{title}</h1>
       </header>
     </>
   )
