@@ -4,3 +4,97 @@
   vertical-align: middle;
   margin-top: -0.25em;
 }
+
+/* BADGE */
+
+.badge {
+  font-size: smaller;
+}
+
+.badge.renamed,
+.badge.changed {
+  --mark-background: rgba(187, 128, 9, 0.4);
+}
+
+.badge.added {
+  --mark-background: rgba(46, 160, 67, 0.4);
+}
+
+.badge.removed {
+  --mark-background: rgba(248, 81, 73, 0.4);
+}
+
+/* DIFF TABLE */
+
+.diff {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
+.diff > div {
+  display: table-row;
+}
+
+.diff > div > span {
+  display: table-cell;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  font-family: monospace;
+  font-size: smaller;
+  padding: 0.25rem 1rem;
+}
+
+.diff > div > span:nth-of-type(odd) {
+  text-align: right;
+  width: 30px;
+  white-space: nowrap;
+}
+
+.diff > div > span:nth-of-type(even) {
+  padding-left: 2rem;
+}
+
+.diff > div > span:nth-of-type(3) {
+  border-left: 1px solid var(--palette-background-dark);
+}
+
+/* Add */
+
+.diff > div > span.add:nth-of-type(even) {
+  position: relative;
+  background-color: rgba(46, 160, 67, 0.15);
+}
+
+.diff > div > span.add:nth-of-type(even)::before {
+  content: '+';
+  position: absolute;
+  left: 0.5rem;
+}
+
+.diff > div > span.add:nth-of-type(odd) {
+  background-color: rgba(63, 185, 80, 0.3);
+}
+
+/* Remove */
+
+.diff > div > span.remove:nth-of-type(even) {
+  position: relative;
+  background-color: rgba(248, 81, 73, 0.15);
+}
+
+.diff > div > span.remove:nth-of-type(even)::before {
+  content: '-';
+  position: absolute;
+  left: 0.5rem;
+}
+
+.diff > div > span.remove:nth-of-type(odd) {
+  background-color: rgba(248, 81, 73, 0.3);
+}
+
+/* Empty */
+
+.diff > div > span.empty {
+  background-color: rgba(110, 118, 129, 0.1);
+}
