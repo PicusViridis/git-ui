@@ -13,8 +13,8 @@ export function Info({ app, open, toggle }: IInfoProps): JSX.Element | null {
     <dialog open={open}>
       <article>
         <header>
-          <button onClick={toggle}></button>
-          Modal title
+          <button onClick={toggle}>✖</button>
+          Information
         </header>
         <p>
           <b>{app.name}</b> <span>v{app.version}</span>
