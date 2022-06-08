@@ -1,5 +1,4 @@
-import { Theme } from '@saramorillon/hooks'
-import { DiffBlock, LineType } from 'diff2html/lib/types'
+import { DiffBlock, DiffLine, LineType } from 'diff2html/lib/types'
 
 export function parseName(oldName: string, newName: string) {
   if (oldName === newName) return oldName
@@ -8,86 +7,58 @@ export function parseName(oldName: string, newName: string) {
   return `${oldName} > ${newName}`
 }
 
-export function parseStatus(oldName: string, newName: string): [string, 'warning' | 'success' | 'danger'] {
-  if (oldName === newName) return ['CHANGED', 'warning']
-  if (oldName === '/dev/null') return ['ADDED', 'success']
-  if (newName === '/dev/null') return ['DELETED', 'danger']
-  return ['RENAMED', 'warning']
-}
-
-const colors = {
-  dark: {
-    red: '#FF000066',
-    green: '#00F0066',
-    gray: '#88888866',
-  },
-  light: {
-    red: '#FF000066',
-    green: '#00F0066',
-    gray: '#88888866',
-  },
+export function parseStatus(oldName: string, newName: string): string {
+  if (oldName === newName) return 'changed'
+  if (oldName === '/dev/null') return 'added'
+  if (newName === '/dev/null') return 'deleted'
+  return 'renamed'
 }
 
 export interface IDiffCell {
-  value: number | string
-  color?: string
+  n?: number
+  v?: string
+  t?: 'empty' | 'add' | 'remove'
 }
-type DiffCells = [IDiffCell, IDiffCell, IDiffCell, IDiffCell]
+type DiffCells = [IDiffCell, IDiffCell]
 
-export function parseLines(blocks: Pick<DiffBlock, 'lines'>[], theme: Theme) {
-  const palette = colors[theme]
+export function parseLines(blocks: Pick<DiffBlock, 'lines'>[]) {
   const lines: DiffCells[] = []
   for (const block of blocks) {
     for (let i = 0; i < block.lines.length; i++) {
       const line = block.lines[i]
-      const nextLine = block.lines[i + 1]
-      switch (line.type) {
-        case LineType.CONTEXT:
-          lines.push([
-            { value: line.oldNumber },
-            { value: line.content },
-            { value: line.newNumber },
-            { value: line.content },
-          ])
-          break
-        case LineType.DELETE:
-          if (nextLine?.type === LineType.INSERT) {
-            lines.push([
-              { value: line.oldNumber, color: palette.red },
-              { value: line.content, color: palette.red },
-              { value: nextLine.newNumber, color: palette.green },
-              { value: nextLine.content, color: palette.green },
-            ])
-            i++
-          } else {
-            lines.push([
-              { value: line.oldNumber, color: palette.red },
-              { value: line.content, color: palette.red },
-              { value: ' ', color: palette.gray },
-              { value: ' ', color: palette.gray },
-            ])
-          }
-          break
-        case LineType.INSERT:
-          if (nextLine?.type === LineType.DELETE) {
-            lines.push([
-              { value: nextLine.oldNumber, color: palette.red },
-              { value: nextLine.content, color: palette.red },
-              { value: line.newNumber, color: palette.green },
-              { value: line.content, color: palette.green },
-            ])
-            i++
-          } else {
-            lines.push([
-              { value: ' ', color: palette.gray },
-              { value: ' ', color: palette.gray },
-              { value: line.newNumber, color: palette.green },
-              { value: line.content, color: palette.green },
-            ])
-          }
-          break
+      const next = block.lines.at(i + 1)
+      if (line.type === LineType.CONTEXT) {
+        lines.push(empty(line))
+      } else if (line.type === LineType.DELETE) {
+        if (next?.type === LineType.INSERT) {
+          lines.push(replace(line, next))
+          i++
+        } else {
+          lines.push(replace(line))
+        }
+      } else if (line.type === LineType.INSERT) {
+        if (next?.type === LineType.DELETE) {
+          lines.push(replace(next, line))
+          i++
+        } else {
+          lines.push(replace(undefined, line))
+        }
       }
     }
   }
   return lines
+}
+
+function empty(line: DiffLine): DiffCells {
+  return [
+    { n: line.oldNumber, v: line.content },
+    { n: line.newNumber, v: line.content },
+  ]
+}
+
+function replace(left?: DiffLine, right?: DiffLine): DiffCells {
+  return [
+    left ? { n: left.oldNumber, v: left.content, t: 'remove' } : { t: 'empty' },
+    right ? { n: right.newNumber, v: right.content, t: 'add' } : { t: 'empty' },
+  ]
 }

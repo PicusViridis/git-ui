@@ -1,61 +1,36 @@
-import { useTheme } from '@saramorillon/hooks'
+import c from 'classnames'
 import { DiffFile } from 'diff2html/lib/types'
-import React from 'react'
-import { IDiffCell, parseLines, parseName, parseStatus } from '../../../utils/parseDiff'
+import React, { Fragment } from 'react'
+import { parseLines, parseName, parseStatus } from '../../../utils/parseDiff'
 
 export interface IDiffProps {
   diff: Pick<DiffFile, 'oldName' | 'newName' | 'blocks'>
 }
 
 export function Diff({ diff }: IDiffProps) {
-  const theme = useTheme()
   const name = parseName(diff.oldName, diff.newName)
-  const [label, intent] = parseStatus(diff.oldName, diff.newName)
-  const lines = parseLines(diff.blocks, theme)
+  const label = parseStatus(diff.oldName, diff.newName)
+  const lines = parseLines(diff.blocks)
 
   return (
-    <div className="my2">
-      <article>
-        {name} <Status intent={intent}>{label}</Status>
-      </article>
-      <pre className="m0 flex">
-        <div>
-          {lines.map((line, key) => (
-            <DiffCell key={key} cell={line[0]} />
-          ))}
-        </div>
-        <div className="overflow-auto" style={{ width: '50%' }}>
-          {lines.map((line, key) => (
-            <DiffCell key={key} cell={line[1]} />
-          ))}
-        </div>
-        <div>
-          {lines.map((line, key) => (
-            <DiffCell key={key} cell={line[2]} />
-          ))}
-        </div>
-        <div className="overflow-auto" style={{ width: '50%' }}>
-          {lines.map((line, key) => (
-            <DiffCell key={key} cell={line[3]} />
-          ))}
-        </div>
-      </pre>
-    </div>
-  )
-}
-
-function Status(props: TagProps) {
-  return <Tag minimal className="right" style={{ fontSize: 10 }} {...props} />
-}
-
-interface IDiffLineProps {
-  cell: IDiffCell
-}
-
-function DiffCell({ cell }: IDiffLineProps) {
-  return (
-    <div className="px1" style={{ backgroundColor: cell.color }}>
-      {cell.value}
-    </div>
+    <article className="my2 p0 pb1">
+      <div className="pb1 pt2 px2">
+        <mark className={c('right', 'badge', label)}>{label.toUpperCase()}</mark>
+        <span>{name}</span>
+      </div>
+      <hr />
+      <div className="diff">
+        {lines.map((line, i) => (
+          <div key={i}>
+            {line.map((cell, j) => (
+              <Fragment key={j}>
+                <span className={c('px2', cell.t)}>{cell.n}</span>
+                <span className={c('px2', cell.t)}>{cell.v?.replace(/\+|-/, ' ')}</span>
+              </Fragment>
+            ))}
+          </div>
+        ))}
+      </div>
+    </article>
   )
 }

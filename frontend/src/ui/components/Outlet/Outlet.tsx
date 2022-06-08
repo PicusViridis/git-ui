@@ -19,7 +19,7 @@ export function PrivateOutlet() {
   return (
     <>
       <Header />
-      <main className="max-width-4 mx-auto flex-auto" style={{ minHeight: 'calc(100vh - 555px)', minWidth: '60rem' }}>
+      <main className="mx-auto flex-auto" style={{ minHeight: 'calc(100vh - 555px)', minWidth: '60rem' }}>
         <Outlet />
       </main>
       <Footer />
