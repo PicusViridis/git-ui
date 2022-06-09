@@ -975,10 +975,10 @@
     estree-walker "^2.0.1"
     picomatch "^2.2.2"
 
-"@saramorillon/hooks@^1.1.2":
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/@saramorillon/hooks/-/hooks-1.1.2.tgz#a025af4ac37b1692fd74337408fda61526854027"
-  integrity sha512-fnf4mlg4vZvRLURkZeYddZDMt9D5LGBRzLuZuV7axUwykwSeF7T0yhW3TGEJeWCUeCI6n3UaedXrFsUVS4C4VQ==
+"@saramorillon/hooks@^2.3.1":
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/@saramorillon/hooks/-/hooks-2.3.1.tgz#7f1c9ff6c598adb48d0cb6ba117d8467ad14bde4"
+  integrity sha512-Vd5KzCxCmyML3u+1tbUXAHdKiZkM00m1SKGROYITIfa7+3htTH2x8JOr9Oz0EzCa5L3mWMO8r90GbyzGD0le5w==
 
 "@sinonjs/commons@^1.7.0":
   version "1.8.3"

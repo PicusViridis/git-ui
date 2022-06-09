@@ -16,23 +16,17 @@ export function Login(): JSX.Element {
     <main className="max-width-2 mx-auto my4">
       <article>
         <form onSubmit={onSubmit}>
-          <fieldset>
-            <legend>Log in</legend>
+          <label>
+            Username *
+            <input value={username} onChange={(e) => setUsername(e.target.value)} required />
+          </label>
 
-            <label>
-              Username *
-              <input value={username} onChange={(e) => setUsername(e.target.value)} required />
-            </label>
+          <label>
+            Password *
+            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+          </label>
 
-            <label>
-              Password *
-              <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-            </label>
-
-            <strong>
-              <button>Log in</button>
-            </strong>
-          </fieldset>
+          <button data-variant="primary">Log in</button>
         </form>
       </article>
     </main>

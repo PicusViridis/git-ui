@@ -1,9 +1,9 @@
+import { useCopy } from '@saramorillon/hooks'
 import { IconClipboard } from '@tabler/icons'
 import { formatDistance, parseISO } from 'date-fns'
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 import { ICommit } from '../../../../../models/Commit'
-import { useCopy } from '../../../hooks/useCopy'
 import { makeUrl } from '../../../utils/utils'
 
 export interface ICommitProps {
@@ -14,7 +14,7 @@ export interface ICommitProps {
 }
 
 export function Commit({ commit, repo, branch, path }: ICommitProps) {
-  const [authorized, { loading }, copy] = useCopy()
+  const [authorized, , copy] = useCopy()
 
   return (
     <>
@@ -26,7 +26,7 @@ export function Commit({ commit, repo, branch, path }: ICommitProps) {
             Commited {formatDistance(parseISO(commit.date), Date.now(), { addSuffix: true })} by <b>{commit.author}</b>
           </small>
         </div>
-        <button disabled={!authorized} onClick={() => copy(commit.hash)} aria-busy={loading}>
+        <button disabled={!authorized} onClick={() => copy(commit.hash)} className="hash">
           <IconClipboard /> {commit.hash.slice(0, 7)}
         </button>
       </div>

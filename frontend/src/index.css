@@ -5,6 +5,10 @@
   margin-top: -0.25em;
 }
 
+.hash {
+  font-family: monospace;
+}
+
 /* BADGE */
 
 .badge {

@@ -1,4 +1,4 @@
-import { IconDeviceFloppy, IconLoader } from '@tabler/icons'
+import { IconDeviceFloppy } from '@tabler/icons'
 import React, { FormEvent, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { postUser } from '../../../services/user'
@@ -29,9 +29,9 @@ export function User(): JSX.Element {
         <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
       </label>
 
-      <strong>
-        <button>{loading ? <IconLoader className="icon spin" /> : <IconDeviceFloppy />} Save</button>
-      </strong>
+      <button aria-busy={loading} data-variant="primary">
+        {!loading && <IconDeviceFloppy />} Save
+      </button>
     </form>
   )
 }

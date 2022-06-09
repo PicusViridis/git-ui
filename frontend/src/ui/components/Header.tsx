@@ -11,9 +11,7 @@ export function Header(): JSX.Element {
     <>
       <nav aria-label="Main">
         <Link to={'/'}>
-          <strong>
-            <img src="/favicon.svg" height={16} /> Mini Git
-          </strong>
+          <img src="/favicon.svg" height={16} /> <strong>Mini Git</strong>
         </Link>
 
         <Link to={'/users'} className="ml-auto">

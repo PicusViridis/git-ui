@@ -14,15 +14,17 @@ export function File({ file }: IFileProps): JSX.Element {
 
   return (
     <>
-      <article className="flex justify-between items-center py1 mb0">
-        <h5 className="m0">{byteSize(file.size, { binary: true })}</h5>
-        <button onClick={() => window.location.assign(`/api${makeUrl(repo, branch, 'download', path)}`)}>
-          <IconDownload /> Download file
-        </button>
+      <article className="p0 mb0">
+        <div className="flex justify-between items-center py1 px2">
+          <h5 className="m0">{byteSize(file.size, { binary: true })}</h5>
+          <button onClick={() => window.location.assign(`/api${makeUrl(repo, branch, 'download', path)}`)}>
+            <IconDownload /> Download file
+          </button>
+        </div>
+        <pre className="m0">
+          <code className="block p2">{file.content || 'Cannot preview binary file'}</code>
+        </pre>
       </article>
-      <pre className="m0">
-        <code className="block p2">{file.content || 'Cannot preview binary file'}</code>
-      </pre>
     </>
   )
 }
