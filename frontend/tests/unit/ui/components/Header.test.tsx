@@ -1,10 +1,10 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useCurrentTitle } from '../../../../../src/hooks/useTitle'
-import { logout } from '../../../../../src/services/session'
-import { Header } from '../../../../../src/ui/components/Header/Header'
-import { mock } from '../../../../mocks'
+import { useCurrentTitle } from '../../../../src/hooks/useTitle'
+import { logout } from '../../../../src/services/session'
+import { Header } from '../../../../src/ui/components/Header'
+import { mock } from '../../../mocks'
 
 jest.mock('react-router-dom')
 jest.mock('../../../../../src/services/session')

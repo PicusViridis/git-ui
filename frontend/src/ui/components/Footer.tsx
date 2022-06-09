@@ -1,8 +1,8 @@
 import { useFetch } from '@saramorillon/hooks'
 import { IconInfoCircle } from '@tabler/icons'
 import React, { useState } from 'react'
-import { getApp } from '../../../services/app'
-import { Info } from '../Info/Info'
+import { getApp } from '../../services/app'
+import { Info } from './Info'
 
 export function Footer(): JSX.Element | null {
   const [app] = useFetch(getApp, null)

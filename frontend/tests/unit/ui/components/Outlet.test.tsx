@@ -1,11 +1,11 @@
 import { render, screen } from '@testing-library/react'
 import React, { PropsWithChildren } from 'react'
 import { NavigateProps, useLocation } from 'react-router-dom'
-import { IUser } from '../../../../../../models/User'
-import { SessionContext } from '../../../../../src/contexts/SessionContext'
-import { INavProps } from '../../../../../src/ui/components/Nav/Nav'
-import { PrivateOutlet, PublicOutlet, RepoOutlet } from '../../../../../src/ui/components/Outlet/Outlet'
-import { mock, mockUser1 } from '../../../../mocks'
+import { IUser } from '../../../../../models/User'
+import { SessionContext } from '../../../../src/contexts/SessionContext'
+import { INavProps } from '../../../../src/ui/components/Nav'
+import { PrivateOutlet, PublicOutlet, RepoOutlet } from '../../../../src/ui/components/Outlet'
+import { mock, mockUser1 } from '../../../mocks'
 
 jest.mock('react-router-dom', () => ({
   useLocation: jest.fn(),

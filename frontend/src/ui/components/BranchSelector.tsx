@@ -1,10 +1,10 @@
 import { useFetch } from '@saramorillon/hooks'
 import React, { useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Page } from '../../../../../models/Pages'
-import { IRepoParams } from '../../../hooks/useParams'
-import { getBranches } from '../../../services/branch'
-import { makeUrl } from '../../../utils/utils'
+import { Page } from '../../../../models/Pages'
+import { IRepoParams } from '../../hooks/useParams'
+import { getBranches } from '../../services/branch'
+import { makeUrl } from '../../utils/utils'
 
 export interface IBranchSelectorProps extends IRepoParams {
   page: Page

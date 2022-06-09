@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import React from 'react'
-import { LoadContainer } from '../../../../../src/ui/components/LoadContainer/LoadContainer'
+import { LoadContainer } from '../../../../src/ui/components/LoadContainer'
 
 describe('LoadContainer', () => {
   it('should render loader when loading', () => {

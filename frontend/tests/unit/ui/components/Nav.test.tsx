@@ -1,9 +1,9 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import React from 'react'
-import { IBranchSelectorProps } from '../../../../../src/ui/components/BranchSelector/BranchSelector'
-import { Nav } from '../../../../../src/ui/components/Nav/Nav'
 import { useNav } from '../../../../../src/ui/components/Nav/useNav'
-import { mock, mockBreadcrumb1, mockBreadcrumb2, routerWrapper } from '../../../../mocks'
+import { IBranchSelectorProps } from '../../../../src/ui/components/BranchSelector'
+import { Nav } from '../../../../src/ui/components/Nav'
+import { mock, mockBreadcrumb1, mockBreadcrumb2, routerWrapper } from '../../../mocks'
 
 jest.mock('../../../../../src/ui/components/Nav/useNav')
 jest.mock('../../../../../src/ui/components/BranchSelector/BranchSelector', () => ({

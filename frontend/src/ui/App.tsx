@@ -1,7 +1,7 @@
 import React from 'react'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { SessionProvider } from '../contexts/SessionContext'
-import { PrivateOutlet, PublicOutlet, RepoOutlet } from './components/Outlet/Outlet'
+import { PrivateOutlet, PublicOutlet, RepoOutlet } from './components/Outlet'
 import { Commit } from './pages/Commit/Commit'
 import { Commits } from './pages/Commits/Commits'
 import { Repos } from './pages/Repos/Repos'

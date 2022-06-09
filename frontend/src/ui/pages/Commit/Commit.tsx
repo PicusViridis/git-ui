@@ -1,5 +1,5 @@
 import React from 'react'
-import { LoadContainer } from '../../components/LoadContainer/LoadContainer'
+import { LoadContainer } from '../../components/LoadContainer'
 import { Diff } from './Diff'
 import { useCommit } from './useCommit'
 

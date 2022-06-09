@@ -1,6 +1,6 @@
 import { IconChevronLeft, IconChevronRight, IconChevronsLeft, IconChevronsRight } from '@tabler/icons'
 import React from 'react'
-import { LoadContainer } from '../../components/LoadContainer/LoadContainer'
+import { LoadContainer } from '../../components/LoadContainer'
 import { Commit } from './Commit'
 import { useCommits } from './useCommits'
 

@@ -1,6 +1,6 @@
 import { IconGitBranch, IconWorld } from '@tabler/icons'
 import React from 'react'
-import { IApp } from '../../../../../models/App'
+import { IApp } from '../../../../models/App'
 
 export interface IInfoProps {
   app: IApp

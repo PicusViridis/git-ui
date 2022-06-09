@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import { useTitle } from '../../../hooks/useTitle'
 import { getRepositories } from '../../../services/repository'
 import { makeUrl } from '../../../utils/utils'
-import { LoadContainer } from '../../components/LoadContainer/LoadContainer'
+import { LoadContainer } from '../../components/LoadContainer'
 
 export function Repos(): JSX.Element {
   useTitle('Repositories')

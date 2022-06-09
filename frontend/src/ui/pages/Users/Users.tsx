@@ -3,7 +3,7 @@ import { IconPlus } from '@tabler/icons'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { getUsers } from '../../../services/user'
-import { LoadContainer } from '../../components/LoadContainer/LoadContainer'
+import { LoadContainer } from '../../components/LoadContainer'
 import { User } from './User'
 
 export function Users(): JSX.Element {

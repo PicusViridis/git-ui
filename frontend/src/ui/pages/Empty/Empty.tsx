@@ -1,7 +1,7 @@
 import { useFetch } from '@saramorillon/hooks'
 import React from 'react'
 import { getServerUrl } from '../../../services/server'
-import { LoadContainer } from '../../components/LoadContainer/LoadContainer'
+import { LoadContainer } from '../../components/LoadContainer'
 
 interface IEmptyProps {
   repo: string

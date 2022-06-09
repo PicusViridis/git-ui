@@ -1,9 +1,9 @@
 import { useFetch } from '@saramorillon/hooks'
 import { fireEvent, render, screen } from '@testing-library/react'
 import React from 'react'
-import { Footer } from '../../../../../src/ui/components/Footer/Footer'
-import { IInfoProps } from '../../../../../src/ui/components/Info/Info'
-import { mock } from '../../../../mocks'
+import { Footer } from '../../../../src/ui/components/Footer'
+import { IInfoProps } from '../../../../src/ui/components/Info'
+import { mock } from '../../../mocks'
 
 jest.mock('@saramorillon/hooks')
 jest.mock('../../../../../src/ui/components/Info/Info', () => ({

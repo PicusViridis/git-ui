@@ -2,8 +2,8 @@ import { useTheme } from '@saramorillon/hooks'
 import { render, screen } from '@testing-library/react'
 import mockdate from 'mockdate'
 import React from 'react'
-import { Info } from '../../../../../src/ui/components/Info/Info'
-import { mock, mockApp } from '../../../../mocks'
+import { Info } from '../../../../src/ui/components/Info'
+import { mock, mockApp } from '../../../mocks'
 
 jest.mock('@saramorillon/hooks')
 

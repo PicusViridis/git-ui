@@ -2,7 +2,7 @@ import { useFetch } from '@saramorillon/hooks'
 import React, { createContext, PropsWithChildren, useContext } from 'react'
 import { IUser } from '../../../models/User'
 import { getSession } from '../services/session'
-import { LoadContainer } from '../ui/components/LoadContainer/LoadContainer'
+import { LoadContainer } from '../ui/components/LoadContainer'
 
 export const SessionContext = createContext<IUser | null>(null)
 

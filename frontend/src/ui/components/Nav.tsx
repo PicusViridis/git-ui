@@ -1,9 +1,9 @@
 import React, { useCallback, useMemo } from 'react'
 import { Link } from 'react-router-dom'
-import { Page } from '../../../../../models/Pages'
-import { useRepoParams } from '../../../hooks/useParams'
-import { makeUrl } from '../../../utils/utils'
-import { BranchSelector } from '../BranchSelector/BranchSelector'
+import { Page } from '../../../../models/Pages'
+import { useRepoParams } from '../../hooks/useParams'
+import { makeUrl } from '../../utils/utils'
+import { BranchSelector } from './BranchSelector'
 
 export interface INavProps {
   page: Page

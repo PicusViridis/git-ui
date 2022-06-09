@@ -1,8 +1,8 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import React from 'react'
-import { BranchSelector } from '../../../../../src/ui/components/BranchSelector/BranchSelector'
 import { useBranches } from '../../../../../src/ui/components/BranchSelector/useBranches'
-import { mock } from '../../../../mocks'
+import { BranchSelector } from '../../../../src/ui/components/BranchSelector'
+import { mock } from '../../../mocks'
 
 jest.mock('../../../../../src/ui/components/BranchSelector/useBranches')
 
