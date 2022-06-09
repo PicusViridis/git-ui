@@ -1,4 +1,4 @@
-import { IconGitBranch, IconGlobe } from '@tabler/icons'
+import { IconGitBranch, IconWorld } from '@tabler/icons'
 import React from 'react'
 import { IApp } from '../../../../../models/App'
 
@@ -24,7 +24,7 @@ export function Info({ app, open, toggle }: IInfoProps): JSX.Element | null {
           </a>
           <br />
           <a href={app.author.url} target="_blank" rel="noopener noreferrer">
-            <IconGlobe /> {app.author.url}
+            <IconWorld /> {app.author.url}
           </a>
           <br />
           &copy; {app.author.name} {new Date().getFullYear()}
