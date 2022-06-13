@@ -941,11 +941,6 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
-"@mini-utils/eslint-config-typescript@^1.0.7":
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/@mini-utils/eslint-config-typescript/-/eslint-config-typescript-1.0.7.tgz#f414d807f1dbf72765187a20085b3ddf98e76865"
-  integrity sha512-JS23g2sPTFOU/9bQtwyxk5+nsVfsko1y2pTSARP5MGFA6PM9DD482JgqdNwvveIdNslzeM61KIn5m/m8cEo9UA==
-
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
   resolved "https://registry.yarnpkg.com/@nodelib/fs.scandir/-/fs.scandir-2.1.5.tgz#7619c2eb21b25483f6d167548b4cfd5a7488c3d5"
@@ -974,6 +969,11 @@
   dependencies:
     estree-walker "^2.0.1"
     picomatch "^2.2.2"
+
+"@saramorillon/eslint-config-typescript@^1.0.7":
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/@saramorillon/eslint-config-typescript/-/eslint-config-typescript-1.0.7.tgz#0778c0e9c294a2aae63358d4ec7b3b9c6585d179"
+  integrity sha512-/R4UCGXauxxiKg9/z4bF7WOsUpHAOwTXonnlE19rT/xU90Opu58jEchw7ji0MnibPbptJpdgptm5wgHL3SlDMA==
 
 "@saramorillon/hooks@^2.3.1":
   version "2.3.1"
