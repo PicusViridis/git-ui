@@ -8,5 +8,12 @@ export interface ICommit {
 
 export interface ICommitDiff {
   message: string;
-  diff: string;
+  diff: {
+    name: string;
+    status: "changed" | "added" | "removed" | "renamed";
+    lines: {
+      left: { n?: number; v?: string; t?: "empty" | "add" | "remove" };
+      right: { n?: number; v?: string; t?: "empty" | "add" | "remove" };
+    }[];
+  };
 }

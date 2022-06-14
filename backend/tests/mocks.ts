@@ -76,3 +76,13 @@ export const mockCommit1: ICommit = {
   message: 'message',
   parent: 'parent',
 }
+
+export const test = `diff --git a/file.txt b/file.txt
+index hash1..hash2 100000
+--- a/file.txt
++++ b/file.txt
+@@ -1,1 +1,1 @@
+-removed line
++added line
+ context line
+`
