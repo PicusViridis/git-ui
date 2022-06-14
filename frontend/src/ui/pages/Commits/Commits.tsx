@@ -1,12 +1,22 @@
+import { useFetch, usePagination } from '@saramorillon/hooks'
 import { IconChevronLeft, IconChevronRight, IconChevronsLeft, IconChevronsRight } from '@tabler/icons'
-import React from 'react'
+import React, { useCallback, useEffect } from 'react'
+import { useRepoParams } from '../../../hooks/useParams'
+import { getCommits } from '../../../services/commit'
 import { LoadContainer } from '../../components/LoadContainer'
 import { Commit } from './Commit'
-import { useCommits } from './useCommits'
+
+const limit = 10
 
 export function Commits(): JSX.Element {
-  const { commits, loading, repo, branch, path, ...pagination } = useCommits(10)
-  const { page, maxPage, first, previous, next, last, canPrevious, canNext } = pagination
+  const { page, setMaxPage, maxPage, first, previous, next, last, canPrevious, canNext } = usePagination()
+  const { repo, branch, path } = useRepoParams()
+  const fetch = useCallback(() => getCommits(repo, branch, page, limit, path), [repo, branch, path, page])
+  const [{ commits, total }, { loading }] = useFetch(fetch, { commits: [], total: 0 })
+
+  useEffect(() => {
+    setMaxPage(Math.ceil(total / limit))
+  }, [total, setMaxPage])
 
   return (
     <LoadContainer loading={loading}>

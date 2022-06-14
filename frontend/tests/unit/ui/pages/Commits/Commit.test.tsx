@@ -1,13 +1,13 @@
+import { useCopy } from '@saramorillon/hooks'
 import { fireEvent, render, screen } from '@testing-library/react'
 import mockdate from 'mockdate'
 import React from 'react'
-import { useCopy } from '../../../../../src/hooks/useCopy'
 import { Commit } from '../../../../../src/ui/pages/Commits/Commit'
 import { mock, mockCommit1, routerWrapper } from '../../../../mocks'
 
-jest.mock('../../../../../src/hooks/useCopy')
-
 mockdate.set('2019-02-01T00:00:00.000Z')
+
+jest.mock('@saramorillon/hooks')
 
 describe('Commit', () => {
   beforeEach(() => {
@@ -15,11 +15,6 @@ describe('Commit', () => {
   })
 
   it('should render commit message', () => {
-    render(<Commit commit={mockCommit1} repo="repo" branch="branch" path="path" />, { wrapper: routerWrapper })
-    expect(screen.getByText('message1')).toBeInTheDocument()
-  })
-
-  it('should render commit message link', () => {
     render(<Commit commit={mockCommit1} repo="repo" branch="branch" path="path" />, { wrapper: routerWrapper })
     expect(screen.getByText('message1')).toHaveAttribute('href', '/repo/repo/branch/commit/hash1?path=path')
   })
