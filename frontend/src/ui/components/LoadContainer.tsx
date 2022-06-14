@@ -1,4 +1,5 @@
 import React, { HTMLAttributes, PropsWithChildren } from 'react'
+import { Loader } from './Helpers'
 
 interface ILoadContainerProps extends HTMLAttributes<HTMLDivElement> {
   loading?: boolean
@@ -6,7 +7,7 @@ interface ILoadContainerProps extends HTMLAttributes<HTMLDivElement> {
 
 export function LoadContainer({ loading, children, ...props }: PropsWithChildren<ILoadContainerProps>): JSX.Element {
   if (loading) {
-    return <div role="progressbar" aria-busy {...props} />
+    return <Loader />
   }
 
   return <>{children}</>
