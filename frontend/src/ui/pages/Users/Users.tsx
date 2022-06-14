@@ -11,14 +11,13 @@ export function Users(): JSX.Element {
 
   return (
     <>
-      <Link className="mb2 right" to="/user">
-        <IconPlus />
-        Create user
-      </Link>
+      <div className="mb2 clearfix">
+        <Link className="right" to="/user">
+          <IconPlus /> Create user
+        </Link>
+      </div>
 
-      <div className="clearfix" />
-
-      <LoadContainer loading={loading} className="center">
+      <LoadContainer loading={loading}>
         {users.map((user) => (
           <User key={user.username} user={user} refresh={refresh} />
         ))}

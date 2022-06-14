@@ -1,34 +1,44 @@
 import { render, screen } from '@testing-library/react'
 import React from 'react'
+import { useCommitParams } from '../../../../../src/hooks/useParams'
+import { getCommit } from '../../../../../src/services/commit'
 import { Commit } from '../../../../../src/ui/pages/Commit/Commit'
-import { IDiffProps } from '../../../../../src/ui/pages/Commit/Diff'
-import { useCommit } from '../../../../../src/ui/pages/Commit/useCommit'
-import { mock } from '../../../../mocks'
+import { flushPromises, mock, mockCommitDiff, renderAsync } from '../../../../mocks'
 
-jest.mock('../../../../../src/ui/pages/Commit/useCommit')
-jest.mock('../../../../../src/ui/pages/Commit/Diff', () => ({
-  Diff: ({ diff }: IDiffProps) => <div>{diff}</div>,
-}))
+jest.mock('../../../../../src/hooks/useParams')
+jest.mock('../../../../../src/services/commit')
 
 describe('Commit', () => {
   beforeEach(() => {
-    mock(useCommit).mockReturnValue({ commit: { message: 'message' }, loading: false, diffs: ['diff1', 'diff2'] })
+    mock(getCommit).mockResolvedValue(mockCommitDiff)
+    mock(useCommitParams).mockReturnValue({ repo: 'repo', branch: 'branch', hash: 'hash' })
   })
 
-  it('should show loader when loading', () => {
-    mock(useCommit).mockReturnValue({ commit: null, loading: true, diffs: [] })
-    render(<Commit />)
-    expect(screen.getByRole('progressbar')).toBeInTheDocument()
+  it('should get commit', async () => {
+    await renderAsync(<Commit />)
+    expect(getCommit).toHaveBeenCalledWith('repo', 'branch', 'hash')
   })
 
-  it('should render commit message', () => {
+  it('should render loader when loading', async () => {
     render(<Commit />)
+    expect(screen.getByLabelText('Loading...')).toBeInTheDocument()
+    await flushPromises()
+  })
+
+  it('should render not found when commit is not found', async () => {
+    mock(getCommit).mockResolvedValue(null)
+    await renderAsync(<Commit />)
+    expect(screen.getByText('Not found')).toBeInTheDocument()
+  })
+
+  it('should render commit message', async () => {
+    await renderAsync(<Commit />)
     expect(screen.getByText('message')).toBeInTheDocument()
   })
 
-  it('should render commit diff', () => {
-    render(<Commit />)
-    expect(screen.getByText('diff1')).toBeInTheDocument()
-    expect(screen.getByText('diff2')).toBeInTheDocument()
+  it('should render commit diff', async () => {
+    await renderAsync(<Commit />)
+    expect(screen.getByText('removed line')).toBeInTheDocument()
+    expect(screen.getByText('added line')).toBeInTheDocument()
   })
 })

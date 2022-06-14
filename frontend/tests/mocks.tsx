@@ -4,7 +4,7 @@ import React, { PropsWithChildren } from 'react'
 import { act } from 'react-dom/test-utils'
 import { MemoryRouter, useNavigate } from 'react-router-dom'
 import { IApp } from '../../models/App'
-import { ICommit } from '../../models/Commit'
+import { ICommit, ICommitDiff } from '../../models/Commit'
 import { FileType, IFile, IFileMeta } from '../../models/File'
 import { IRepository } from '../../models/Repo'
 import { IUser } from '../../models/User'
@@ -118,6 +118,19 @@ export const mockCommit2: ICommit = {
   date: '2020-01-01 00:00:00',
   message: 'message2',
   parent: 'parent2',
+}
+
+export const mockCommitDiff: ICommitDiff = {
+  message: 'message',
+  diff: `diff --git a/file.txt b/file.txt
+index hash1..hash2 100000
+--- a/file.txt
++++ b/file.txt
+@@ -1,1 +1,1 @@
+-removed line
++added line
+ context line
+`,
 }
 
 export const mockApp: IApp = {
