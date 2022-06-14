@@ -2,12 +2,12 @@ import React from 'react'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { SessionProvider } from '../contexts/SessionContext'
 import { PrivateOutlet, PublicOutlet, RepoOutlet } from './components/Outlet'
-import { Commit } from './pages/Commit/Commit'
-import { Commits } from './pages/Commits/Commits'
-import { Repos } from './pages/Repos/Repos'
-import { Tree } from './pages/Tree/Tree'
-import { User } from './pages/User/User'
-import { Users } from './pages/Users/Users'
+import { Commit } from './pages/Commit'
+import { Commits } from './pages/Commits'
+import { Repos } from './pages/Repos'
+import { Tree } from './pages/Tree'
+import { User } from './pages/User'
+import { Users } from './pages/Users'
 
 export function App(): JSX.Element | null {
   return (

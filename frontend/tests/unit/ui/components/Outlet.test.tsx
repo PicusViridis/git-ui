@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import mockdate from 'mockdate'
 import React, { PropsWithChildren } from 'react'
-import { NavigateProps, useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import { IUser } from '../../../../../models/User'
 import { SessionContext } from '../../../../src/contexts/SessionContext'
 import { useRepoParams } from '../../../../src/hooks/useParams'
@@ -10,12 +10,6 @@ import { getBranches } from '../../../../src/services/branch'
 import { PrivateOutlet, PublicOutlet, RepoOutlet } from '../../../../src/ui/components/Outlet'
 import { mock, mockApp, mockUser1, renderAsync, routerWrapper } from '../../../mocks'
 
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useLocation: jest.fn(),
-  Navigate: ({ to }: NavigateProps) => <div>Navigate to {to}</div>,
-  Outlet: () => <div>Outlet</div>,
-}))
 jest.mock('../../../../src/hooks/useParams')
 jest.mock('../../../../src/services/app')
 jest.mock('../../../../src/services/branch')

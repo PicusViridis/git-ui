@@ -1,4 +1,12 @@
-import { DiffBlock, DiffLine, LineType } from 'diff2html/lib/types'
+import { DiffBlock, DiffFile, DiffLine, LineType } from 'diff2html/lib/types'
+
+export function parseDiff(diff: Pick<DiffFile, 'oldName' | 'newName' | 'blocks'>) {
+  return {
+    name: parseName(diff.oldName, diff.newName),
+    status: parseStatus(diff.oldName, diff.newName),
+    lines: parseLines(diff.blocks),
+  }
+}
 
 export function parseName(oldName: string, newName: string) {
   if (oldName === newName) return oldName

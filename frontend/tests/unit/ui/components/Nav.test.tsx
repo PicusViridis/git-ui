@@ -5,10 +5,6 @@ import { getBranches } from '../../../../src/services/branch'
 import { Nav } from '../../../../src/ui/components/Nav'
 import { mock, mockNavigate, renderAsync, routerWrapper } from '../../../mocks'
 
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useNavigate: jest.fn(),
-}))
 jest.mock('../../../../src/hooks/useParams')
 jest.mock('../../../../src/services/branch')
 
