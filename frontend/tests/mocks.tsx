@@ -2,7 +2,7 @@ import { render } from '@testing-library/react'
 import { Renderer, renderHook, RenderHookOptions, RenderHookResult } from '@testing-library/react-hooks'
 import React, { PropsWithChildren } from 'react'
 import { act } from 'react-dom/test-utils'
-import { MemoryRouter } from 'react-router-dom'
+import { MemoryRouter, useNavigate } from 'react-router-dom'
 import { IApp } from '../../models/App'
 import { ICommit } from '../../models/Commit'
 import { FileType, IFile, IFileMeta } from '../../models/File'
@@ -44,6 +44,12 @@ export function mockLocation(fns: Partial<Location>): void {
 
 export function restoreLocation(): void {
   Object.defineProperty(window, 'location', { value: location, writable: false })
+}
+
+export function mockNavigate(): jest.Mock {
+  const navigate = jest.fn()
+  mock(useNavigate).mockReturnValue(navigate)
+  return navigate
 }
 
 export const mockUser1: IUser = {
@@ -116,19 +122,7 @@ export const mockCommit2: ICommit = {
 
 export const mockApp: IApp = {
   name: 'name',
-  version: 'version',
+  version: '1.0.0',
   author: { name: 'author', url: 'url' },
   repository: { url: 'repository' },
-}
-
-export const mockBreadcrumb1: BreadcrumbProps = {
-  text: 'breadcrumb1',
-  href: 'href1',
-  current: false,
-}
-
-export const mockBreadcrumb2: BreadcrumbProps = {
-  text: 'breadcrumb2',
-  href: 'href2',
-  current: true,
 }

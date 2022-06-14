@@ -20,78 +20,63 @@ describe('parseName', () => {
 })
 
 describe('parseStatus', () => {
-  it('should return CHANGED if old name and new name are equal', () => {
-    expect(parseStatus('name', 'name')).toEqual(['CHANGED', 'warning'])
+  it('should return "changed" if old name and new name are equal', () => {
+    expect(parseStatus('name', 'name')).toBe('changed')
   })
 
-  it('should return ADDED if old name is /dev/null', () => {
-    expect(parseStatus('/dev/null', 'newName')).toEqual(['ADDED', 'success'])
+  it('should return "added" if old name is /dev/null', () => {
+    expect(parseStatus('/dev/null', 'newName')).toBe('added')
   })
 
-  it('should return DELETED if new name is /dev/null', () => {
-    expect(parseStatus('oldName', '/dev/null')).toEqual(['DELETED', 'danger'])
+  it('should return "deleted" if new name is /dev/null', () => {
+    expect(parseStatus('oldName', '/dev/null')).toBe('deleted')
   })
 
-  it('should return RENAMED if name changed', () => {
-    expect(parseStatus('oldName', 'newName')).toEqual(['RENAMED', 'warning'])
+  it('should return "renamed" if name changed', () => {
+    expect(parseStatus('oldName', 'newName')).toBe('renamed')
   })
 })
 
 describe('parseLines', () => {
-  it('should return old number, content, new number and content if line is used as context', () => {
+  it('should return an empty line if line is used for context', () => {
     const line: DiffLine = { type: LineType.CONTEXT, content: 'content', oldNumber: 1, newNumber: 2 }
-    expect(parseLines([{ lines: [line] }], 'dark')).toEqual([
-      [{ value: 1 }, { value: 'content' }, { value: 2 }, { value: 'content' }],
+    expect(parseLines([{ lines: [line] }])).toEqual([
+      [
+        { n: 1, v: 'content' },
+        { n: 2, v: 'content' },
+      ],
     ])
   })
 
-  it('should return old number, content, next line new number and next line content if line has been deleted and next line has been inserted', () => {
+  it('should return a diff line if line has been deleted and a other line has been inserted', () => {
     const line: DiffLine = { type: LineType.DELETE, content: 'content', oldNumber: 1, newNumber: undefined }
-    const nextLine: DiffLine = { type: LineType.INSERT, content: 'next content', oldNumber: undefined, newNumber: 2 }
-    expect(parseLines([{ lines: [line, nextLine] }], 'dark')).toEqual([
+    const next: DiffLine = { type: LineType.INSERT, content: 'new content', oldNumber: undefined, newNumber: 2 }
+    expect(parseLines([{ lines: [line, next] }])).toEqual([
       [
-        { value: 1, color: '#A82A2A66' },
-        { value: 'content', color: '#A82A2A66' },
-        { value: 2, color: '#1D732466' },
-        { value: 'next content', color: '#1D732466' },
+        { n: 1, v: 'content', t: 'remove' },
+        { n: 2, v: 'new content', t: 'add' },
       ],
     ])
   })
 
-  it('should return old number and content if line has been deleted and next line has not been inserted', () => {
+  it('should return a diff line if line has been deleted and no other line has been inserted', () => {
     const line: DiffLine = { type: LineType.DELETE, content: 'content', oldNumber: 1, newNumber: undefined }
-    expect(parseLines([{ lines: [line] }], 'dark')).toEqual([
+    expect(parseLines([{ lines: [line] }])).toEqual([[{ n: 1, v: 'content', t: 'remove' }, { t: 'empty' }]])
+  })
+
+  it('should return a diff line if line has been inserted and an other line has been deleted', () => {
+    const line: DiffLine = { type: LineType.INSERT, content: 'content', oldNumber: undefined, newNumber: 1 }
+    const next: DiffLine = { type: LineType.DELETE, content: 'old content', oldNumber: 2, newNumber: undefined }
+    expect(parseLines([{ lines: [line, next] }])).toEqual([
       [
-        { value: 1, color: '#A82A2A66' },
-        { value: 'content', color: '#A82A2A66' },
-        { value: ' ', color: '#394B5966' },
-        { value: ' ', color: '#394B5966' },
+        { n: 2, v: 'old content', t: 'remove' },
+        { n: 1, v: 'content', t: 'add' },
       ],
     ])
   })
 
-  it('should return next line old number, next line content, new number and content if line has been inserted and next line has been deleted', () => {
-    const line: DiffLine = { type: LineType.INSERT, content: 'content', oldNumber: undefined, newNumber: 1 }
-    const nextLine: DiffLine = { type: LineType.DELETE, content: 'next content', oldNumber: 2, newNumber: undefined }
-    expect(parseLines([{ lines: [line, nextLine] }], 'dark')).toEqual([
-      [
-        { value: 2, color: '#A82A2A66' },
-        { value: 'next content', color: '#A82A2A66' },
-        { value: 1, color: '#1D732466' },
-        { value: 'content', color: '#1D732466' },
-      ],
-    ])
-  })
-
-  it('should return new number and content if line has been inserted and next line has not been deleted', () => {
-    const line: DiffLine = { type: LineType.INSERT, content: 'content', oldNumber: undefined, newNumber: 1 }
-    expect(parseLines([{ lines: [line] }], 'dark')).toEqual([
-      [
-        { value: ' ', color: '#394B5966' },
-        { value: ' ', color: '#394B5966' },
-        { value: 1, color: '#1D732466' },
-        { value: 'content', color: '#1D732466' },
-      ],
-    ])
+  it('should return a diff line if line has been inserted and no other line has been deleted', () => {
+    const line: DiffLine = { type: LineType.DELETE, content: 'content', oldNumber: 1, newNumber: undefined }
+    expect(parseLines([{ lines: [line] }])).toEqual([[{ n: 1, v: 'content', t: 'remove' }, { t: 'empty' }]])
   })
 })
