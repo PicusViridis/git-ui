@@ -1,3 +1,4 @@
+import { IPagination } from '@saramorillon/hooks'
 import { render } from '@testing-library/react'
 import { Renderer, renderHook, RenderHookOptions, RenderHookResult } from '@testing-library/react-hooks'
 import React, { PropsWithChildren } from 'react'
@@ -138,4 +139,20 @@ export const mockApp: IApp = {
   version: '1.0.0',
   author: { name: 'author', url: 'url' },
   repository: { url: 'repository' },
+}
+
+export function mockPagination(pageination?: Partial<IPagination>): IPagination {
+  return {
+    page: 1,
+    setMaxPage: jest.fn(),
+    maxPage: 10,
+    first: jest.fn(),
+    previous: jest.fn(),
+    next: jest.fn(),
+    last: jest.fn(),
+    canPrevious: false,
+    canNext: false,
+    goTo: jest.fn(),
+    ...pageination,
+  }
 }

@@ -24,19 +24,19 @@ export function Commits(): JSX.Element {
         <Commit key={commit.hash} commit={commit} repo={repo} branch={branch} path={path} />
       ))}
       <div className="center">
-        <button disabled={!canPrevious} onClick={first}>
+        <button disabled={!canPrevious} onClick={first} aria-label="First">
           <IconChevronsLeft />
         </button>
-        <button disabled={!canPrevious} onClick={previous}>
+        <button disabled={!canPrevious} onClick={previous} aria-label="Previous">
           <IconChevronLeft />
         </button>
         <span className="mx1">
           Page {page} of {maxPage}
         </span>
-        <button disabled={!canNext} onClick={next}>
+        <button disabled={!canNext} onClick={next} aria-label="Next">
           <IconChevronRight />
         </button>
-        <button disabled={!canNext} onClick={last}>
+        <button disabled={!canNext} onClick={last} aria-label="Last">
           <IconChevronsRight />
         </button>
       </div>

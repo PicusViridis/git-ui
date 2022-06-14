@@ -1,130 +1,115 @@
-import { fireEvent, render, screen } from '@testing-library/react'
+import { useCopy, usePagination } from '@saramorillon/hooks'
+import { fireEvent, screen } from '@testing-library/react'
 import React from 'react'
-import { ICommitProps } from '../../../../../src/ui/pages/Commits/Commit'
+import { useRepoParams } from '../../../../../src/hooks/useParams'
+import { getCommits } from '../../../../../src/services/commit'
 import { Commits } from '../../../../../src/ui/pages/Commits/Commits'
-import { useCommits } from '../../../../../src/ui/pages/Commits/useCommits'
-import { mock, mockCommit1, mockCommit2 } from '../../../../mocks'
+import { mock, mockCommit1, mockPagination, renderAsync, routerWrapper } from '../../../../mocks'
 
-jest.mock('../../../../../src/ui/pages/Commits/useCommits')
-jest.mock('../../../../../src/ui/pages/Commits/Commit', () => ({
-  Commit: ({ commit }: ICommitProps) => <div>{commit.hash}</div>,
+jest.mock('@saramorillon/hooks', () => ({
+  ...jest.requireActual('@saramorillon/hooks'),
+  useCopy: jest.fn(),
+  usePagination: jest.fn(),
 }))
-
-function mockUseCommits(mock?: Partial<ReturnType<typeof useCommits>>) {
-  return {
-    commits: [],
-    loading: false,
-    repo: 'repo',
-    branch: 'branch',
-    page: 1,
-    maxPage: 1,
-    first: jest.fn(),
-    previous: jest.fn(),
-    next: jest.fn(),
-    last: jest.fn(),
-    canPrevious: false,
-    canNext: false,
-    ...mock,
-  }
-}
+jest.mock('../../../../../src/hooks/useParams')
+jest.mock('../../../../../src/services/commit')
 
 describe('Commits', () => {
   beforeEach(() => {
-    mock(useCommits).mockReturnValue(mockUseCommits())
+    mock(useCopy).mockReturnValue([false, { loading: false }, jest.fn()])
+    mock(usePagination).mockReturnValue(mockPagination())
+    mock(useRepoParams).mockReturnValue({ repo: 'repo', branch: 'branch', path: 'path' })
+    mock(getCommits).mockResolvedValue({ commits: [mockCommit1], total: 0 })
   })
 
-  it('should show loader when loading', () => {
-    mock(useCommits).mockReturnValue(mockUseCommits({ loading: true }))
-    render(<Commits />)
-    expect(screen.getByRole('progressbar')).toBeInTheDocument()
+  it('should get commits', async () => {
+    await renderAsync(<Commits />, { wrapper: routerWrapper })
+    expect(getCommits).toHaveBeenCalledWith('repo', 'branch', 1, 10, 'path')
   })
 
-  it('should render commits', () => {
-    mock(useCommits).mockReturnValue(mockUseCommits({ commits: [mockCommit1, mockCommit2] }))
-    render(<Commits />)
-    expect(screen.getByText('hash1')).toBeInTheDocument()
-    expect(screen.getByText('hash2')).toBeInTheDocument()
+  it('should render commits', async () => {
+    await renderAsync(<Commits />, { wrapper: routerWrapper })
+    expect(screen.getByText('message1')).toBeInTheDocument()
   })
 
-  it('should render current and max page', () => {
-    mock(useCommits).mockReturnValue(mockUseCommits({ page: 1, maxPage: 10 }))
-    render(<Commits />)
+  it('should render current and max page', async () => {
+    await renderAsync(<Commits />, { wrapper: routerWrapper })
     expect(screen.getByText('Page 1 of 10')).toBeInTheDocument()
   })
 
-  it('should disable first button if cannot go previous', () => {
-    render(<Commits />)
-    expect(screen.getByTitle('First')).toBeDisabled()
+  it('should disable first button if cannot go previous', async () => {
+    await renderAsync(<Commits />, { wrapper: routerWrapper })
+    expect(screen.getByLabelText('First')).toBeDisabled()
   })
 
-  it('should not disable first button if can go previous', () => {
-    mock(useCommits).mockReturnValue(mockUseCommits({ canPrevious: true }))
-    render(<Commits />)
-    expect(screen.getByTitle('First')).toBeEnabled()
+  it('should not disable first button if can go previous', async () => {
+    mock(usePagination).mockReturnValue(mockPagination({ canPrevious: true }))
+    await renderAsync(<Commits />, { wrapper: routerWrapper })
+    expect(screen.getByLabelText('First')).toBeEnabled()
   })
 
-  it('should disable previous button if cannot go previous', () => {
-    render(<Commits />)
-    expect(screen.getByTitle('Previous')).toBeDisabled()
+  it('should disable previous button if cannot go previous', async () => {
+    await renderAsync(<Commits />, { wrapper: routerWrapper })
+    expect(screen.getByLabelText('Previous')).toBeDisabled()
   })
 
-  it('should not disable previous button if can go previous', () => {
-    mock(useCommits).mockReturnValue(mockUseCommits({ canPrevious: true }))
-    render(<Commits />)
-    expect(screen.getByTitle('Previous')).toBeEnabled()
+  it('should not disable previous button if can go previous', async () => {
+    mock(usePagination).mockReturnValue(mockPagination({ canPrevious: true }))
+    await renderAsync(<Commits />, { wrapper: routerWrapper })
+    expect(screen.getByLabelText('Previous')).toBeEnabled()
   })
 
-  it('should disable next button if cannot go next', () => {
-    render(<Commits />)
-    expect(screen.getByTitle('Next')).toBeDisabled()
+  it('should disable next button if cannot go next', async () => {
+    await renderAsync(<Commits />, { wrapper: routerWrapper })
+    expect(screen.getByLabelText('Next')).toBeDisabled()
   })
 
-  it('should not disable next button if can go next', () => {
-    mock(useCommits).mockReturnValue(mockUseCommits({ canNext: true }))
-    render(<Commits />)
-    expect(screen.getByTitle('Next')).toBeEnabled()
+  it('should not disable next button if can go next', async () => {
+    mock(usePagination).mockReturnValue(mockPagination({ canNext: true }))
+    await renderAsync(<Commits />, { wrapper: routerWrapper })
+    expect(screen.getByLabelText('Next')).toBeEnabled()
   })
 
-  it('should disable last button if cannot go next', () => {
-    render(<Commits />)
-    expect(screen.getByTitle('Last')).toBeDisabled()
+  it('should disable last button if cannot go next', async () => {
+    await renderAsync(<Commits />, { wrapper: routerWrapper })
+    expect(screen.getByLabelText('Last')).toBeDisabled()
   })
 
-  it('should not disable last button if can go next', () => {
-    mock(useCommits).mockReturnValue(mockUseCommits({ canNext: true }))
-    render(<Commits />)
-    expect(screen.getByTitle('Last')).toBeEnabled()
+  it('should not disable last button if can go next', async () => {
+    mock(usePagination).mockReturnValue(mockPagination({ canNext: true }))
+    await renderAsync(<Commits />, { wrapper: routerWrapper })
+    expect(screen.getByLabelText('Last')).toBeEnabled()
   })
 
-  it('should go to first page when clicking on first', () => {
-    const first = jest.fn()
-    mock(useCommits).mockReturnValue(mockUseCommits({ first, canPrevious: true }))
-    render(<Commits />)
-    fireEvent.click(screen.getByTitle('First'))
-    expect(first).toHaveBeenCalled()
+  it('should go to first page when clicking on first', async () => {
+    const pagination = mockPagination({ canPrevious: true })
+    mock(usePagination).mockReturnValue(pagination)
+    await renderAsync(<Commits />, { wrapper: routerWrapper })
+    fireEvent.click(screen.getByLabelText('First'))
+    expect(pagination.first).toHaveBeenCalled()
   })
 
-  it('should go to previous page when clicking on previous', () => {
-    const previous = jest.fn()
-    mock(useCommits).mockReturnValue(mockUseCommits({ previous, canPrevious: true }))
-    render(<Commits />)
-    fireEvent.click(screen.getByTitle('Previous'))
-    expect(previous).toHaveBeenCalled()
+  it('should go to previous page when clicking on previous', async () => {
+    const pagination = mockPagination({ canPrevious: true })
+    mock(usePagination).mockReturnValue(pagination)
+    await renderAsync(<Commits />, { wrapper: routerWrapper })
+    fireEvent.click(screen.getByLabelText('Previous'))
+    expect(pagination.previous).toHaveBeenCalled()
   })
 
-  it('should go to next page when clicking on next', () => {
-    const next = jest.fn()
-    mock(useCommits).mockReturnValue(mockUseCommits({ next, canNext: true }))
-    render(<Commits />)
-    fireEvent.click(screen.getByTitle('Next'))
-    expect(next).toHaveBeenCalled()
+  it('should go to next page when clicking on next', async () => {
+    const pagination = mockPagination({ canNext: true })
+    mock(usePagination).mockReturnValue(pagination)
+    await renderAsync(<Commits />, { wrapper: routerWrapper })
+    fireEvent.click(screen.getByLabelText('Next'))
+    expect(pagination.next).toHaveBeenCalled()
   })
 
-  it('should go to last page when clicking on last', () => {
-    const last = jest.fn()
-    mock(useCommits).mockReturnValue(mockUseCommits({ last, canNext: true }))
-    render(<Commits />)
-    fireEvent.click(screen.getByTitle('Last'))
-    expect(last).toHaveBeenCalled()
+  it('should go to last page when clicking on last', async () => {
+    const pagination = mockPagination({ canNext: true })
+    mock(usePagination).mockReturnValue(pagination)
+    await renderAsync(<Commits />, { wrapper: routerWrapper })
+    fireEvent.click(screen.getByLabelText('Last'))
+    expect(pagination.last).toHaveBeenCalled()
   })
 })
