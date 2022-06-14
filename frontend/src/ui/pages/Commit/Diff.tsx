@@ -15,7 +15,9 @@ export function Diff({ diff }: IDiffProps) {
   return (
     <article className="my2 p0 pb1">
       <div className="pb1 pt2 px2">
-        <mark className={c('right', 'badge', label)}>{label.toUpperCase()}</mark>
+        <mark data-variant="badge" className={c('right', label)}>
+          {label.toUpperCase()}
+        </mark>
         <span>{name}</span>
       </div>
       <hr />

@@ -9,20 +9,16 @@
 
 /* BADGE */
 
-.badge {
-  font-size: smaller;
-}
-
-.badge.renamed,
-.badge.changed {
+.renamed,
+.changed {
   --mark-background: rgba(187, 128, 9, 0.4);
 }
 
-.badge.added {
+.added {
   --mark-background: rgba(46, 160, 67, 0.4);
 }
 
-.badge.removed {
+.removed {
   --mark-background: rgba(248, 81, 73, 0.4);
 }
 
