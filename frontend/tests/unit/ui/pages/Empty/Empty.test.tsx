@@ -10,7 +10,7 @@ describe('Empty', () => {
   it('should show loader when loading', () => {
     mock(useFetch).mockReturnValue(['', { loading: true }])
     render(<Empty repo="repo" />)
-    expect(screen.getByRole('progressbar')).toBeInTheDocument()
+    expect(screen.getByLabelText('Loading...')).toBeInTheDocument()
   })
 
   it('should render clone url', () => {
