@@ -1,60 +1,74 @@
-import { fireEvent, render, screen } from '@testing-library/react'
+import { fireEvent, screen } from '@testing-library/react'
 import React from 'react'
-import { useNav } from '../../../../../src/ui/components/Nav/useNav'
-import { IBranchSelectorProps } from '../../../../src/ui/components/BranchSelector'
+import { useRepoParams } from '../../../../src/hooks/useParams'
+import { getBranches } from '../../../../src/services/branch'
 import { Nav } from '../../../../src/ui/components/Nav'
-import { mock, mockBreadcrumb1, mockBreadcrumb2, routerWrapper } from '../../../mocks'
+import { mock, mockNavigate, renderAsync, routerWrapper } from '../../../mocks'
 
-jest.mock('../../../../../src/ui/components/Nav/useNav')
-jest.mock('../../../../../src/ui/components/BranchSelector/BranchSelector', () => ({
-  BranchSelector: (props: IBranchSelectorProps) => (
-    <div>
-      {props.repo} {props.branch} {props.page} {props.path}
-    </div>
-  ),
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useNavigate: jest.fn(),
 }))
+jest.mock('../../../../src/hooks/useParams')
+jest.mock('../../../../src/services/branch')
 
 describe('Nav', () => {
   beforeEach(() => {
-    mock(useNav).mockReturnValue({ breadcrumb: [] })
+    mock(useRepoParams).mockReturnValue({ repo: 'repo', branch: 'branch', path: 'path' })
+    mock(getBranches).mockResolvedValue(['branch1', 'branch2'])
   })
 
-  it('should render active tab', () => {
-    render(<Nav page="tree" />, { wrapper: routerWrapper })
-    expect(screen.getAllByRole('tab')[0]).toHaveAttribute('aria-selected', 'true')
-    expect(screen.getAllByRole('tab')[1]).toHaveAttribute('aria-selected', 'false')
+  it('should render tabs', async () => {
+    await renderAsync(<Nav page="tree" />, { wrapper: routerWrapper })
+    expect(screen.getByText('Files')).toHaveAttribute('href', '/repo/repo/branch/tree?path=path')
+    expect(screen.getByText('Commits')).toHaveAttribute('href', '/repo/repo/branch/commits?path=path')
   })
 
-  it('should change tab when clicking on tab', () => {
-    const onTabChange = jest.fn()
-    mock(useNav).mockReturnValue({ breadcrumb: [], onTabChange })
-    render(<Nav page="tree" />, { wrapper: routerWrapper })
-    fireEvent.click(screen.getAllByRole('tab')[1])
-    expect(onTabChange).toHaveBeenCalledWith('commits', 'tree', expect.any(Object))
+  it('should render active tab', async () => {
+    await renderAsync(<Nav page="tree" />, { wrapper: routerWrapper })
+    expect(screen.getByText('Files')).toHaveAttribute('aria-selected', 'true')
+    expect(screen.getByText('Commits')).toHaveAttribute('aria-selected', 'false')
   })
 
-  it('should render breadcrumb elements', () => {
-    mock(useNav).mockReturnValue({ breadcrumb: [mockBreadcrumb1, mockBreadcrumb2] })
-    render(<Nav page="tree" />, { wrapper: routerWrapper })
-    expect(screen.getByText('breadcrumb1')).toBeInTheDocument()
-    expect(screen.getByText('breadcrumb2')).toBeInTheDocument()
+  it('should not render breadcrumb if path is empty', async () => {
+    mock(useRepoParams).mockReturnValue({ repo: 'repo', branch: 'branch' })
+    await renderAsync(<Nav page="tree" />, { wrapper: routerWrapper })
+    expect(screen.queryByText('repo')).not.toBeInTheDocument()
   })
 
-  it('should render link for non current breadcrumb element', () => {
-    mock(useNav).mockReturnValue({ breadcrumb: [mockBreadcrumb1, mockBreadcrumb2] })
-    render(<Nav page="tree" />, { wrapper: routerWrapper })
-    expect(screen.getByText('breadcrumb1').parentElement).toHaveAttribute('href')
+  it('should render breadcrumb', async () => {
+    mock(useRepoParams).mockReturnValue({ repo: 'repo', branch: 'branch', path: 'this/is/a/path' })
+    await renderAsync(<Nav page="tree" />, { wrapper: routerWrapper })
+    expect(screen.getByText('repo')).toHaveAttribute('href', '/repo/repo/branch/tree')
+    expect(screen.getByText('this')).toHaveAttribute('href', '/repo/repo/branch/tree?path=this')
+    expect(screen.getByText('is')).toHaveAttribute('href', '/repo/repo/branch/tree?path=this/is')
+    expect(screen.getByText('a')).toHaveAttribute('href', '/repo/repo/branch/tree?path=this/is/a')
+    expect(screen.getByText('path')).not.toHaveAttribute('href')
   })
 
-  it('should not render link for current breadcrumb element', () => {
-    mock(useNav).mockReturnValue({ breadcrumb: [mockBreadcrumb1, mockBreadcrumb2] })
-    render(<Nav page="tree" />, { wrapper: routerWrapper })
-    expect(screen.getByText('breadcrumb2').parentElement).not.toHaveAttribute('href')
+  it('should render branches', async () => {
+    mock(getBranches).mockResolvedValue(['branch1', 'branch2'])
+    await renderAsync(<Nav page="tree" />, { wrapper: routerWrapper })
+    expect(screen.getByText('branch1')).toBeInTheDocument()
+    expect(screen.getByText('branch2')).toBeInTheDocument()
   })
 
-  it('should render branch selector', () => {
-    mock(useNav).mockReturnValue({ breadcrumb: [], repo: 'repo', branch: 'branch', path: 'path' })
-    render(<Nav page="tree" />, { wrapper: routerWrapper })
-    expect(screen.getByText('repo branch tree path')).toBeInTheDocument()
+  it('should selected active branch', async () => {
+    await renderAsync(<Nav page="tree" />, { wrapper: routerWrapper })
+    expect(screen.getByDisplayValue('branch1')).toBeInTheDocument()
+  })
+
+  it('should disable branches select if less than 2 branches', async () => {
+    mock(getBranches).mockResolvedValue(['branch1'])
+    await renderAsync(<Nav page="tree" />, { wrapper: routerWrapper })
+    expect(screen.getByDisplayValue('branch1')).toBeDisabled()
+  })
+
+  it('should change active branch', async () => {
+    const navigate = mockNavigate()
+    mock(getBranches).mockResolvedValue(['branch1', 'branch2'])
+    await renderAsync(<Nav page="tree" />, { wrapper: routerWrapper })
+    fireEvent.change(screen.getByDisplayValue('branch1'), { target: { value: 'branch2' } })
+    expect(navigate).toHaveBeenCalledWith('/repo/repo/branch2/tree?path=path')
   })
 })
