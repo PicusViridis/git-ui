@@ -21,25 +21,27 @@ export function Commit(): JSX.Element {
   return (
     <>
       <h4>{commit.message}</h4>
-      <article className="my2 p0 pb1">
-        <div className="pb1 pt2 px2">
-          <mark data-variant="badge" className={c('right', commit.diff.status)}>
-            {commit.diff.status.toUpperCase()}
-          </mark>
-          <span>{commit.diff.name}</span>
-        </div>
-        <hr />
-        <div className="diff">
-          {commit.diff.lines.map((line, i) => (
-            <div key={i}>
-              <span className={c('px2', line.left.t)}>{line.left.n}</span>
-              <span className={c('px2', line.left.t)}>{line.left.v}</span>
-              <span className={c('px2', line.right.t)}>{line.right.n}</span>
-              <span className={c('px2', line.right.t)}>{line.right.v}</span>
-            </div>
-          ))}
-        </div>
-      </article>
+      {commit.files.map((file) => (
+        <article key={file.name} className="my2 p0 pb1">
+          <div className="pb1 pt2 px2">
+            <mark data-variant="badge" className={c('right', file.status)}>
+              {file.status.toUpperCase()}
+            </mark>
+            <span>{file.name}</span>
+          </div>
+          <hr />
+          <div className="diff">
+            {file.lines.map((line, i) => (
+              <div key={i}>
+                <span className={c('px2', line.left.t)}>{line.left.n}</span>
+                <span className={c('px2', line.left.t)}>{line.left.v}</span>
+                <span className={c('px2', line.right.t)}>{line.right.n}</span>
+                <span className={c('px2', line.right.t)}>{line.right.v}</span>
+              </div>
+            ))}
+          </div>
+        </article>
+      ))}
     </>
   )
 }

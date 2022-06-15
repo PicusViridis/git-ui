@@ -3,11 +3,12 @@ import { fromUnixTime } from 'date-fns'
 import fs from 'fs'
 import { join, parse } from 'path'
 import { types } from 'util'
-import { ICommit } from '../../../models/Commit'
+import { ICommit, ICommitDiff } from '../../../models/Commit'
 import { FileType, IFileMeta } from '../../../models/File'
 import { IRepository } from '../../../models/Repo'
 import { config } from '../config'
 import { getIcon } from '../libs/icons'
+import { parseDiff } from '../utils/parseDiff'
 import { GitService } from './git'
 
 const { repoDir } = config
@@ -99,9 +100,15 @@ export const repositoryService = {
     return Number(stdout)
   },
 
-  async getCommitDiff(repoName: string, currentPath: string, hash: string, parent?: string): Promise<string> {
+  async getCommitDiff(
+    repoName: string,
+    currentPath: string,
+    hash: string,
+    parent?: string
+  ): Promise<ICommitDiff['files']> {
     const repoPath = join(repoDir, repoName)
-    return GitService.diffTree(repoPath, currentPath, hash, parent)
+    const diff = await GitService.diffTree(repoPath, currentPath, hash, parent)
+    return parseDiff(diff)
   },
 
   async createRepository(repoName: string): Promise<void> {

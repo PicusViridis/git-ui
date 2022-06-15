@@ -42,13 +42,7 @@ export const GitService = {
     return this.execGitCommand(`git -C ${repoPath} -c core.quotePath=off ls-tree ${params} ${branch} "${filePath}"`)
   },
 
-  async diffTree(
-    repoPath: string,
-    filePath: string,
-    branch: string,
-    parent = EMPTY_TREE_HASH,
-    params: string = ''
-  ): Promise<string> {
-    return this.execGitCommand(`git -C ${repoPath} diff-tree -p ${params} ${parent} ${branch} -- "${filePath}"`)
+  async diffTree(repoPath: string, filePath: string, branch: string, parent = EMPTY_TREE_HASH): Promise<string> {
+    return this.execGitCommand(`git -C ${repoPath} diff-tree -p ${parent} ${branch} -- "${filePath}"`)
   },
 }

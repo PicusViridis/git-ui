@@ -123,11 +123,13 @@ export const mockCommit2: ICommit = {
 
 export const mockCommitDiff: ICommitDiff = {
   message: 'message',
-  diff: {
-    name: 'file.txt',
-    status: 'changed',
-    lines: [{ left: { t: 'remove', n: 1, v: 'removed line' }, right: { t: 'add', n: 1, v: 'added line' } }],
-  },
+  files: [
+    {
+      name: 'file.txt',
+      status: 'changed',
+      lines: [{ left: { t: 'remove', n: 1, v: 'removed line' }, right: { t: 'add', n: 1, v: 'added line' } }],
+    },
+  ],
 }
 
 export const mockApp: IApp = {
