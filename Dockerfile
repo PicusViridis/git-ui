@@ -57,9 +57,17 @@ COPY --from=back --chown=node:node /app/back/node_modules/ /app/node_modules/
 COPY --from=back --chown=node:node /app/back/dist/ /app/dist/
 COPY --from=front --chown=node:node /app/front/dist/ /app/dist/public
 
+# Create db directory
+RUN mkdir /app/db
+RUN chown -R node:node /app/db
+
 # Create session directory
 RUN mkdir /app/sessions
 RUN chown -R node:node /app/sessions
+
+# Create session directory
+RUN mkdir /app/repos
+RUN chown -R node:node /app/repos
 
 USER node
 
