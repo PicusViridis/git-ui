@@ -4,7 +4,6 @@ import { useCommitParams, useRepoParams } from '../../../src/hooks/useParams'
 import { useTitle } from '../../../src/hooks/useTitle'
 import { mock } from '../../mocks'
 
-jest.mock('react-router-dom')
 jest.mock('../../../src/hooks/useTitle')
 
 describe('useRepoParams', () => {

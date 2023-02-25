@@ -14,10 +14,11 @@
     "build": "tsc -p tsconfig.build.json",
     "start": "node src/index.js",
     "start:dev": "nodemon -r dotenv/config --inspect=9999 src/index.ts",
-    "test": "jest --runInBand",
-    "test:ci": "yarn test --ci --coverage",
+    "test": "node  --inspect=9999 node_modules/jest/bin/jest --runInBand --verbose",
+    "test:ci": "jest --runInBand --ci --coverage",
     "format": "prettier \"src/**/*.{ts,tsx}\" --write",
-    "lint": "eslint \"src/**/*.{ts,tsx}\""
+    "lint": "eslint \"src/**/*.{ts,tsx}\"",
+    "typeorm:dev": "node -r ts-node/register -r dotenv/config ./node_modules/typeorm/cli.js"
   },
   "devDependencies": {
     "@jest-mock/express": "^1.4.5",

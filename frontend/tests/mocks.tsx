@@ -1,11 +1,11 @@
-import { BreadcrumbProps } from '@blueprintjs/core'
+import { IPagination } from '@saramorillon/hooks'
 import { render } from '@testing-library/react'
 import { Renderer, renderHook, RenderHookOptions, RenderHookResult } from '@testing-library/react-hooks'
 import React, { PropsWithChildren } from 'react'
 import { act } from 'react-dom/test-utils'
-import { MemoryRouter } from 'react-router-dom'
+import { MemoryRouter, useNavigate } from 'react-router-dom'
 import { IApp } from '../../models/App'
-import { ICommit } from '../../models/Commit'
+import { ICommit, ICommitDiff } from '../../models/Commit'
 import { FileType, IFile, IFileMeta } from '../../models/File'
 import { IRepository } from '../../models/Repo'
 import { IUser } from '../../models/User'
@@ -45,6 +45,12 @@ export function mockLocation(fns: Partial<Location>): void {
 
 export function restoreLocation(): void {
   Object.defineProperty(window, 'location', { value: location, writable: false })
+}
+
+export function mockNavigate(): jest.Mock {
+  const navigate = jest.fn()
+  mock(useNavigate).mockReturnValue(navigate)
+  return navigate
 }
 
 export const mockUser1: IUser = {
@@ -115,21 +121,36 @@ export const mockCommit2: ICommit = {
   parent: 'parent2',
 }
 
+export const mockCommitDiff: ICommitDiff = {
+  message: 'message',
+  files: [
+    {
+      name: 'file.txt',
+      status: 'changed',
+      lines: [{ left: { t: 'remove', n: 1, v: 'removed line' }, right: { t: 'add', n: 1, v: 'added line' } }],
+    },
+  ],
+}
+
 export const mockApp: IApp = {
   name: 'name',
-  version: 'version',
+  version: '1.0.0',
   author: { name: 'author', url: 'url' },
   repository: { url: 'repository' },
 }
 
-export const mockBreadcrumb1: BreadcrumbProps = {
-  text: 'breadcrumb1',
-  href: 'href1',
-  current: false,
-}
-
-export const mockBreadcrumb2: BreadcrumbProps = {
-  text: 'breadcrumb2',
-  href: 'href2',
-  current: true,
+export function mockPagination(pageination?: Partial<IPagination>): IPagination {
+  return {
+    page: 1,
+    setMaxPage: jest.fn(),
+    maxPage: 10,
+    first: jest.fn(),
+    previous: jest.fn(),
+    next: jest.fn(),
+    last: jest.fn(),
+    canPrevious: false,
+    canNext: false,
+    goTo: jest.fn(),
+    ...pageination,
+  }
 }
