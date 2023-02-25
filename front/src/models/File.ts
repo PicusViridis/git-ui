@@ -1,12 +1,7 @@
-export enum FileType {
-  FOLDER = 0,
-  FILE = 1,
-}
-
 export interface IFileMeta {
   path: string
   name: string
-  type: FileType
+  type: 'folder' | 'file'
   icon: string
   lastCommit: {
     message: string

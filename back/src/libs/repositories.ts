@@ -5,7 +5,7 @@ import { join, parse } from 'path'
 import { types } from 'util'
 import { getIcon } from '../libs/icons'
 import { ICommit, ICommitDiff } from '../models/Commit'
-import { FileType, IFileMeta } from '../models/File'
+import { IFileMeta } from '../models/File'
 import { IRepository } from '../models/Repo'
 import { settings } from '../settings'
 import { parseDiff } from '../utils/parseDiff'
@@ -37,11 +37,11 @@ export const repositoryService = {
     }
   },
 
-  async getFileType(repoName: string, currentPath: string, branch: string): Promise<FileType> {
-    if (currentPath === '.') return FileType.FOLDER
+  async getFileType(repoName: string, currentPath: string, branch: string): Promise<'file' | 'folder'> {
+    if (currentPath === '.') return 'folder'
     const repoPath = join(repoDir, repoName)
     const stdout = await GitService.catFile(repoPath, currentPath, branch, '-t')
-    return stdout === 'blob' ? FileType.FILE : FileType.FOLDER
+    return stdout === 'blob' ? 'file' : 'folder'
   },
 
   async getFiles(repoName: string, currentPath: string, branch: string): Promise<IFileMeta[]> {
@@ -49,7 +49,7 @@ export const repositoryService = {
     const stdout = await GitService.lsTree(repoPath, currentPath + '/', branch, '--name-only')
     const lines = stdout.split('\n').filter(Boolean)
     const mapped = await Promise.all(lines.map((path) => this.getFile(repoName, path, branch)))
-    return mapped.sort((file1, file2) => file1.type - file2.type || file1.name.localeCompare(file2.name))
+    return mapped.sort((file1, file2) => file2.type.localeCompare(file1.type) || file1.name.localeCompare(file2.name))
   },
 
   async getFile(repoName: string, currentPath: string, branch: string): Promise<IFileMeta> {

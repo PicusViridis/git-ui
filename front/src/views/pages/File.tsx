@@ -5,7 +5,7 @@ import { useRepoParams } from '../../hooks/useParams'
 import { IFile } from '../../models/File'
 import { makeUrl } from '../../utils/utils'
 
-export interface IFileProps {
+interface IFileProps {
   file: IFile
 }
 

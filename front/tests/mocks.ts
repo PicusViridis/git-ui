@@ -3,7 +3,7 @@ import { act } from 'react-dom/test-utils'
 import { useNavigate } from 'react-router-dom'
 import { IApp } from '../src/models/App'
 import { ICommit, ICommitDiff } from '../src/models/Commit'
-import { FileType, IFile, IFileMeta } from '../src/models/File'
+import { IFile, IFileMeta } from '../src/models/File'
 import { IRepository } from '../src/models/Repo'
 import { ISession } from '../src/models/Session'
 import { IUser } from '../src/models/User'
@@ -72,7 +72,7 @@ export function mockFileMeta(fileMeta: Partial<IFileMeta> = {}): IFileMeta {
     icon: 'icon1',
     name: 'name1',
     path: 'path1',
-    type: FileType.FILE,
+    type: 'file',
     lastCommit: {
       date: '2019-01-01 00:00:00',
       message: 'message1',

@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 import { useLocation, useParams } from 'react-router-dom'
 import { useTitle } from './useTitle'
 
-export interface IRepoParams {
+interface IRepoParams {
   repo: string
   branch: string
   path?: string
@@ -17,7 +17,7 @@ export function useRepoParams(): IRepoParams {
   return { repo, branch, path }
 }
 
-export interface ICommitParams extends IRepoParams {
+interface ICommitParams extends IRepoParams {
   hash: string
 }
 

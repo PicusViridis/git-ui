@@ -1,7 +1,6 @@
 import { getMockRes } from '@jest-mock/express'
 import { download, getTree } from '../../../src/controllers/tree'
 import { repositoryService } from '../../../src/libs/repositories'
-import { FileType } from '../../../src/models/File'
 import { getMockReq } from '../../mocks'
 
 jest.mock('../../../src/libs/repositories')
@@ -22,7 +21,7 @@ describe('getTree', () => {
   })
 
   it('should get content and size when type is file', async () => {
-    jest.mocked(repositoryService.getFileType).mockResolvedValue(FileType.FILE)
+    jest.mocked(repositoryService.getFileType).mockResolvedValue('file')
     jest.mocked(repositoryService.getContent).mockResolvedValue({} as never)
     const req = getMockReq({ params: { repo: 'repo', branch: 'branch' }, query: { path: 'path' } })
     const { res } = getMockRes()
@@ -32,7 +31,7 @@ describe('getTree', () => {
   })
 
   it('should return content and size when type is file', async () => {
-    jest.mocked(repositoryService.getFileType).mockResolvedValue(FileType.FILE)
+    jest.mocked(repositoryService.getFileType).mockResolvedValue('file')
     jest.mocked(repositoryService.getContent).mockResolvedValue('content')
     jest.mocked(repositoryService.getSize).mockResolvedValue('size' as never)
     const req = getMockReq({ params: { repo: 'repo', branch: 'branch' }, query: { path: 'path' } })
@@ -42,7 +41,7 @@ describe('getTree', () => {
   })
 
   it('should get files when type is folder', async () => {
-    jest.mocked(repositoryService.getFileType).mockResolvedValue(FileType.FOLDER)
+    jest.mocked(repositoryService.getFileType).mockResolvedValue('folder')
     const req = getMockReq({ params: { repo: 'repo', branch: 'branch' }, query: { path: 'path' } })
     const { res } = getMockRes()
     await getTree(req, res)
@@ -50,7 +49,7 @@ describe('getTree', () => {
   })
 
   it('should return files when type is folder', async () => {
-    jest.mocked(repositoryService.getFileType).mockResolvedValue(FileType.FOLDER)
+    jest.mocked(repositoryService.getFileType).mockResolvedValue('folder')
     jest.mocked(repositoryService.getFiles).mockResolvedValue('files' as never)
     const req = getMockReq({ params: { repo: 'repo', branch: 'branch' }, query: { path: 'path' } })
     const { res } = getMockRes()

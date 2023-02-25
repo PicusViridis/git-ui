@@ -1,7 +1,6 @@
 import { Request, Response } from 'express'
 import { z } from 'zod'
 import { repositoryService } from '../libs/repositories'
-import { FileType } from '../models/File'
 
 const schema = {
   params: z.object({
@@ -19,7 +18,7 @@ export async function getTree(req: Request, res: Response): Promise<void> {
     const { repo, branch } = schema.params.parse(req.params)
     const { path } = schema.query.parse(req.query)
     const type = await repositoryService.getFileType(repo, path, branch)
-    if (type === FileType.FOLDER) {
+    if (type === 'folder') {
       const files = await repositoryService.getFiles(repo, path, branch)
       res.json(files)
     } else {

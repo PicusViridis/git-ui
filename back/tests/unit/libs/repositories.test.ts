@@ -4,7 +4,6 @@ import { join } from 'path'
 import { GitService } from '../../../src/libs/git'
 import { getIcon } from '../../../src/libs/icons'
 import { repositoryService } from '../../../src/libs/repositories'
-import { FileType } from '../../../src/models/File'
 import { parseDiff } from '../../../src/utils/parseDiff'
 import { mockCommit, mockFile, mockRepo } from '../../mocks'
 
@@ -80,7 +79,7 @@ describe('getRepository', () => {
 describe('getFileType', () => {
   it('should return FOLDER if path is "."', async () => {
     const result = await repositoryService.getFileType('repo', '.', 'branch')
-    expect(result).toBe(FileType.FOLDER)
+    expect(result).toBe('folder')
   })
 
   it('should list file information if path is not "."', async () => {
@@ -92,13 +91,13 @@ describe('getFileType', () => {
   it('should return FILE if path is a blob', async () => {
     jest.mocked(GitService.catFile).mockResolvedValue('blob')
     const result = await repositoryService.getFileType('repo', 'path', 'branch')
-    expect(result).toBe(FileType.FILE)
+    expect(result).toBe('file')
   })
 
   it('should return FOLDER if path is not a blob', async () => {
     jest.mocked(GitService.catFile).mockResolvedValue('not-a-blob')
     const result = await repositoryService.getFileType('repo', 'path', 'branch')
-    expect(result).toBe(FileType.FOLDER)
+    expect(result).toBe('folder')
   })
 })
 
@@ -120,47 +119,47 @@ describe('getFiles', () => {
     jest.mocked(GitService.lsTree).mockResolvedValue('path/file.ext\npath/file.ext\npath/file.ext')
     jest
       .spyOn(repositoryService, 'getFile')
-      .mockResolvedValueOnce(mockFile({ name: 'name2', type: FileType.FILE }))
+      .mockResolvedValueOnce(mockFile({ name: 'name2', type: 'file' }))
       .mockResolvedValueOnce(mockFile())
-      .mockResolvedValueOnce(mockFile({ name: 'name3', type: FileType.FOLDER }))
+      .mockResolvedValueOnce(mockFile({ name: 'name3', type: 'folder' }))
     const result = await repositoryService.getFiles('repo', 'path', 'branch')
     expect(result).toEqual([
-      mockFile({ name: 'name3', type: FileType.FOLDER }),
+      mockFile({ name: 'name3', type: 'folder' }),
       mockFile(),
-      mockFile({ name: 'name2', type: FileType.FILE }),
+      mockFile({ name: 'name2', type: 'file' }),
     ])
   })
 })
 
 describe('getFile', () => {
   it('should get file type', async () => {
-    jest.spyOn(repositoryService, 'getFileType').mockResolvedValue(FileType.FILE)
+    jest.spyOn(repositoryService, 'getFileType').mockResolvedValue('file')
     jest.spyOn(repositoryService, 'getCommits').mockResolvedValue([])
     await repositoryService.getFile('repo', 'path', 'branch')
     expect(repositoryService.getFileType).toHaveBeenCalledWith('repo', 'path', 'branch')
   })
 
   it('should get file icon', async () => {
-    jest.spyOn(repositoryService, 'getFileType').mockResolvedValue(FileType.FILE)
+    jest.spyOn(repositoryService, 'getFileType').mockResolvedValue('file')
     jest.spyOn(repositoryService, 'getCommits').mockResolvedValue([])
     await repositoryService.getFile('repo', 'path/name.ext', 'branch')
-    expect(getIcon).toHaveBeenCalledWith(FileType.FILE, 'name.ext')
+    expect(getIcon).toHaveBeenCalledWith('file', 'name.ext')
   })
 
   it('should get last commit', async () => {
-    jest.spyOn(repositoryService, 'getFileType').mockResolvedValue(FileType.FILE)
+    jest.spyOn(repositoryService, 'getFileType').mockResolvedValue('file')
     jest.spyOn(repositoryService, 'getCommits').mockResolvedValue([])
     await repositoryService.getFile('repo', 'path', 'branch')
     expect(repositoryService.getCommits).toHaveBeenCalledWith('repo', 'path', 'branch', 1, 1)
   })
 
   it('should return type, icon, name, path and last commit', async () => {
-    jest.spyOn(repositoryService, 'getFileType').mockResolvedValue(FileType.FILE)
+    jest.spyOn(repositoryService, 'getFileType').mockResolvedValue('file')
     jest.spyOn(repositoryService, 'getCommits').mockResolvedValue([mockCommit()])
     jest.mocked(getIcon).mockReturnValue('icon')
     const result = await repositoryService.getFile('repo', 'path/name.ext', 'branch')
     expect(result).toEqual({
-      type: FileType.FILE,
+      type: 'file',
       icon: 'icon',
       name: 'name.ext',
       path: 'path/name.ext',

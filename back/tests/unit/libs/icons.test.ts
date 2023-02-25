@@ -1,20 +1,19 @@
 import { getIcon } from '../../../src/libs/icons'
-import { FileType } from '../../../src/models/File'
 
 describe('getIcon', () => {
   it('should return default folder icon if name has no extension', () => {
-    expect(getIcon(FileType.FOLDER, 'name')).toBe('default_folder.svg')
+    expect(getIcon('folder', 'name')).toBe('default_folder.svg')
   })
 
   it('should return icon according to extension', () => {
-    expect(getIcon(FileType.FILE, 'name.js')).toBe('file_type_js.svg')
+    expect(getIcon('file', 'name.js')).toBe('file_type_js.svg')
   })
 
   it('should return default file icon when no extension', () => {
-    expect(getIcon(FileType.FILE, 'name')).toBe('default_file.svg')
+    expect(getIcon('file', 'name')).toBe('default_file.svg')
   })
 
   it('should return default file icon when extension is not supported', () => {
-    expect(getIcon(FileType.FILE, 'name.toto')).toBe('default_file.svg')
+    expect(getIcon('file', 'name.toto')).toBe('default_file.svg')
   })
 })

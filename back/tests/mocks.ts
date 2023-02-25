@@ -3,7 +3,7 @@ import { User } from '@prisma/client'
 import { Logger } from '@saramorillon/logger'
 import { Session, SessionData } from 'express-session'
 import { ICommit } from '../src/models/Commit'
-import { FileType, IFileMeta } from '../src/models/File'
+import { IFileMeta } from '../src/models/File'
 import { IRepository } from '../src/models/Repo'
 
 export function getMockReq(...params: Parameters<typeof _getMockReq>): ReturnType<typeof _getMockReq> {
@@ -50,7 +50,7 @@ export function mockFile(file: Partial<IFileMeta> = {}): IFileMeta {
     icon: 'icon',
     name: 'name1',
     path: 'path',
-    type: FileType.FILE,
+    type: 'file',
     lastCommit: {
       date: 'date',
       message: 'message',

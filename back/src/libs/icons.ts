@@ -1,5 +1,4 @@
 import { parse } from 'path'
-import { FileType } from '../models/File'
 
 const icons: Record<string, string> = {
   js: 'file_type_js.svg',
@@ -28,8 +27,8 @@ const icons: Record<string, string> = {
   txt: 'file_type_text.svg',
 }
 
-export function getIcon(type: FileType, name: string): string {
-  if (type === FileType.FOLDER) return 'default_folder.svg'
+export function getIcon(type: 'file' | 'folder', name: string): string {
+  if (type === 'folder') return 'default_folder.svg'
   const ext = parse(name).ext.slice(1)
   return icons[ext] || 'default_file.svg'
 }

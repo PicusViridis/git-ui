@@ -6,7 +6,7 @@ import { Page } from '../../models/Pages'
 import { getBranches } from '../../services/branch'
 import { makeUrl } from '../../utils/utils'
 
-export interface INavProps {
+interface INavProps {
   page: Page
 }
 
