@@ -137,25 +137,20 @@ describe('lsTree', () => {
 
 describe('diffTree', () => {
   it('should execute diffTree command', async () => {
-    await GitService.diffTree('repoPath', 'filePath', 'branch', 'parent', 'params')
-    expect(exec).toHaveBeenCalledWith('git -C repoPath diff-tree -p params parent branch -- "filePath"')
-  })
-
-  it('should execute diffTree command with default params', async () => {
     await GitService.diffTree('repoPath', 'filePath', 'branch', 'parent')
-    expect(exec).toHaveBeenCalledWith('git -C repoPath diff-tree -p  parent branch -- "filePath"')
+    expect(exec).toHaveBeenCalledWith('git -C repoPath diff-tree -p parent branch -- "filePath"')
   })
 
   it('should execute diffTree command with default parent', async () => {
     await GitService.diffTree('repoPath', 'filePath', 'branch')
     expect(exec).toHaveBeenCalledWith(
-      'git -C repoPath diff-tree -p  4b825dc642cb6eb9a060e54bf8d69288fbee4904 branch -- "filePath"'
+      'git -C repoPath diff-tree -p 4b825dc642cb6eb9a060e54bf8d69288fbee4904 branch -- "filePath"'
     )
   })
 
   it('should return command result', async () => {
     jest.spyOn(GitService, 'execGitCommand').mockResolvedValue('result')
-    const result = await GitService.diffTree('repoPath', 'filePath', 'branch', 'parent', 'params')
+    const result = await GitService.diffTree('repoPath', 'filePath', 'branch', 'parent')
     expect(result).toBe('result')
   })
 })

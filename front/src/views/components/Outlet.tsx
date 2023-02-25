@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
-import { Page } from '../../../../models/Pages'
 import { SessionContext } from '../../contexts/SessionContext'
+import { Page } from '../../models/Pages'
 import { Login } from '../pages/Login'
 import { Footer } from './Footer'
 import { Header } from './Header'

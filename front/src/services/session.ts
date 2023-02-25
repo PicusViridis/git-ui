@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { IUser } from '../../../models/User'
+import { IUser } from '../models/User'
 import { request } from './wrapper'
 
 export async function getSession(): Promise<IUser | null> {

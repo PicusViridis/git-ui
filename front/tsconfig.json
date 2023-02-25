@@ -1,5 +1,5 @@
 {
-  "include": ["src", "tests", "vite.config.ts", "../models"],
+  "include": ["src", "tests", "vite.config.ts"],
   "compilerOptions": {
     "outDir": "dist",
     "target": "es5",

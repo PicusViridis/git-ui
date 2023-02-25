@@ -1,4 +1,4 @@
-import { ICommitDiff } from '../../../models/Commit'
+import { ICommitDiff } from '../models/Commit'
 
 export function parseDiff(diff: string) {
   const lines = diff.split('\n')

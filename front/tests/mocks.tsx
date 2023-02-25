@@ -4,11 +4,11 @@ import { Renderer, renderHook, RenderHookOptions, RenderHookResult } from '@test
 import React, { PropsWithChildren } from 'react'
 import { act } from 'react-dom/test-utils'
 import { MemoryRouter, useNavigate } from 'react-router-dom'
-import { IApp } from '../../models/App'
-import { ICommit, ICommitDiff } from '../../models/Commit'
-import { FileType, IFile, IFileMeta } from '../../models/File'
-import { IRepository } from '../../models/Repo'
-import { IUser } from '../../models/User'
+import { IApp } from '../src/models/App'
+import { ICommit, ICommitDiff } from '../src/models/Commit'
+import { FileType, IFile, IFileMeta } from '../src/models/File'
+import { IRepository } from '../src/models/Repo'
+import { IUser } from '../src/models/User'
 
 export function mock(fn: unknown): jest.Mock {
   return fn as jest.Mock
@@ -54,11 +54,13 @@ export function mockNavigate(): jest.Mock {
 }
 
 export const mockUser1: IUser = {
+  id: 1,
   username: 'user1',
   createdAt: '2018-01-01 00:00:00',
 }
 
 export const mockUser2: IUser = {
+  id: 2,
   username: 'user2',
   createdAt: '2019-01-01 00:00:00',
 }

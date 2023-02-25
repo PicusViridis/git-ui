@@ -1,5 +1,5 @@
 import { parse } from 'path'
-import { FileType } from '../../../models/File'
+import { FileType } from '../models/File'
 
 const icons: Record<string, string> = {
   js: 'file_type_js.svg',

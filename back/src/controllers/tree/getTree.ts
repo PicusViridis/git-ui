@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
-import { FileType } from '../../../../models/File'
 import { start } from '../../libs/logger'
 import { repositoryService } from '../../libs/repositories'
+import { FileType } from '../../models/File'
 
 export type Req = Request<{ repo: string; branch: string }, unknown, unknown, { path?: string }>
 

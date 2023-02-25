@@ -1,22 +1,18 @@
 import { getMockReq, getMockRes } from '@jest-mock/express'
-import { getRepository } from 'typeorm'
 import { getUsers } from '../../../../src/controllers/users/getUsers'
-import { mock } from '../../../mocks'
-
-jest.mock('typeorm', () => ({ ...jest.requireActual('typeorm'), getRepository: jest.fn() }))
+import { prisma } from '../../../../src/prisma'
 
 describe('getUsers', () => {
   it('should get users', async () => {
-    const find = jest.fn()
-    mock(getRepository).mockReturnValue({ find })
+    jest.spyOn(prisma.user, 'findMany').mockResolvedValue('users' as never)
     const req = getMockReq()
     const { res } = getMockRes()
     await getUsers(req, res)
-    expect(find).toHaveBeenCalledWith({ order: { username: 'ASC' } })
+    expect(prisma.user.findMany).toHaveBeenCalledWith({ orderBy: { username: 'asc' } })
   })
 
   it('should return users', async () => {
-    mock(getRepository).mockReturnValue({ find: jest.fn().mockResolvedValue('users') })
+    jest.spyOn(prisma.user, 'findMany').mockResolvedValue('users' as never)
     const req = getMockReq()
     const { res } = getMockRes()
     await getUsers(req, res)
@@ -24,7 +20,7 @@ describe('getUsers', () => {
   })
 
   it('should return 500 status when failure', async () => {
-    mock(getRepository).mockReturnValue({ find: jest.fn().mockRejectedValue(new Error()) })
+    jest.spyOn(prisma.user, 'findMany').mockRejectedValue(new Error())
     const req = getMockReq()
     const { res } = getMockRes()
     await getUsers(req, res)

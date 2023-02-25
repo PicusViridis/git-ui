@@ -1,4 +1,4 @@
-import { IApp } from '../../../models/App'
+import { IApp } from '../models/App'
 import { request } from './wrapper'
 
 export async function getApp(): Promise<IApp | null> {

@@ -1,0 +1,19 @@
+export interface ICommit {
+  hash: string
+  message: string
+  date: string
+  author: string
+  parent: string
+}
+
+export interface ICommitDiff {
+  message: string
+  files: {
+    name: string
+    status: 'changed' | 'added' | 'removed' | 'renamed'
+    lines: {
+      left: { n?: number; v?: string; t?: 'gap' | 'empty' | 'add' | 'remove' }
+      right: { n?: number; v?: string; t?: 'gap' | 'empty' | 'add' | 'remove' }
+    }[]
+  }[]
+}

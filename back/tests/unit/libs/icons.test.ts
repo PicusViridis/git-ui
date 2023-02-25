@@ -1,5 +1,5 @@
-import { FileType } from '../../../../models/File'
 import { getIcon } from '../../../src/libs/icons'
+import { FileType } from '../../../src/models/File'
 
 describe('getIcon', () => {
   it('should return default folder icon if name has no extension', () => {

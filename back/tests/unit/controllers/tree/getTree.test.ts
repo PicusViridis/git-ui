@@ -1,7 +1,7 @@
 import { getMockRes } from '@jest-mock/express'
-import { FileType } from '../../../../../models/File'
 import { getTree, Req } from '../../../../src/controllers/tree/getTree'
 import { repositoryService } from '../../../../src/libs/repositories'
+import { FileType } from '../../../../src/models/File'
 import { mock, mockReq } from '../../../mocks'
 
 jest.mock('../../../../src/libs/repositories')

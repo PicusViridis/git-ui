@@ -31,6 +31,6 @@ describe('postUser', () => {
 describe('deleteUser', () => {
   it('should delete user', async () => {
     await deleteUser(mockUser1)
-    expect(request).toHaveBeenCalledWith({ url: '/api/users/user1', method: 'DELETE' }, undefined)
+    expect(request).toHaveBeenCalledWith({ url: '/api/users/1', method: 'DELETE' }, undefined)
   })
 })

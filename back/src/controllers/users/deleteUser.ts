@@ -1,15 +1,14 @@
 import { Request, Response } from 'express'
-import { getRepository } from 'typeorm'
 import { start } from '../../libs/logger'
-import { User } from '../../models/User'
+import { prisma } from '../../prisma'
 
-export type Req = Request<{ username: string }>
+export type Req = Request<{ id: string }>
 
 export async function deleteUser(req: Req, res: Response): Promise<void> {
-  const { username } = req.params
-  const { success, failure } = start('delete_user', { username })
+  const { id } = req.params
+  const { success, failure } = start('delete_user', { id })
   try {
-    await getRepository(User).delete({ username })
+    await prisma.user.delete({ where: { id: Number(id) } })
     res.sendStatus(204)
     success()
   } catch (error) {

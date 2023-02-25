@@ -1,4 +1,4 @@
-import { ICommit, ICommitDiff } from '../../../models/Commit'
+import { ICommit, ICommitDiff } from '../models/Commit'
 import { request } from './wrapper'
 
 interface ICommitList {

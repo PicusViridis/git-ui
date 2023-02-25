@@ -1,8 +1,8 @@
 import { formatDistance, parseISO } from 'date-fns'
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import { IFileMeta } from '../../../../models/File'
 import { useRepoParams } from '../../hooks/useParams'
+import { IFileMeta } from '../../models/File'
 import { makeUrl } from '../../utils/utils'
 
 interface IFilesProps {

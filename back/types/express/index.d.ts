@@ -1,4 +1,4 @@
-import { ISession } from '../../../models/Session'
+import { ISession } from '../../src/models/Session'
 
 declare global {
   namespace Express {

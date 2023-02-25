@@ -1,8 +1,8 @@
 import { useFetch } from '@saramorillon/hooks'
 import React, { useCallback, useMemo } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { Page } from '../../../../models/Pages'
 import { useRepoParams } from '../../hooks/useParams'
+import { Page } from '../../models/Pages'
 import { getBranches } from '../../services/branch'
 import { makeUrl } from '../../utils/utils'
 

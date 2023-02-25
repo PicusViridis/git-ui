@@ -1,8 +1,8 @@
 import { IconDownload } from '@tabler/icons'
 import byteSize from 'pretty-bytes'
 import React from 'react'
-import { IFile } from '../../../../models/File'
 import { useRepoParams } from '../../hooks/useParams'
+import { IFile } from '../../models/File'
 import { makeUrl } from '../../utils/utils'
 
 export interface IFileProps {

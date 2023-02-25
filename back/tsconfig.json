@@ -1,5 +1,5 @@
 {
-  "include": ["src", "tests", "../models"],
+  "include": ["src", "tests", "prisma"],
   "compilerOptions": {
     "outDir": "dist",
     "target": "es5",
@@ -7,8 +7,6 @@
     "lib": ["ES5", "ES6", "ESNext"],
     "moduleResolution": "node",
     "strict": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
     "sourceMap": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,

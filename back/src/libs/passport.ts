@@ -1,15 +1,14 @@
 import { createHash } from 'crypto'
-import { getRepository } from 'typeorm'
-import { ISession } from '../../../models/Session'
-import { User } from '../models/User'
+import { ISession } from '../models/Session'
+import { prisma } from '../prisma'
 
 export function serializeUser(user: ISession, done: (err: unknown, id?: string) => void): void {
   return done(null, user.username)
 }
 
 export function deserializeUser(username: string, done: (err: unknown, user?: ISession) => void): Promise<void> {
-  return getRepository(User)
-    .findOne({ where: { username } })
+  return prisma.user
+    .findUniqueOrThrow({ where: { username } })
     .then((user) => {
       done(null, user)
     })
@@ -21,8 +20,8 @@ export function localStrategy(
   password: string,
   done: (error: unknown, user?: ISession) => void
 ): Promise<void> {
-  return getRepository(User)
-    .findOne({ where: { username, password: hashPass(password) } })
+  return prisma.user
+    .findFirstOrThrow({ where: { username, password: hashPass(password) } })
     .then((user) => {
       done(null, user)
     })

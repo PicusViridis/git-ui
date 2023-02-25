@@ -6,7 +6,6 @@ import helmet from 'helmet'
 import passport from 'passport'
 import { Strategy } from 'passport-local'
 import { join } from 'path'
-import { createConnection } from 'typeorm'
 import { config } from './config'
 import { logger } from './libs/logger'
 import { deserializeUser, localStrategy, serializeUser } from './libs/passport'
@@ -19,20 +18,18 @@ passport.serializeUser(serializeUser)
 passport.deserializeUser(deserializeUser)
 passport.use(new Strategy(localStrategy))
 
-createConnection().then(() => {
-  const app = express()
-  app.use(express.static(publicDir))
-  app.use(cookieParser())
-  app.use(json())
-  app.use(urlencoded({ extended: true }))
-  app.use(session(config.session))
-  app.use(passport.initialize())
-  app.use(passport.session())
-  app.use(accessLogger())
-  app.use(helmet({ contentSecurityPolicy }))
-  app.use('/api', router)
-  app.get('*', (req, res) => res.sendFile(join(publicDir, 'index.html')))
-  app.listen(port, () => {
-    logger.info('app_start', { port })
-  })
+const app = express()
+app.use(express.static(publicDir))
+app.use(cookieParser())
+app.use(json())
+app.use(urlencoded({ extended: true }))
+app.use(session(config.session))
+app.use(passport.initialize())
+app.use(passport.session())
+app.use(accessLogger())
+app.use(helmet({ contentSecurityPolicy }))
+app.use('/api', router)
+app.get('*', (req, res) => res.sendFile(join(publicDir, 'index.html')))
+app.listen(port, () => {
+  logger.info('app_start', { port })
 })

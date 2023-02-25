@@ -1,14 +1,16 @@
 import exec from 'async-exec'
 import fs from 'fs'
 import { join } from 'path'
-import { FileType } from '../../../../models/File'
 import { GitService } from '../../../src/libs/git'
 import { getIcon } from '../../../src/libs/icons'
 import { repositoryService } from '../../../src/libs/repositories'
+import { FileType } from '../../../src/models/File'
+import { parseDiff } from '../../../src/utils/parseDiff'
 import { mock, mockCommit1, mockFile1, mockFile2, mockFile3, mockRepo1, mockRepo2 } from '../../mocks'
 
 jest.mock('../../../src/libs/git')
 jest.mock('../../../src/libs/icons')
+jest.mock('../../../src/utils/parseDiff')
 jest.mock('async-exec')
 
 describe('getRepositories', () => {
@@ -252,7 +254,7 @@ describe('getCommitDiff', () => {
   })
 
   it('should return commit diff', async () => {
-    mock(GitService.diffTree).mockResolvedValue('diff')
+    mock(parseDiff).mockReturnValue('diff')
     const result = await repositoryService.getCommitDiff('repo', 'path', 'branch')
     expect(result).toEqual('diff')
   })

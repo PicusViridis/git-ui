@@ -1,22 +1,18 @@
 import { getMockReq, getMockRes } from '@jest-mock/express'
-import { getRepository } from 'typeorm'
 import { deleteUser, Req } from '../../../../src/controllers/users/deleteUser'
-import { mock } from '../../../mocks'
-
-jest.mock('typeorm', () => ({ ...jest.requireActual('typeorm'), getRepository: jest.fn() }))
+import { prisma } from '../../../../src/prisma'
 
 describe('deleteUser', () => {
   it('should get users', async () => {
-    const _delete = jest.fn()
-    mock(getRepository).mockReturnValue({ delete: _delete })
-    const req = getMockReq<Req>({ params: { username: 'username' } })
+    jest.spyOn(prisma.user, 'delete').mockResolvedValue(undefined as never)
+    const req = getMockReq<Req>({ params: { id: '1' } })
     const { res } = getMockRes()
     await deleteUser(req, res)
-    expect(_delete).toHaveBeenCalledWith({ username: 'username' })
+    expect(prisma.user.delete).toHaveBeenCalledWith({ where: { id: 1 } })
   })
 
   it('should return 204 status', async () => {
-    mock(getRepository).mockReturnValue({ delete: jest.fn() })
+    jest.spyOn(prisma.user, 'delete').mockResolvedValue(undefined as never)
     const req = getMockReq<Req>()
     const { res } = getMockRes()
     await deleteUser(req, res)
@@ -24,7 +20,7 @@ describe('deleteUser', () => {
   })
 
   it('should return 500 status when failure', async () => {
-    mock(getRepository).mockReturnValue({ delete: jest.fn().mockRejectedValue(new Error()) })
+    jest.spyOn(prisma.user, 'delete').mockRejectedValue(new Error())
     const req = getMockReq<Req>()
     const { res } = getMockRes()
     await deleteUser(req, res)

@@ -1,10 +1,10 @@
 import { getMockReq } from '@jest-mock/express'
 import { MockRequest } from '@jest-mock/express/dist/src/request'
+import { User } from '@prisma/client'
 import { Request } from 'express'
-import { ICommit } from '../../models/Commit'
-import { FileType, IFileMeta } from '../../models/File'
-import { IRepository } from '../../models/Repo'
-import { User } from '../src/models/User'
+import { ICommit } from '../src/models/Commit'
+import { FileType, IFileMeta } from '../src/models/File'
+import { IRepository } from '../src/models/Repo'
 
 export function mockReq<T extends Request>(req?: MockRequest): T {
   return getMockReq({

@@ -1,12 +1,11 @@
 import { Request, Response } from 'express'
-import { getRepository } from 'typeorm'
 import { start } from '../../libs/logger'
-import { User } from '../../models/User'
+import { prisma } from '../../prisma'
 
 export async function getUsers(req: Request, res: Response): Promise<void> {
   const { success, failure } = start('get_users')
   try {
-    const users = await getRepository(User).find({ order: { username: 'ASC' } })
+    const users = await prisma.user.findMany({ orderBy: { username: 'asc' } })
     res.json(users)
     success()
   } catch (error) {
