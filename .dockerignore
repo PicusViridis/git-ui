@@ -1,1 +1,3 @@
-build.cmd
+push.ps1
+github
+.vscode

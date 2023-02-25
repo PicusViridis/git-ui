@@ -1,10 +1,8 @@
 .vscode
+yarn-error.log
 node_modules
 dist
-yarn-error.log
 .env
-logs
-coverage
-db
 sessions
+coverage
 db.sqlite*
