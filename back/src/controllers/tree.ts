@@ -1,14 +1,23 @@
 import { Request, Response } from 'express'
+import { z } from 'zod'
 import { repositoryService } from '../libs/repositories'
 import { FileType } from '../models/File'
 
-export type Req1 = Request<{ repo: string; branch: string }, unknown, unknown, { path?: string }>
+const schema = {
+  params: z.object({
+    repo: z.string(),
+    branch: z.string(),
+  }),
+  query: z.object({
+    path: z.string().optional().default('.'),
+  }),
+}
 
-export async function getTree(req: Req1, res: Response): Promise<void> {
-  const { repo, branch } = req.params
-  const { path = '.' } = req.query
-  const { success, failure } = req.logger.start('get_tree', { repo, branch, path })
+export async function getTree(req: Request, res: Response): Promise<void> {
+  const { success, failure } = req.logger.start('get_tree')
   try {
+    const { repo, branch } = schema.params.parse(req.params)
+    const { path } = schema.query.parse(req.query)
     const type = await repositoryService.getFileType(repo, path, branch)
     if (type === FileType.FOLDER) {
       const files = await repositoryService.getFiles(repo, path, branch)
@@ -25,13 +34,11 @@ export async function getTree(req: Req1, res: Response): Promise<void> {
   }
 }
 
-export type Req2 = Request<{ repo: string; branch: string }, unknown, unknown, { path?: string }>
-
-export async function download(req: Req2, res: Response): Promise<void> {
-  const { repo, branch } = req.params
-  const { path = '.' } = req.query
-  const { success, failure } = req.logger.start('download', { repo, branch, path })
+export async function download(req: Request, res: Response): Promise<void> {
+  const { success, failure } = req.logger.start('download')
   try {
+    const { repo, branch } = schema.params.parse(req.params)
+    const { path } = schema.query.parse(req.query)
     const content = await repositoryService.getContent(repo, path, branch)
     const filename = path.split('/').pop()
     res.set('Content-Disposition', `attachment; filename=${filename}`)

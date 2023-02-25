@@ -77,13 +77,7 @@ export const repositoryService = {
     return Number(stdout)
   },
 
-  async getCommits(
-    repoName: string,
-    currentPath: string,
-    branch: string,
-    page: number,
-    limit: number
-  ): Promise<ICommit[]> {
+  async getCommits(repoName: string, currentPath: string, branch: string, page = 1, limit = 10): Promise<ICommit[]> {
     const repoPath = join(repoDir, repoName)
     const skip = (page - 1) * limit
     const stdout = await GitService.log(repoPath, currentPath, branch, `-${limit} --skip=${skip}`)

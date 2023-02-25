@@ -1,5 +1,10 @@
 import { Request, Response } from 'express'
+import { z } from 'zod'
 import { repositoryService } from '../libs/repositories'
+
+const schema = z.object({
+  name: z.string(),
+})
 
 export async function getRepos(req: Request, res: Response): Promise<void> {
   const { success, failure } = req.logger.start('get_repos')
@@ -13,12 +18,11 @@ export async function getRepos(req: Request, res: Response): Promise<void> {
   }
 }
 
-export type Req = Request<any, unknown, { name: string }>
-
-export async function postRepo(req: Req, res: Response): Promise<void> {
+export async function postRepo(req: Request, res: Response): Promise<void> {
   const { name } = req.body
   const { success, failure } = req.logger.start('post_repo', { name })
   try {
+    const { name } = schema.parse(req.body)
     await repositoryService.createRepository(`${name}.git`)
     res.sendStatus(201)
     success()

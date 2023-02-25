@@ -1,6 +1,17 @@
 import { createHash } from 'crypto'
 import { Request, Response } from 'express'
+import { z } from 'zod'
 import { prisma } from '../prisma'
+
+const schema = {
+  get: z.object({
+    id: z.string().transform(Number),
+  }),
+  post: z.object({
+    username: z.string(),
+    password: z.string(),
+  }),
+}
 
 export async function getUsers(req: Request, res: Response): Promise<void> {
   const { success, failure } = req.logger.start('get_users')
@@ -14,12 +25,10 @@ export async function getUsers(req: Request, res: Response): Promise<void> {
   }
 }
 
-export type Req1 = Request<any, unknown, { username: string; password: string }>
-
-export async function postUser(req: Req1, res: Response): Promise<void> {
-  const { username, password } = req.body
-  const { success, failure } = req.logger.start('post_user', { username })
+export async function postUser(req: Request, res: Response): Promise<void> {
+  const { success, failure } = req.logger.start('post_user')
   try {
+    const { username, password } = schema.post.parse(req.body)
     const user = await prisma.user.create({
       data: { username, password: createHash('sha256').update(password).digest('hex') },
     })
@@ -31,13 +40,11 @@ export async function postUser(req: Req1, res: Response): Promise<void> {
   }
 }
 
-export type Req2 = Request<{ id: string }>
-
-export async function deleteUser(req: Req2, res: Response): Promise<void> {
-  const { id } = req.params
-  const { success, failure } = req.logger.start('delete_user', { id })
+export async function deleteUser(req: Request, res: Response): Promise<void> {
+  const { success, failure } = req.logger.start('delete_user')
   try {
-    await prisma.user.delete({ where: { id: Number(id) } })
+    const { id } = schema.get.parse(req.params)
+    await prisma.user.delete({ where: { id } })
     res.sendStatus(204)
     success()
   } catch (error) {

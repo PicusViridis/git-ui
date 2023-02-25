@@ -1,12 +1,15 @@
 import { Request, Response } from 'express'
+import { z } from 'zod'
 import { repositoryService } from '../libs/repositories'
 
-export type Req = Request<{ repo: string }>
+const schema = z.object({
+  repo: z.string(),
+})
 
-export async function getBranches(req: Req, res: Response): Promise<void> {
-  const { repo } = req.params
-  const { success, failure } = req.logger.start('get_branches', { repo })
+export async function getBranches(req: Request, res: Response): Promise<void> {
+  const { success, failure } = req.logger.start('get_branches')
   try {
+    const { repo } = schema.parse(req.params)
     const branches = await repositoryService.getBranches(repo)
     res.json(branches)
     success()

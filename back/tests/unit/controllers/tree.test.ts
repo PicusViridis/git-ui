@@ -8,14 +8,14 @@ jest.mock('../../../src/libs/repositories')
 
 describe('getTree', () => {
   it('should get file type', async () => {
-    const req = getMockReq({ params: { repo: 'repo', branch: 'branch' }, query: { path: 'path' } }) as never
+    const req = getMockReq({ params: { repo: 'repo', branch: 'branch' }, query: { path: 'path' } })
     const { res } = getMockRes()
     await getTree(req, res)
     expect(repositoryService.getFileType).toHaveBeenCalledWith('repo', 'path', 'branch')
   })
 
   it('should get file type with default path', async () => {
-    const req = getMockReq({ params: { repo: 'repo', branch: 'branch' }, query: { path: undefined } }) as never
+    const req = getMockReq({ params: { repo: 'repo', branch: 'branch' }, query: { path: undefined } })
     const { res } = getMockRes()
     await getTree(req, res)
     expect(repositoryService.getFileType).toHaveBeenCalledWith('repo', '.', 'branch')
@@ -24,7 +24,7 @@ describe('getTree', () => {
   it('should get content and size when type is file', async () => {
     jest.mocked(repositoryService.getFileType).mockResolvedValue(FileType.FILE)
     jest.mocked(repositoryService.getContent).mockResolvedValue({} as never)
-    const req = getMockReq({ params: { repo: 'repo', branch: 'branch' }, query: { path: 'path' } }) as never
+    const req = getMockReq({ params: { repo: 'repo', branch: 'branch' }, query: { path: 'path' } })
     const { res } = getMockRes()
     await getTree(req, res)
     expect(repositoryService.getContent).toHaveBeenCalledWith('repo', 'path', 'branch')
@@ -35,7 +35,7 @@ describe('getTree', () => {
     jest.mocked(repositoryService.getFileType).mockResolvedValue(FileType.FILE)
     jest.mocked(repositoryService.getContent).mockResolvedValue('content')
     jest.mocked(repositoryService.getSize).mockResolvedValue('size' as never)
-    const req = getMockReq({ params: { repo: 'repo', branch: 'branch' }, query: { path: 'path' } }) as never
+    const req = getMockReq({ params: { repo: 'repo', branch: 'branch' }, query: { path: 'path' } })
     const { res } = getMockRes()
     await getTree(req, res)
     expect(res.json).toHaveBeenCalledWith({ content: 'content', size: 'size' })
@@ -43,7 +43,7 @@ describe('getTree', () => {
 
   it('should get files when type is folder', async () => {
     jest.mocked(repositoryService.getFileType).mockResolvedValue(FileType.FOLDER)
-    const req = getMockReq({ params: { repo: 'repo', branch: 'branch' }, query: { path: 'path' } }) as never
+    const req = getMockReq({ params: { repo: 'repo', branch: 'branch' }, query: { path: 'path' } })
     const { res } = getMockRes()
     await getTree(req, res)
     expect(repositoryService.getFiles).toHaveBeenCalledWith('repo', 'path', 'branch')
@@ -52,7 +52,7 @@ describe('getTree', () => {
   it('should return files when type is folder', async () => {
     jest.mocked(repositoryService.getFileType).mockResolvedValue(FileType.FOLDER)
     jest.mocked(repositoryService.getFiles).mockResolvedValue('files' as never)
-    const req = getMockReq({ params: { repo: 'repo', branch: 'branch' }, query: { path: 'path' } }) as never
+    const req = getMockReq({ params: { repo: 'repo', branch: 'branch' }, query: { path: 'path' } })
     const { res } = getMockRes()
     await getTree(req, res)
     expect(res.json).toHaveBeenCalledWith('files')
@@ -60,7 +60,7 @@ describe('getTree', () => {
 
   it('should return 500 status when failure', async () => {
     jest.mocked(repositoryService.getFileType).mockRejectedValue(new Error())
-    const req = getMockReq({ params: { repo: 'repo', branch: 'branch' }, query: { path: 'path' } }) as never
+    const req = getMockReq({ params: { repo: 'repo', branch: 'branch' }, query: { path: 'path' } })
     const { res } = getMockRes()
     await getTree(req, res)
     expect(res.sendStatus).toHaveBeenCalledWith(500)
@@ -69,14 +69,14 @@ describe('getTree', () => {
 
 describe('downloadFile', () => {
   it('should get file', async () => {
-    const req = getMockReq({ params: { repo: 'repo', branch: 'branch' }, query: { path: 'path' } }) as never
+    const req = getMockReq({ params: { repo: 'repo', branch: 'branch' }, query: { path: 'path' } })
     const { res } = getMockRes()
     await download(req, res)
     expect(repositoryService.getContent).toHaveBeenCalledWith('repo', 'path', 'branch')
   })
 
   it('should get file content with default path', async () => {
-    const req = getMockReq({ params: { repo: 'repo', branch: 'branch' }, query: { path: undefined } }) as never
+    const req = getMockReq({ params: { repo: 'repo', branch: 'branch' }, query: { path: undefined } })
     const { res } = getMockRes()
     await download(req, res)
     expect(repositoryService.getContent).toHaveBeenCalledWith('repo', '.', 'branch')
@@ -84,10 +84,7 @@ describe('downloadFile', () => {
 
   it('should set content disposition header', async () => {
     jest.mocked(repositoryService.getContent).mockResolvedValue('content')
-    const req = getMockReq({
-      params: { repo: 'repo', branch: 'branch' },
-      query: { path: 'path/to/filename.ext' },
-    }) as never
+    const req = getMockReq({ params: { repo: 'repo', branch: 'branch' }, query: { path: 'path/to/filename.ext' } })
     const { res } = getMockRes()
     await download(req, res)
     expect(res.set).toHaveBeenCalledWith('Content-Disposition', `attachment; filename=filename.ext`)
@@ -95,7 +92,7 @@ describe('downloadFile', () => {
 
   it('should return file content', async () => {
     jest.mocked(repositoryService.getContent).mockResolvedValue('content')
-    const req = getMockReq({ params: { repo: 'repo', branch: 'branch' }, query: { path: 'path' } }) as never
+    const req = getMockReq({ params: { repo: 'repo', branch: 'branch' }, query: { path: 'path' } })
     const { res } = getMockRes()
     await download(req, res)
     expect(res.send).toHaveBeenCalledWith('content')
@@ -103,7 +100,7 @@ describe('downloadFile', () => {
 
   it('should return 500 status when failure', async () => {
     jest.mocked(repositoryService.getContent).mockRejectedValue(new Error())
-    const req = getMockReq({ params: { repo: 'repo', branch: 'branch' }, query: { path: 'path' } }) as never
+    const req = getMockReq({ params: { repo: 'repo', branch: 'branch' }, query: { path: 'path' } })
     const { res } = getMockRes()
     await download(req, res)
     expect(res.sendStatus).toHaveBeenCalledWith(500)

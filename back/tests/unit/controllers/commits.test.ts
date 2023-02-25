@@ -10,28 +10,28 @@ describe('getCommits', () => {
     const req = getMockReq({
       params: { repo: 'repo', branch: 'branch' },
       query: { page: '1', limit: '10', path: 'path' },
-    }) as never
+    })
     const { res } = getMockRes()
     await getCommits(req, res)
     expect(repositoryService.getCommits).toHaveBeenCalledWith('repo', 'path', 'branch', 1, 10)
   })
 
   it('should get commits with default path', async () => {
-    const req = getMockReq({ params: { repo: 'repo', branch: 'branch' }, query: { page: '1', limit: '10' } }) as never
+    const req = getMockReq({ params: { repo: 'repo', branch: 'branch' }, query: { page: '1', limit: '10' } })
     const { res } = getMockRes()
     await getCommits(req, res)
     expect(repositoryService.getCommits).toHaveBeenCalledWith('repo', '.', 'branch', 1, 10)
   })
 
   it('should count commits', async () => {
-    const req = getMockReq({ params: { repo: 'repo', branch: 'branch' }, query: { path: 'path' } }) as never
+    const req = getMockReq({ params: { repo: 'repo', branch: 'branch' }, query: { path: 'path' } })
     const { res } = getMockRes()
     await getCommits(req, res)
     expect(repositoryService.countCommits).toHaveBeenCalledWith('repo', 'path', 'branch')
   })
 
   it('should count commits with default path', async () => {
-    const req = getMockReq({ params: { repo: 'repo', branch: 'branch' }, query: { path: undefined } }) as never
+    const req = getMockReq({ params: { repo: 'repo', branch: 'branch' }, query: { path: undefined } })
     const { res } = getMockRes()
     await getCommits(req, res)
     expect(repositoryService.countCommits).toHaveBeenCalledWith('repo', '.', 'branch')
@@ -40,7 +40,7 @@ describe('getCommits', () => {
   it('should return commits and total number of commits', async () => {
     jest.mocked(repositoryService.getCommits).mockResolvedValue('commits' as never)
     jest.mocked(repositoryService.countCommits).mockResolvedValue(10)
-    const req = getMockReq({ params: { repo: 'repo', branch: 'branch' }, query: { path: 'path' } }) as never
+    const req = getMockReq({ params: { repo: 'repo', branch: 'branch' }, query: { path: 'path' } })
     const { res } = getMockRes()
     await getCommits(req, res)
     expect(res.json).toHaveBeenCalledWith({ commits: 'commits', total: 10 })
@@ -48,7 +48,7 @@ describe('getCommits', () => {
 
   it('should return 500 status when failure', async () => {
     jest.mocked(repositoryService.getCommits).mockRejectedValue(new Error())
-    const req = getMockReq({ params: { repo: 'repo', branch: 'branch' }, query: { path: 'path' } }) as never
+    const req = getMockReq({ params: { repo: 'repo', branch: 'branch' }, query: { path: 'path' } })
     const { res } = getMockRes()
     await getCommits(req, res)
     expect(res.sendStatus).toHaveBeenCalledWith(500)
@@ -58,7 +58,7 @@ describe('getCommits', () => {
 describe('getCommit', () => {
   it('should get commit', async () => {
     jest.mocked(repositoryService.getCommits).mockResolvedValue([])
-    const req = getMockReq({ params: { repo: 'repo', hash: 'hash' }, query: { path: 'path' } }) as never
+    const req = getMockReq({ params: { repo: 'repo', hash: 'hash' }, query: { path: 'path' } })
     const { res } = getMockRes()
     await getCommit(req, res)
     expect(repositoryService.getCommits).toHaveBeenCalledWith('repo', 'path', 'hash', 1, 1)
@@ -66,7 +66,7 @@ describe('getCommit', () => {
 
   it('should return 404 if commit was not found', async () => {
     jest.mocked(repositoryService.getCommits).mockResolvedValue([])
-    const req = getMockReq({ params: { repo: 'repo', hash: 'hash' }, query: { path: 'path' } }) as never
+    const req = getMockReq({ params: { repo: 'repo', hash: 'hash' }, query: { path: 'path' } })
     const { res } = getMockRes()
     await getCommit(req, res)
     expect(repositoryService.getCommits).toHaveBeenCalledWith('repo', 'path', 'hash', 1, 1)
@@ -74,7 +74,7 @@ describe('getCommit', () => {
 
   it('should get commit diff', async () => {
     jest.mocked(repositoryService.getCommits).mockResolvedValue([{ parent: 'parent' }] as never)
-    const req = getMockReq({ params: { repo: 'repo', hash: 'hash' }, query: { path: 'path' } }) as never
+    const req = getMockReq({ params: { repo: 'repo', hash: 'hash' }, query: { path: 'path' } })
     const { res } = getMockRes()
     await getCommit(req, res)
     expect(repositoryService.getCommitDiff).toHaveBeenCalledWith('repo', 'path', 'hash', 'parent')
@@ -82,7 +82,7 @@ describe('getCommit', () => {
 
   it('should get commit diff with default path', async () => {
     jest.mocked(repositoryService.getCommits).mockResolvedValue([{ parent: 'parent' }] as never)
-    const req = getMockReq({ params: { repo: 'repo', hash: 'hash' }, query: { path: undefined } }) as never
+    const req = getMockReq({ params: { repo: 'repo', hash: 'hash' }, query: { path: undefined } })
     const { res } = getMockRes()
     await getCommit(req, res)
     expect(repositoryService.getCommitDiff).toHaveBeenCalledWith('repo', '.', 'hash', 'parent')
@@ -91,7 +91,7 @@ describe('getCommit', () => {
   it('should return commit message and diff', async () => {
     jest.mocked(repositoryService.getCommits).mockResolvedValue([{ message: 'message', parent: 'parent' }] as never)
     jest.mocked(repositoryService.getCommitDiff).mockResolvedValue('diff' as never)
-    const req = getMockReq({ params: { repo: 'repo', hash: 'hash' }, query: { path: 'path' } }) as never
+    const req = getMockReq({ params: { repo: 'repo', hash: 'hash' }, query: { path: 'path' } })
     const { res } = getMockRes()
     await getCommit(req, res)
     expect(res.json).toHaveBeenCalledWith({ message: 'message', diff: 'diff' })
@@ -99,7 +99,7 @@ describe('getCommit', () => {
 
   it('should return 500 status when failure', async () => {
     jest.mocked(repositoryService.getCommits).mockRejectedValue(new Error())
-    const req = getMockReq({ params: { repo: 'repo', hash: 'hash' }, query: { path: 'path' } }) as never
+    const req = getMockReq({ params: { repo: 'repo', hash: 'hash' }, query: { path: 'path' } })
     const { res } = getMockRes()
     await getCommit(req, res)
     expect(res.sendStatus).toHaveBeenCalledWith(500)
