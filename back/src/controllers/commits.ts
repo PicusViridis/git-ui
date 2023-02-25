@@ -1,5 +1,4 @@
 import { Request, Response } from 'express'
-import { start } from '../libs/logger'
 import { repositoryService } from '../libs/repositories'
 
 export type Req1 = Request<
@@ -12,7 +11,7 @@ export type Req1 = Request<
 export async function getCommits(req: Req1, res: Response): Promise<void> {
   const { repo, branch } = req.params
   const { path = '.', page, limit } = req.query
-  const { success, failure } = start('get_commits', { repo, branch, path, page, limit })
+  const { success, failure } = req.logger.start('get_commits', { repo, branch, path, page, limit })
   try {
     const commits = await repositoryService.getCommits(repo, path, branch, Number(page), Number(limit))
     const total = await repositoryService.countCommits(repo, path, branch)
@@ -29,7 +28,7 @@ export type Req2 = Request<{ repo: string; branch: string; hash: string }, unkno
 export async function getCommit(req: Req2, res: Response): Promise<void> {
   const { repo, hash } = req.params
   const { path = '.' } = req.query
-  const { success, failure } = start('get_commit', { repo, path, hash })
+  const { success, failure } = req.logger.start('get_commit', { repo, path, hash })
   try {
     const [commit] = await repositoryService.getCommits(repo, path, hash, 1, 1)
     if (!commit) {

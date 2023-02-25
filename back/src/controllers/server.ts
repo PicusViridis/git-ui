@@ -1,11 +1,10 @@
 import { Request, Response } from 'express'
-import { config } from '../config'
-import { start } from '../libs/logger'
+import { settings } from '../settings'
 
 export function getServerUrl(req: Request, res: Response): void {
-  const { success, failure } = start('get_server_url')
+  const { success, failure } = req.logger.start('get_server_url')
   try {
-    res.send(config.serverUrl)
+    res.send(settings.serverUrl)
     success()
   } catch (error) {
     res.sendStatus(500)

@@ -1,5 +1,4 @@
 import { Request, Response } from 'express'
-import { start } from '../libs/logger'
 import { repositoryService } from '../libs/repositories'
 import { FileType } from '../models/File'
 
@@ -8,7 +7,7 @@ export type Req1 = Request<{ repo: string; branch: string }, unknown, unknown, {
 export async function getTree(req: Req1, res: Response): Promise<void> {
   const { repo, branch } = req.params
   const { path = '.' } = req.query
-  const { success, failure } = start('get_tree', { repo, branch, path })
+  const { success, failure } = req.logger.start('get_tree', { repo, branch, path })
   try {
     const type = await repositoryService.getFileType(repo, path, branch)
     if (type === FileType.FOLDER) {
@@ -31,7 +30,7 @@ export type Req2 = Request<{ repo: string; branch: string }, unknown, unknown, {
 export async function download(req: Req2, res: Response): Promise<void> {
   const { repo, branch } = req.params
   const { path = '.' } = req.query
-  const { success, failure } = start('download', { repo, branch, path })
+  const { success, failure } = req.logger.start('download', { repo, branch, path })
   try {
     const content = await repositoryService.getContent(repo, path, branch)
     const filename = path.split('/').pop()

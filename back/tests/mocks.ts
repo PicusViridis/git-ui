@@ -1,80 +1,73 @@
-import { getMockReq } from '@jest-mock/express'
-import { MockRequest } from '@jest-mock/express/dist/src/request'
+import { getMockReq as _getMockReq } from '@jest-mock/express'
 import { User } from '@prisma/client'
-import { Request } from 'express'
+import { Logger } from '@saramorillon/logger'
+import { Session, SessionData } from 'express-session'
 import { ICommit } from '../src/models/Commit'
 import { FileType, IFileMeta } from '../src/models/File'
 import { IRepository } from '../src/models/Repo'
 
-export function mockReq<T extends Request>(req?: MockRequest): T {
-  return getMockReq({
-    params: { repo: 'repo', branch: 'branch', hash: 'hash' },
-    query: { path: 'path' },
-    ...req,
-  })
+export function getMockReq(...params: Parameters<typeof _getMockReq>): ReturnType<typeof _getMockReq> {
+  const req = _getMockReq(...params)
+  req.session = {} as Session
+  req.logger = new Logger({ silent: true })
+  return req
 }
 
-export function mock(fn: unknown): jest.Mock {
-  return fn as jest.Mock
+export function mockAction(logger: Logger) {
+  const action = { success: jest.fn(), failure: jest.fn() }
+  logger.start = jest.fn().mockReturnValue(action)
+  return action
 }
 
-export const mockUser1: User = {
-  id: 1,
-  username: 'user1',
-  password: 'pass1',
-  createdAt: new Date('2018-01-01T00:00:00.000Z'),
-  updatedAt: new Date('2019-01-01T00:00:00.000Z'),
+export function mockSession(session: Partial<SessionData['user']> = {}): SessionData['user'] {
+  return {
+    username: 'username',
+    ...session,
+  }
 }
 
-export const mockRepo1: IRepository = {
-  name: 'repo1',
-  updatedAt: '2019-01-01T00:00:00.000Z',
+export function mockUser(user: Partial<User> = {}): User {
+  return {
+    id: 1,
+    username: 'username',
+    password: 'password',
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    ...user,
+  }
 }
 
-export const mockRepo2: IRepository = {
-  name: 'repo2',
-  updatedAt: '2020-01-01T00:00:00.000Z',
+export function mockRepo(repo: Partial<IRepository> = {}): IRepository {
+  return {
+    name: 'repo1',
+    updatedAt: '2019-01-01T00:00:00.000Z',
+    ...repo,
+  }
 }
 
-export const mockFile1: IFileMeta = {
-  icon: 'icon',
-  name: 'name1',
-  path: 'path',
-  type: FileType.FILE,
-  lastCommit: {
+export function mockFile(file: Partial<IFileMeta> = {}): IFileMeta {
+  return {
+    icon: 'icon',
+    name: 'name1',
+    path: 'path',
+    type: FileType.FILE,
+    lastCommit: {
+      date: 'date',
+      message: 'message',
+    },
+    ...file,
+  }
+}
+
+export function mockCommit(commit: Partial<ICommit> = {}): ICommit {
+  return {
+    hash: 'hash',
+    author: 'author',
     date: 'date',
     message: 'message',
-  },
-}
-
-export const mockFile2: IFileMeta = {
-  icon: 'icon',
-  name: 'name2',
-  path: 'path',
-  type: FileType.FILE,
-  lastCommit: {
-    date: 'date',
-    message: 'message',
-  },
-}
-
-export const mockFile3: IFileMeta = {
-  icon: 'icon',
-  name: 'name3',
-  path: 'path',
-  type: FileType.FOLDER,
-  lastCommit: {
-    date: 'date',
-    message: 'message',
-  },
-}
-
-export const mockCommit1: ICommit = {
-  hash: 'hash',
-  author: 'author',
-  date: 'date',
-  message: 'message',
-  parent: 'parent',
+    parent: 'parent',
+    ...commit,
+  }
 }
 
 export const test = `diff --git a/file.txt b/file.txt

@@ -1,7 +1,6 @@
 import exec from 'async-exec'
 import mockdate from 'mockdate'
 import { GitService } from '../../../src/libs/git'
-import { mock } from '../../mocks'
 
 mockdate.set('2020-01-01T00:00:00.000Z')
 
@@ -14,19 +13,19 @@ describe('execGitCommand', () => {
   })
 
   it('should return empty string if git fatal error', async () => {
-    mock(exec).mockResolvedValue('fatal:')
+    jest.mocked(exec).mockResolvedValue('fatal:')
     const result = await GitService.execGitCommand('command')
     expect(result).toBe('')
   })
 
   it('should return empty string if error', async () => {
-    mock(exec).mockRejectedValue(new Error())
+    jest.mocked(exec).mockRejectedValue(new Error())
     const result = await GitService.execGitCommand('command')
     expect(result).toBe('')
   })
 
   it('should return command trimmed result', async () => {
-    mock(exec).mockResolvedValue('result\n')
+    jest.mocked(exec).mockResolvedValue('result\n')
     const result = await GitService.execGitCommand('command')
     expect(result).toBe('result')
   })

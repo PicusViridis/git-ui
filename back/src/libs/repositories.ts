@@ -3,15 +3,15 @@ import { fromUnixTime } from 'date-fns'
 import fs from 'fs'
 import { join, parse } from 'path'
 import { types } from 'util'
-import { config } from '../config'
 import { getIcon } from '../libs/icons'
 import { ICommit, ICommitDiff } from '../models/Commit'
 import { FileType, IFileMeta } from '../models/File'
 import { IRepository } from '../models/Repo'
+import { settings } from '../settings'
 import { parseDiff } from '../utils/parseDiff'
 import { GitService } from './git'
 
-const { repoDir } = config
+const { repoDir } = settings
 
 export const repositoryService = {
   async getRepositories(): Promise<IRepository[]> {
@@ -66,7 +66,7 @@ export const repositoryService = {
     return stdout.replace('* ', '').split('\n').filter(Boolean)
   },
 
-  async getContent(repoName: string, currentPath: string, branch: string): Promise<string> {
+  getContent(repoName: string, currentPath: string, branch: string): Promise<string> {
     const repoPath = join(repoDir, repoName)
     return GitService.catFile(repoPath, currentPath, branch, 'blob')
   },

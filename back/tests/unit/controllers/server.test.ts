@@ -1,14 +1,13 @@
-import { getMockReq, getMockRes } from '@jest-mock/express'
+import { getMockRes } from '@jest-mock/express'
 import { getServerUrl } from '../../../src/controllers/server'
-
-jest.mock('../../../src/config', () => ({ config: { serverUrl: 'serverUrl', logSilent: true } }))
+import { getMockReq } from '../../mocks'
 
 describe('getServerUrl', () => {
   it('should return server URL', () => {
     const req = getMockReq()
     const { res } = getMockRes()
     getServerUrl(req, res)
-    expect(res.send).toHaveBeenCalledWith('serverUrl')
+    expect(res.send).toHaveBeenCalledWith('server_url')
   })
 
   it('should send 500 status when failure', () => {
