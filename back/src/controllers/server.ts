@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
-import { config } from '../../config'
-import { start } from '../../libs/logger'
+import { config } from '../config'
+import { start } from '../libs/logger'
 
 export function getServerUrl(req: Request, res: Response): void {
   const { success, failure } = start('get_server_url')

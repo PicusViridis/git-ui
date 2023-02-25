@@ -1,5 +1,5 @@
 import { getMockReq, getMockRes } from '@jest-mock/express'
-import { getSession } from '../../../../src/controllers/session/getSession'
+import { getLogout, getSession } from '../../../src/controllers/session'
 
 describe('getSession', () => {
   it('should return user', () => {
@@ -18,5 +18,23 @@ describe('getSession', () => {
     })
     getSession(req, res)
     expect(res.sendStatus).toHaveBeenCalledWith(500)
+  })
+})
+
+describe('getLogout', () => {
+  it('should logout', () => {
+    const req = getMockReq()
+    req.logout = jest.fn()
+    const { res } = getMockRes()
+    getLogout(req, res)
+    expect(req.logout).toHaveBeenCalled()
+  })
+
+  it('should return 204 status', () => {
+    const req = getMockReq()
+    req.logout = jest.fn()
+    const { res } = getMockRes()
+    getLogout(req, res)
+    expect(res.sendStatus).toHaveBeenCalledWith(204)
   })
 })

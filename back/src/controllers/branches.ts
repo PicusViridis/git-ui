@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
-import { start } from '../../libs/logger'
-import { repositoryService } from '../../libs/repositories'
+import { start } from '../libs/logger'
+import { repositoryService } from '../libs/repositories'
 
 export type Req = Request<{ repo: string }>
 

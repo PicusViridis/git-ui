@@ -1,9 +1,9 @@
 import { getMockRes } from '@jest-mock/express'
-import { getBranches, Req } from '../../../../src/controllers/branches/getBranches'
-import { repositoryService } from '../../../../src/libs/repositories'
-import { mock, mockReq } from '../../../mocks'
+import { getBranches, Req } from '../../../src/controllers/branches'
+import { repositoryService } from '../../../src/libs/repositories'
+import { mock, mockReq } from '../../mocks'
 
-jest.mock('../../../../src/libs/repositories')
+jest.mock('../../../src/libs/repositories')
 
 describe('getBranches', () => {
   it('should list branches', async () => {

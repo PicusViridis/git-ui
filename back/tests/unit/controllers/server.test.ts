@@ -1,7 +1,7 @@
 import { getMockReq, getMockRes } from '@jest-mock/express'
-import { getServerUrl } from '../../../../src/controllers/server/getServerUrl'
+import { getServerUrl } from '../../../src/controllers/server'
 
-jest.mock('../../../../src/config', () => ({ config: { serverUrl: 'serverUrl', logSilent: true } }))
+jest.mock('../../../src/config', () => ({ config: { serverUrl: 'serverUrl', logSilent: true } }))
 
 describe('getServerUrl', () => {
   it('should return server URL', () => {
