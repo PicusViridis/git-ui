@@ -3,19 +3,23 @@ import c from 'classnames'
 import React, { useCallback } from 'react'
 import { useCommitParams } from '../../hooks/useParams'
 import { getCommit } from '../../services/commit'
-import { Loader, NotFound } from '../components/Helpers'
+import { Error, Loading, NotFound } from '../components/Helpers'
 
 export function Commit(): JSX.Element {
   const { repo, branch, hash } = useCommitParams()
   const fetch = useCallback(() => getCommit(repo, branch, hash), [repo, branch, hash])
-  const [commit, { loading }] = useFetch(fetch, null)
+  const [commit, { loading, error }] = useFetch(fetch, null)
 
   if (loading) {
-    return <Loader />
+    return <Loading message="Loading commit" />
+  }
+
+  if (error) {
+    return <Error message="Error while loading commit" />
   }
 
   if (!commit) {
-    return <NotFound />
+    return <NotFound message="Commit not found" />
   }
 
   return (

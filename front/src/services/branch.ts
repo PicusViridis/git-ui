@@ -1,5 +1,6 @@
-import { request } from './wrapper'
+import { Axios } from './Axios'
 
 export async function getBranches(repo: string): Promise<string[]> {
-  return request<string[]>({ url: `/api/repo/${repo}/branches` }, [])
+  const { data } = await Axios.get<string[]>(`/api/repo/${repo}/branches`)
+  return data
 }

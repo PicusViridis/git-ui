@@ -1,36 +1,35 @@
+import { Axios } from '../../../src/services/Axios'
 import { deleteUser, getUsers, postUser } from '../../../src/services/user'
-import { request } from '../../../src/services/wrapper'
-import { mock, mockUser1 } from '../../mocks'
+import { mockUser } from '../../mocks'
 
-jest.mock('../../../src/services/wrapper')
+jest.mock('../../../src/services/Axios')
 
 describe('getUsers', () => {
-  it('should get user', async () => {
-    mock(request).mockResolvedValue('user')
-    await getUsers()
-    expect(request).toHaveBeenCalledWith({ url: '/api/users' }, [])
+  beforeEach(() => {
+    jest.mocked(Axios.get).mockResolvedValue({ data: 'users' })
   })
 
-  it('should return user', async () => {
-    mock(request).mockResolvedValue('user')
+  it('should get users', async () => {
+    await getUsers()
+    expect(Axios.get).toHaveBeenCalledWith('/api/users')
+  })
+
+  it('should return users', async () => {
     const result = await getUsers()
-    expect(result).toBe('user')
+    expect(result).toBe('users')
   })
 })
 
 describe('postUser', () => {
   it('should post user', async () => {
     await postUser('username', 'password')
-    expect(request).toHaveBeenCalledWith(
-      { url: '/api/users', method: 'POST', data: { password: 'password', username: 'username' } },
-      undefined
-    )
+    expect(Axios.post).toHaveBeenCalledWith('/api/users', { password: 'password', username: 'username' })
   })
 })
 
 describe('deleteUser', () => {
   it('should delete user', async () => {
-    await deleteUser(mockUser1)
-    expect(request).toHaveBeenCalledWith({ url: '/api/users/1', method: 'DELETE' }, undefined)
+    await deleteUser(mockUser())
+    expect(Axios.delete).toHaveBeenCalledWith('/api/users/1')
   })
 })

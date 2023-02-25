@@ -1,69 +1,85 @@
 import { render, screen } from '@testing-library/react'
-import mockdate from 'mockdate'
-import React, { PropsWithChildren } from 'react'
+import React from 'react'
 import { useLocation } from 'react-router-dom'
 import { SessionContext } from '../../../../src/contexts/SessionContext'
 import { useRepoParams } from '../../../../src/hooks/useParams'
-import { IUser } from '../../../../src/models/User'
-import { getApp } from '../../../../src/services/app'
 import { getBranches } from '../../../../src/services/branch'
+import { Footer } from '../../../../src/views/components/Footer'
+import { Header } from '../../../../src/views/components/Header'
 import { PrivateOutlet, PublicOutlet, RepoOutlet } from '../../../../src/views/components/Outlet'
-import { mock, mockApp, mockUser1, renderAsync, routerWrapper } from '../../../mocks'
+import { mockSession, wait } from '../../../mocks'
 
 jest.mock('../../../../src/hooks/useParams')
 jest.mock('../../../../src/services/app')
 jest.mock('../../../../src/services/branch')
+jest.mock('../../../../src/views/components/Header')
+jest.mock('../../../../src/views/components/Footer')
 
-mockdate.set('2019-02-01T00:00:00.000Z')
-
-function wrapper(session: IUser | null = null) {
-  return function ({ children }: PropsWithChildren<unknown>) {
-    return <SessionContext.Provider value={session}>{routerWrapper({ children })}</SessionContext.Provider>
-  }
-}
+beforeEach(() => {
+  jest.mocked(Header).mockReturnValue(<span>Header</span>)
+  jest.mocked(Footer).mockReturnValue(<span>Footer</span>)
+})
 
 describe('PublicOutlet', () => {
-  it('should navigate to home page if session', () => {
-    render(<PublicOutlet />, { wrapper: wrapper(mockUser1) })
+  it('should redirect to home page if session', () => {
+    render(
+      <SessionContext.Provider value={mockSession()}>
+        <PublicOutlet />
+      </SessionContext.Provider>
+    )
     expect(screen.getByText('Navigate to /')).toBeInTheDocument()
   })
 
-  it('should render login page if no session', () => {
-    render(<PublicOutlet />, { wrapper: wrapper() })
-    expect(screen.getByText('Log in')).toBeInTheDocument()
+  it('should render outlet and footer if no session', () => {
+    render(
+      <SessionContext.Provider value={null}>
+        <PublicOutlet />
+      </SessionContext.Provider>
+    )
+    expect(screen.getByText('Outlet')).toBeInTheDocument()
+    expect(screen.getByText('Footer')).toBeInTheDocument()
   })
 })
 
 describe('PrivateOutlet', () => {
-  it('should navigate to login page if no session', () => {
-    render(<PrivateOutlet />, { wrapper: wrapper() })
+  it('should redirect to login page if no session', () => {
+    render(
+      <SessionContext.Provider value={null}>
+        <PrivateOutlet />
+      </SessionContext.Provider>
+    )
     expect(screen.getByText('Navigate to /login')).toBeInTheDocument()
   })
 
-  it('should render header, footer and outlet if session', async () => {
-    mock(getApp).mockResolvedValue(mockApp)
-    await renderAsync(<PrivateOutlet />, { wrapper: wrapper(mockUser1) })
-    expect(screen.getByText('Log out')).toBeInTheDocument()
+  it('should render header, outlet and footer if session', () => {
+    render(
+      <SessionContext.Provider value={mockSession()}>
+        <PrivateOutlet />
+      </SessionContext.Provider>
+    )
+    expect(screen.getByText('Header')).toBeInTheDocument()
     expect(screen.getByText('Outlet')).toBeInTheDocument()
-    expect(screen.getByText('v1.0.0 © author 2019')).toBeInTheDocument()
+    expect(screen.getByText('Footer')).toBeInTheDocument()
   })
 })
 
 describe('RepoOutlet', () => {
   it('should render nav and oulet when page is tree', async () => {
-    mock(useRepoParams).mockReturnValue({ repo: 'repo', branch: 'branch', path: 'path' })
-    mock(getBranches).mockResolvedValue(['branch1'])
-    mock(useLocation).mockReturnValue({ pathname: '/tree' })
-    await renderAsync(<RepoOutlet />, { wrapper: routerWrapper })
+    jest.mocked(useRepoParams).mockReturnValue({ repo: 'repo', branch: 'branch', path: 'path' })
+    jest.mocked(getBranches).mockResolvedValue(['branch1'])
+    jest.mocked(useLocation).mockReturnValue({ pathname: '/tree' } as never)
+    render(<RepoOutlet />)
+    await wait()
     expect(screen.getByText('Files')).toBeInTheDocument()
     expect(screen.getByText('Outlet')).toBeInTheDocument()
   })
 
   it('should render nav and oulet when page is commits', async () => {
-    mock(useRepoParams).mockReturnValue({ repo: 'repo', branch: 'branch', path: 'path' })
-    mock(getBranches).mockResolvedValue(['branch1'])
-    mock(useLocation).mockReturnValue({ pathname: '/commits' })
-    await renderAsync(<RepoOutlet />, { wrapper: routerWrapper })
+    jest.mocked(useRepoParams).mockReturnValue({ repo: 'repo', branch: 'branch', path: 'path' })
+    jest.mocked(getBranches).mockResolvedValue(['branch1'])
+    jest.mocked(useLocation).mockReturnValue({ pathname: '/commits' } as never)
+    render(<RepoOutlet />)
+    await wait()
     expect(screen.getByText('Files')).toBeInTheDocument()
     expect(screen.getByText('Outlet')).toBeInTheDocument()
   })

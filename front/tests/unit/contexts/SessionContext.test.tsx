@@ -1,43 +1,49 @@
-import { screen } from '@testing-library/react'
-import React, { PropsWithChildren, useContext } from 'react'
+import { render, renderHook, screen } from '@testing-library/react'
+import React from 'react'
 import { SessionContext, SessionProvider, useSession } from '../../../src/contexts/SessionContext'
 import { getSession } from '../../../src/services/session'
-import { mock, renderAsync, renderHookAsync } from '../../mocks'
+import { mockSession, wait } from '../../mocks'
 
 jest.mock('../../../src/services/session')
 
-function wrapper({ children }: PropsWithChildren<unknown>) {
-  return <SessionProvider>{children}</SessionProvider>
-}
-
 describe('SessionContext', () => {
   beforeEach(() => {
-    mock(getSession).mockResolvedValue('session')
+    jest.mocked(getSession).mockResolvedValue(mockSession())
+  })
+
+  it('should show loader when loading', async () => {
+    render(<SessionProvider></SessionProvider>)
+    expect(screen.getByLabelText('Loading...')).toBeInTheDocument()
+    await wait()
   })
 
   it('should render children', async () => {
-    await renderAsync(<div>In provider</div>, { wrapper })
+    render(<SessionProvider>In provider</SessionProvider>)
+    await wait()
     expect(screen.getByText('In provider')).toBeInTheDocument()
   })
 
   it('should return session', async () => {
-    const { result } = await renderHookAsync(() => useContext(SessionContext), { wrapper })
-    expect(result.current).toEqual('session')
+    render(
+      <SessionProvider>
+        <SessionContext.Consumer>{(value) => <>{value?.username}</>}</SessionContext.Consumer>
+      </SessionProvider>
+    )
+    await wait()
+    expect(screen.getByText('username')).toBeInTheDocument()
   })
 })
 
 describe('useSession', () => {
-  beforeEach(() => {
-    mock(getSession).mockResolvedValue('session')
+  it('should throw if context is used outside a Provider', () => {
+    jest.spyOn(console, 'error').mockImplementation(() => undefined)
+    expect(() => renderHook(() => useSession())).toThrow(new Error('Cannot use session outside SessionContext'))
   })
 
-  it('should throw if context is used outside a Provider', async () => {
-    const { result } = await renderHookAsync(() => useSession())
-    expect(result.error?.message).toBe('No session found')
-  })
-
-  it('should return session', async () => {
-    const { result } = await renderHookAsync(() => useSession(), { wrapper })
-    expect(result.current).toBe('session')
+  it('should return session', () => {
+    const { result } = renderHook(() => useSession(), {
+      wrapper: ({ children }) => <SessionContext.Provider value={mockSession()}>{children}</SessionContext.Provider>,
+    })
+    expect(result.current).toEqual(mockSession())
   })
 })

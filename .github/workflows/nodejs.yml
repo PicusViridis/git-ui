@@ -1,4 +1,4 @@
-name: Boilerplate
+name: Mini Git
 
 on:
   push:

@@ -1,18 +1,19 @@
+import { Axios } from '../../../src/services/Axios'
 import { getTree } from '../../../src/services/tree'
-import { request } from '../../../src/services/wrapper'
-import { mock } from '../../mocks'
 
-jest.mock('../../../src/services/wrapper')
+jest.mock('../../../src/services/Axios')
 
 describe('getTree', () => {
+  beforeEach(() => {
+    jest.mocked(Axios.get).mockResolvedValue({ data: 'tree' })
+  })
+
   it('should get tree', async () => {
-    mock(request).mockResolvedValue('tree')
     await getTree('repo', 'branch', 'path')
-    expect(request).toHaveBeenCalledWith({ url: '/api/repo/repo/branch/tree', params: { path: 'path' } }, [])
+    expect(Axios.get).toHaveBeenCalledWith('/api/repo/repo/branch/tree', { params: { path: 'path' } })
   })
 
   it('should return tree', async () => {
-    mock(request).mockResolvedValue('tree')
     const result = await getTree('repo', 'branch', 'path')
     expect(result).toBe('tree')
   })

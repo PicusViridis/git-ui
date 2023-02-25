@@ -2,13 +2,13 @@ import { fireEvent, render, screen } from '@testing-library/react'
 import React from 'react'
 import { postUser } from '../../../../src/services/user'
 import { User } from '../../../../src/views/pages/User'
-import { flushPromises, mock, mockNavigate } from '../../../mocks'
+import { mockNavigate, wait } from '../../../mocks'
 
 jest.mock('../../../../src/services/user')
 
 describe('User', () => {
   beforeEach(() => {
-    mock(postUser).mockResolvedValue(undefined)
+    jest.mocked(postUser).mockResolvedValue(undefined)
     mockNavigate()
   })
 
@@ -18,14 +18,14 @@ describe('User', () => {
     fireEvent.change(screen.getByLabelText('Password *'), { target: { value: 'pass' } })
     fireEvent.submit(screen.getByText('Save'))
     expect(postUser).toHaveBeenCalledWith('name', 'pass')
-    await flushPromises()
+    await wait()
   })
 
   it('should redirect to users page after creating user', async () => {
     const navigate = mockNavigate()
     render(<User />)
     fireEvent.submit(screen.getByText('Save'))
-    await flushPromises()
+    await wait()
     expect(navigate).toHaveBeenCalledWith('/users')
   })
 })

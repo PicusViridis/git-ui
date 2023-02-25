@@ -1,5 +1,5 @@
 import { ICommit, ICommitDiff } from '../models/Commit'
-import { request } from './wrapper'
+import { Axios } from './Axios'
 
 interface ICommitList {
   commits: ICommit[]
@@ -13,12 +13,13 @@ export async function getCommits(
   limit: number,
   path?: string
 ): Promise<ICommitList> {
-  return request<ICommitList>(
-    { url: `/api/repo/${repo}/${branch}/commits`, params: { path, page, limit } },
-    { commits: [], total: 0 }
-  )
+  const { data } = await Axios.get<ICommitList>(`/api/repo/${repo}/${branch}/commits`, {
+    params: { path, page, limit },
+  })
+  return data
 }
 
 export async function getCommit(repo: string, branch: string, hash: string): Promise<ICommitDiff | null> {
-  return request<ICommitDiff | null>({ url: `/api/repo/${repo}/${branch}/commits/${hash}` }, null)
+  const { data } = await Axios.get<ICommitDiff | null>(`/api/repo/${repo}/${branch}/commits/${hash}`)
+  return data
 }

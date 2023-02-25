@@ -1,15 +1,14 @@
-import { renderHook } from '@testing-library/react-hooks'
+import { renderHook } from '@testing-library/react'
 import { useLocation, useParams } from 'react-router-dom'
 import { useCommitParams, useRepoParams } from '../../../src/hooks/useParams'
 import { useTitle } from '../../../src/hooks/useTitle'
-import { mock } from '../../mocks'
 
 jest.mock('../../../src/hooks/useTitle')
 
 describe('useRepoParams', () => {
   beforeEach(() => {
-    mock(useParams).mockReturnValue({ repo: 'repo', branch: 'branch' })
-    mock(useLocation).mockReturnValue({ search: 'path=path' })
+    jest.mocked(useParams).mockReturnValue({ repo: 'repo', branch: 'branch' })
+    jest.mocked(useLocation).mockReturnValue({ search: 'path=path' } as never)
   })
 
   it('should set title', () => {
@@ -18,19 +17,17 @@ describe('useRepoParams', () => {
   })
 
   it('should throw if repo is missing', () => {
-    mock(useParams).mockReturnValue({ branch: 'branch' })
-    const { result } = renderHook(() => useRepoParams())
-    expect(result.error?.message).toBe('Invalid repo params')
+    jest.mocked(useParams).mockReturnValue({ branch: 'branch' })
+    expect(() => renderHook(() => useRepoParams())).toThrow('Invalid repo params')
   })
 
   it('should throw if branch is missing', () => {
-    mock(useParams).mockReturnValue({ repo: 'repo' })
-    const { result } = renderHook(() => useRepoParams())
-    expect(result.error?.message).toBe('Invalid repo params')
+    jest.mocked(useParams).mockReturnValue({ repo: 'repo' })
+    expect(() => renderHook(() => useRepoParams())).toThrow('Invalid repo params')
   })
 
   it('should return repo and branch', () => {
-    mock(useLocation).mockReturnValue({})
+    jest.mocked(useLocation).mockReturnValue({} as never)
     const { result } = renderHook(() => useRepoParams())
     expect(result.current).toEqual({ repo: 'repo', branch: 'branch' })
   })
@@ -43,8 +40,8 @@ describe('useRepoParams', () => {
 
 describe('useCommitParams', () => {
   beforeEach(() => {
-    mock(useParams).mockReturnValue({ repo: 'repo', branch: 'branch', hash: 'hash' })
-    mock(useLocation).mockReturnValue({ search: 'path=path' })
+    jest.mocked(useParams).mockReturnValue({ repo: 'repo', branch: 'branch', hash: 'hash' })
+    jest.mocked(useLocation).mockReturnValue({ search: 'path=path' } as never)
   })
 
   it('should set title', () => {
@@ -53,21 +50,18 @@ describe('useCommitParams', () => {
   })
 
   it('should throw if repo is missing', () => {
-    mock(useParams).mockReturnValue({ branch: 'branch', hash: 'hash' })
-    const { result } = renderHook(() => useCommitParams())
-    expect(result.error?.message).toBe('Invalid repo params')
+    jest.mocked(useParams).mockReturnValue({ branch: 'branch', hash: 'hash' })
+    expect(() => renderHook(() => useCommitParams())).toThrow('Invalid repo params')
   })
 
   it('should throw if branch is missing', () => {
-    mock(useParams).mockReturnValue({ repo: 'repo', hash: 'hash' })
-    const { result } = renderHook(() => useCommitParams())
-    expect(result.error?.message).toBe('Invalid repo params')
+    jest.mocked(useParams).mockReturnValue({ repo: 'repo', hash: 'hash' })
+    expect(() => renderHook(() => useCommitParams())).toThrow('Invalid repo params')
   })
 
   it('should throw if hash is missing', () => {
-    mock(useParams).mockReturnValue({ repo: 'repo', branch: 'branch' })
-    const { result } = renderHook(() => useCommitParams())
-    expect(result.error?.message).toBe('Invalid commit params')
+    jest.mocked(useParams).mockReturnValue({ repo: 'repo', branch: 'branch' })
+    expect(() => renderHook(() => useCommitParams())).toThrow('Invalid commit params')
   })
 
   it('should return repo, branch, hash and path', () => {

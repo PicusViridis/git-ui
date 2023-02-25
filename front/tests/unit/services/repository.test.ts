@@ -1,18 +1,19 @@
+import { Axios } from '../../../src/services/Axios'
 import { getRepositories } from '../../../src/services/repository'
-import { request } from '../../../src/services/wrapper'
-import { mock } from '../../mocks'
 
-jest.mock('../../../src/services/wrapper')
+jest.mock('../../../src/services/Axios')
 
 describe('getRepositories', () => {
+  beforeEach(() => {
+    jest.mocked(Axios.get).mockResolvedValue({ data: 'repositories' })
+  })
+
   it('should get repositories', async () => {
-    mock(request).mockResolvedValue('repositories')
     await getRepositories()
-    expect(request).toHaveBeenCalledWith({ url: '/api/repositories' }, [])
+    expect(Axios.get).toHaveBeenCalledWith('/api/repositories')
   })
 
   it('should return repositories', async () => {
-    mock(request).mockResolvedValue('repositories')
     const result = await getRepositories()
     expect(result).toBe('repositories')
   })

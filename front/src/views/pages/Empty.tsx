@@ -1,17 +1,33 @@
 import { useFetch } from '@saramorillon/hooks'
 import React from 'react'
 import { getServerUrl } from '../../services/server'
-import { LoadContainer } from '../components/LoadContainer'
+import { Error, Loading, NotFound } from '../components/Helpers'
 
 interface IEmptyProps {
   repo: string
 }
 
-export function Empty({ repo }: IEmptyProps): JSX.Element {
-  const [url, { loading }] = useFetch(getServerUrl, '')
+export function Empty({ repo }: IEmptyProps) {
+  const [url, { loading, error }] = useFetch(getServerUrl, '')
+
+  if (loading) {
+    return <Loading message="Loading repository" />
+  }
+
+  if (error) {
+    return <Error message="Error while loading repository" />
+  }
+
+  if (!url) {
+    return <NotFound message="Repository not found" />
+  }
+
+  if (!url) {
+    return null
+  }
 
   return (
-    <LoadContainer loading={loading}>
+    <>
       <h4>Clone this repository</h4>
       <article>
         <code>
@@ -44,6 +60,6 @@ export function Empty({ repo }: IEmptyProps): JSX.Element {
         <br />
         <code>git push -u origin master</code>
       </article>
-    </LoadContainer>
+    </>
   )
 }

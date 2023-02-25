@@ -1,18 +1,19 @@
+import { Axios } from '../../../src/services/Axios'
 import { getServerUrl } from '../../../src/services/server'
-import { request } from '../../../src/services/wrapper'
-import { mock } from '../../mocks'
 
-jest.mock('../../../src/services/wrapper')
+jest.mock('../../../src/services/Axios')
 
 describe('getServerUrl', () => {
+  beforeEach(() => {
+    jest.mocked(Axios.get).mockResolvedValue({ data: 'server url' })
+  })
+
   it('should get server url', async () => {
-    mock(request).mockResolvedValue('server url')
     await getServerUrl()
-    expect(request).toHaveBeenCalledWith({ url: '/api/serverurl' }, '')
+    expect(Axios.get).toHaveBeenCalledWith('/api/serverurl')
   })
 
   it('should return server url', async () => {
-    mock(request).mockResolvedValue('server url')
     const result = await getServerUrl()
     expect(result).toBe('server url')
   })

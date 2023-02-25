@@ -5,14 +5,26 @@ import { Link } from 'react-router-dom'
 import { useTitle } from '../../hooks/useTitle'
 import { getRepositories } from '../../services/repository'
 import { makeUrl } from '../../utils/utils'
-import { LoadContainer } from '../components/LoadContainer'
+import { Error, Loading, NotFound } from '../components/Helpers'
 
 export function Repos(): JSX.Element {
   useTitle('Repositories')
-  const [repositories, { loading }] = useFetch(getRepositories, [])
+  const [repositories, { loading, error }] = useFetch(getRepositories, [])
+
+  if (loading) {
+    return <Loading message="Loading repositories" />
+  }
+
+  if (error) {
+    return <Error message="Error while loading repositories" />
+  }
+
+  if (!repositories.length) {
+    return <NotFound message="No repository found" />
+  }
 
   return (
-    <LoadContainer loading={loading}>
+    <>
       {repositories.map((repo) => (
         <div key={repo.name} className="mt2">
           <h4>
@@ -22,6 +34,6 @@ export function Repos(): JSX.Element {
           <hr />
         </div>
       ))}
-    </LoadContainer>
+    </>
   )
 }

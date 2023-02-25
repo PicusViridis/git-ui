@@ -2,24 +2,30 @@ import React, { useContext } from 'react'
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
 import { SessionContext } from '../../contexts/SessionContext'
 import { Page } from '../../models/Pages'
-import { Login } from '../pages/Login'
 import { Footer } from './Footer'
 import { Header } from './Header'
 import { Nav } from './Nav'
 
-export function PublicOutlet() {
+export function PublicOutlet(): JSX.Element {
   const session = useContext(SessionContext)
   if (session) return <Navigate to="/" />
-  return <Login />
+  return (
+    <>
+      <main className="mx-auto max-width-2" style={{ minHeight: 'calc(100vh - 162px - 96px)' }}>
+        <Outlet />
+      </main>
+      <Footer />
+    </>
+  )
 }
 
-export function PrivateOutlet() {
+export function PrivateOutlet(): JSX.Element {
   const session = useContext(SessionContext)
   if (!session) return <Navigate to="/login" />
   return (
     <>
       <Header />
-      <main className="mx-auto flex-auto" style={{ minHeight: 'calc(100vh - 555px)', minWidth: '60rem' }}>
+      <main className="mx-auto" style={{ minHeight: 'calc(100vh - 162px - 96px - 55px)', minWidth: '60rem' }}>
         <Outlet />
       </main>
       <Footer />

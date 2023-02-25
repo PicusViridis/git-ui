@@ -1,35 +1,37 @@
+import { Axios } from '../../../src/services/Axios'
 import { getCommit, getCommits } from '../../../src/services/commit'
-import { request } from '../../../src/services/wrapper'
-import { mock } from '../../mocks'
 
-jest.mock('../../../src/services/wrapper')
+jest.mock('../../../src/services/Axios')
 
 describe('getCommits', () => {
+  beforeEach(() => {
+    jest.mocked(Axios.get).mockResolvedValue({ data: 'commits' })
+  })
+
   it('should get commits', async () => {
-    mock(request).mockResolvedValue('commits')
     await getCommits('repo', 'branch', 1, 10, 'path')
-    expect(request).toHaveBeenCalledWith(
-      { url: '/api/repo/repo/branch/commits', params: { limit: 10, page: 1, path: 'path' } },
-      { commits: [], total: 0 }
-    )
+    expect(Axios.get).toHaveBeenCalledWith('/api/repo/repo/branch/commits', {
+      params: { limit: 10, page: 1, path: 'path' },
+    })
   })
 
   it('should return commits', async () => {
-    mock(request).mockResolvedValue('commits')
     const result = await getCommits('repo', 'branch', 1, 10, 'path')
     expect(result).toBe('commits')
   })
 })
 
 describe('getCommit', () => {
+  beforeEach(() => {
+    jest.mocked(Axios.get).mockResolvedValue({ data: 'commit' })
+  })
+
   it('should get commit', async () => {
-    mock(request).mockResolvedValue('commit')
     await getCommit('repo', 'branch', 'hash')
-    expect(request).toHaveBeenCalledWith({ url: '/api/repo/repo/branch/commits/hash' }, null)
+    expect(Axios.get).toHaveBeenCalledWith('/api/repo/repo/branch/commits/hash')
   })
 
   it('should return commit', async () => {
-    mock(request).mockResolvedValue('commit')
     const result = await getCommit('repo', 'branch', 'hash')
     expect(result).toBe('commit')
   })

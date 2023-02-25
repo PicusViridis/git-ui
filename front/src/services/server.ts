@@ -1,5 +1,6 @@
-import { request } from './wrapper'
+import { Axios } from './Axios'
 
 export async function getServerUrl(): Promise<string> {
-  return request<string>({ url: '/api/serverurl' }, '')
+  const { data } = await Axios.get<string>('/api/serverurl')
+  return data
 }

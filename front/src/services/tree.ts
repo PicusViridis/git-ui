@@ -1,6 +1,7 @@
 import { IFile, IFileMeta } from '../models/File'
-import { request } from './wrapper'
+import { Axios } from './Axios'
 
 export async function getTree(repo: string, branch: string, path?: string): Promise<IFileMeta[] | IFile> {
-  return request<IFileMeta[] | IFile>({ url: `/api/repo/${repo}/${branch}/tree`, params: { path } }, [])
+  const { data } = await Axios.get<IFileMeta[] | IFile>(`/api/repo/${repo}/${branch}/tree`, { params: { path } })
+  return data
 }

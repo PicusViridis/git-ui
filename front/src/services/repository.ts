@@ -1,6 +1,7 @@
 import { IRepository } from '../models/Repo'
-import { request } from './wrapper'
+import { Axios } from './Axios'
 
 export async function getRepositories(): Promise<IRepository[]> {
-  return request<IRepository[]>({ url: '/api/repositories' }, [])
+  const { data } = await Axios.get<IRepository[]>('/api/repositories')
+  return data
 }
