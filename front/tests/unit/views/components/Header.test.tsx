@@ -2,7 +2,7 @@ import { fireEvent, render, screen } from '@testing-library/react'
 import React from 'react'
 import { useCurrentTitle } from '../../../../src/hooks/useTitle'
 import { logout } from '../../../../src/services/session'
-import { Header } from '../../../../src/ui/components/Header'
+import { Header } from '../../../../src/views/components/Header'
 import { mock, routerWrapper } from '../../../mocks'
 
 jest.mock('../../../../src/services/session')

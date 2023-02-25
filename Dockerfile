@@ -14,18 +14,18 @@ WORKDIR /app
 # Backend 
 FROM base as bsources
 
-COPY backend/package.json backend/
-COPY backend/yarn.lock backend/
+COPY back/package.json back/
+COPY back/yarn.lock back/
 
-RUN yarn --cwd backend install --production=false
+RUN yarn --cwd back install --production=false
 
 # Frontend 
 FROM base as fsources
 
-COPY frontend/package.json frontend/
-COPY frontend/yarn.lock frontend/
+COPY front/package.json front/
+COPY front/yarn.lock front/
 
-RUN yarn --cwd frontend install --production=false
+RUN yarn --cwd front install --production=false
 
 ####################
 ### Dependencies ###
@@ -34,7 +34,7 @@ RUN yarn --cwd frontend install --production=false
 # Backend
 FROM bsources as dependencies
 
-RUN yarn --cwd backend install --frozen-lockfile --force --production --ignore-scripts --prefer-offline
+RUN yarn --cwd back install --frozen-lockfile --force --production --ignore-scripts --prefer-offline
 
 ####################
 ###### Build #######
@@ -43,25 +43,25 @@ RUN yarn --cwd backend install --frozen-lockfile --force --production --ignore-s
 # Backend
 FROM bsources as bbuild
 
-COPY backend/tsconfig.json backend/
-COPY backend/tsconfig.build.json backend/
-COPY backend/src backend/src
-COPY backend/types backend/types
+COPY back/tsconfig.json back/
+COPY back/tsconfig.build.json back/
+COPY back/src back/src
+COPY back/types back/types
 COPY models/ models/
 
-RUN yarn --cwd backend build
+RUN yarn --cwd back build
 
 # Frontend
 FROM fsources as fbuild
 
-COPY frontend/tsconfig.json frontend/
-COPY frontend/tsconfig.build.json frontend/
-COPY frontend/vite.config.ts frontend/
-COPY frontend/public frontend/public
-COPY frontend/src frontend/src
+COPY front/tsconfig.json front/
+COPY front/tsconfig.build.json front/
+COPY front/vite.config.ts front/
+COPY front/public front/public
+COPY front/src front/src
 COPY models/ models/
 
-RUN yarn --cwd frontend build
+RUN yarn --cwd front build
 
 ####################
 ##### Release ######
@@ -70,11 +70,11 @@ RUN yarn --cwd frontend build
 FROM base as release
 
 ENV PUBLIC_DIR=/app/dist/public
-ENV TYPEORM_ENTITIES=/app/dist/backend/src/models/**/*.js
+ENV TYPEORM_ENTITIES=/app/dist/back/src/models/**/*.js
 
-COPY --from=dependencies --chown=node:node /app/backend/node_modules/ /app/node_modules/
-COPY --from=bbuild --chown=node:node /app/backend/dist/ /app/dist/
-COPY --from=fbuild --chown=node:node /app/frontend/dist/ /app/dist/public
+COPY --from=dependencies --chown=node:node /app/back/node_modules/ /app/node_modules/
+COPY --from=bbuild --chown=node:node /app/back/dist/ /app/dist/
+COPY --from=fbuild --chown=node:node /app/front/dist/ /app/dist/public
 
 # Create repos directory
 RUN mkdir /app/repos
@@ -94,4 +94,4 @@ RUN chown -R node:node /app/dist/logs
 
 USER node
 
-CMD ["yarn", "--cwd", "dist/backend", "start"]
+CMD ["yarn", "--cwd", "dist/back", "start"]

@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import React from 'react'
 import { login } from '../../../../src/services/session'
-import { Login } from '../../../../src/ui/pages/Login'
+import { Login } from '../../../../src/views/pages/Login'
 import { flushPromises, mock, mockLocation, restoreLocation } from '../../../mocks'
 
 jest.mock('../../../../src/services/session')

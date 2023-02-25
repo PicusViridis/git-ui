@@ -1,7 +1,7 @@
 import { screen } from '@testing-library/react'
 import React from 'react'
 import { getRepositories } from '../../../../src/services/repository'
-import { Repos } from '../../../../src/ui/pages/Repos'
+import { Repos } from '../../../../src/views/pages/Repos'
 import { mock, mockRepo1, mockRepo2, renderAsync, routerWrapper } from '../../../mocks'
 
 jest.mock('../../../../src/services/repository')

@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import React from 'react'
 import { useRepoParams } from '../../../../src/hooks/useParams'
-import { File } from '../../../../src/ui/pages/File'
+import { File } from '../../../../src/views/pages/File'
 import { mock, mockFile1, mockFile2, mockLocation, restoreLocation, routerWrapper } from '../../../mocks'
 
 jest.mock('../../../../src/hooks/useParams')

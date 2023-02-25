@@ -25,7 +25,7 @@ You can use the [docker-compose.yml](./docker-compose.yml) provided as an exampl
 
 - Download the latest release of mini-git
 - Install packages using command `yarn install`
-- Rename [.env.template](./backend/.env.template) to `.env` and fill it with appropriate values
+- Rename [.env.template](./back/.env.template) to `.env` and fill it with appropriate values
 - Run project using command `yarn start:dev`
 
 ## Running Mini Git
@@ -34,7 +34,7 @@ Mini Git listens to port 80 by default.
 
 The default credentials are admin/admin.
 
-Make sure that `git` is installed on your server as git command are used by the backend (git is installed by default in the Dockerfile).
+Make sure that `git` is installed on your server as git command are used by the back (git is installed by default in the Dockerfile).
 
 ## Environment variables
 

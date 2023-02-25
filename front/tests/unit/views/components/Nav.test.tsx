@@ -2,7 +2,7 @@ import { fireEvent, screen } from '@testing-library/react'
 import React from 'react'
 import { useRepoParams } from '../../../../src/hooks/useParams'
 import { getBranches } from '../../../../src/services/branch'
-import { Nav } from '../../../../src/ui/components/Nav'
+import { Nav } from '../../../../src/views/components/Nav'
 import { mock, mockNavigate, renderAsync, routerWrapper } from '../../../mocks'
 
 jest.mock('../../../../src/hooks/useParams')

@@ -2,7 +2,7 @@ import { screen } from '@testing-library/react'
 import mockdate from 'mockdate'
 import React from 'react'
 import { getApp } from '../../../../src/services/app'
-import { Footer } from '../../../../src/ui/components/Footer'
+import { Footer } from '../../../../src/views/components/Footer'
 import { mock, mockApp, renderAsync } from '../../../mocks'
 
 jest.mock('../../../../src/services/app')

@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import React from 'react'
 import { postUser } from '../../../../src/services/user'
-import { User } from '../../../../src/ui/pages/User'
+import { User } from '../../../../src/views/pages/User'
 import { flushPromises, mock, mockNavigate } from '../../../mocks'
 
 jest.mock('../../../../src/services/user')

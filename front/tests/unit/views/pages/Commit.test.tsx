@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react'
 import React from 'react'
 import { useCommitParams } from '../../../../src/hooks/useParams'
 import { getCommit } from '../../../../src/services/commit'
-import { Commit } from '../../../../src/ui/pages/Commit'
+import { Commit } from '../../../../src/views/pages/Commit'
 import { flushPromises, mock, mockCommitDiff, renderAsync } from '../../../mocks'
 
 jest.mock('../../../../src/hooks/useParams')

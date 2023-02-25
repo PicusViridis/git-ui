@@ -7,7 +7,7 @@ import { SessionContext } from '../../../../src/contexts/SessionContext'
 import { useRepoParams } from '../../../../src/hooks/useParams'
 import { getApp } from '../../../../src/services/app'
 import { getBranches } from '../../../../src/services/branch'
-import { PrivateOutlet, PublicOutlet, RepoOutlet } from '../../../../src/ui/components/Outlet'
+import { PrivateOutlet, PublicOutlet, RepoOutlet } from '../../../../src/views/components/Outlet'
 import { mock, mockApp, mockUser1, renderAsync, routerWrapper } from '../../../mocks'
 
 jest.mock('../../../../src/hooks/useParams')

@@ -3,7 +3,7 @@ import React from 'react'
 import { useRepoParams } from '../../../../src/hooks/useParams'
 import { getServerUrl } from '../../../../src/services/server'
 import { getTree } from '../../../../src/services/tree'
-import { Tree } from '../../../../src/ui/pages/Tree'
+import { Tree } from '../../../../src/views/pages/Tree'
 import { flushPromises, mock, mockFile1, mockFileMeta1, renderAsync, routerWrapper } from '../../../mocks'
 
 jest.mock('../../../../src/hooks/useParams')

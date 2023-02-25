@@ -4,7 +4,7 @@ import mockdate from 'mockdate'
 import React from 'react'
 import { useRepoParams } from '../../../../src/hooks/useParams'
 import { getCommits } from '../../../../src/services/commit'
-import { Commits } from '../../../../src/ui/pages/Commits'
+import { Commits } from '../../../../src/views/pages/Commits'
 import { mock, mockCommit1, mockPagination, renderAsync, routerWrapper } from '../../../mocks'
 
 mockdate.set('2019-02-01T00:00:00.000Z')

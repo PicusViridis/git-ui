@@ -2,7 +2,7 @@ import { fireEvent, screen } from '@testing-library/react'
 import React from 'react'
 import { useSession } from '../../../../src/contexts/SessionContext'
 import { deleteUser, getUsers } from '../../../../src/services/user'
-import { Users } from '../../../../src/ui/pages/Users'
+import { Users } from '../../../../src/views/pages/Users'
 import { flushPromises, mock, mockUser1, mockUser2, renderAsync, routerWrapper } from '../../../mocks'
 
 jest.mock('../../../../src/contexts/SessionContext')

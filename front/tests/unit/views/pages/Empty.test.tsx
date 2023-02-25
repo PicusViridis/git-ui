@@ -1,7 +1,7 @@
 import { screen } from '@testing-library/react'
 import React from 'react'
 import { getServerUrl } from '../../../../src/services/server'
-import { Empty } from '../../../../src/ui/pages/Empty'
+import { Empty } from '../../../../src/views/pages/Empty'
 import { mock, renderAsync } from '../../../mocks'
 
 jest.mock('../../../../src/services/server')

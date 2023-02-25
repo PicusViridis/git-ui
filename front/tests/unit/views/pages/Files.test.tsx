@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react'
 import mockdate from 'mockdate'
 import React from 'react'
 import { useRepoParams } from '../../../../src/hooks/useParams'
-import { Files } from '../../../../src/ui/pages/Files'
+import { Files } from '../../../../src/views/pages/Files'
 import { mock, mockFileMeta1, mockFileMeta2, routerWrapper } from '../../../mocks'
 
 jest.mock('../../../../src/hooks/useParams')
