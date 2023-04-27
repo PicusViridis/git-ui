@@ -24,7 +24,7 @@ export function Commit(): JSX.Element {
   return (
     <>
       <h4>{commit.message}</h4>
-      {commit.files.map((file) => (
+      {commit.diff.map((file) => (
         <article key={file.name} className="my2 p0 pb1">
           <div className="pb1 pt2 px2">
             <mark data-variant="badge" className={`right ${file.status}`}>

@@ -103,7 +103,7 @@ export function mockCommit(commit: Partial<ICommit> = {}): ICommit {
 export function mockCommitDiff(commitDiff: Partial<ICommitDiff> = {}): ICommitDiff {
   return {
     message: 'message',
-    files: [
+    diff: [
       {
         name: 'file.txt',
         status: 'changed',

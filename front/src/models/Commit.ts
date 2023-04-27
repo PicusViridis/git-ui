@@ -8,7 +8,7 @@ export interface ICommit {
 
 export interface ICommitDiff {
   message: string
-  files: {
+  diff: {
     name: string
     status: 'changed' | 'added' | 'removed' | 'renamed'
     lines: {
