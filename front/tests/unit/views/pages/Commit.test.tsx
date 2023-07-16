@@ -11,7 +11,7 @@ jest.mock('../../../../src/services/commit')
 describe('Commit', () => {
   beforeEach(() => {
     jest.mocked(getCommit).mockResolvedValue(mockCommitDiff())
-    jest.mocked(useCommitParams).mockReturnValue({ repo: 'repo', branch: 'branch', hash: 'hash', path: '' })
+    jest.mocked(useCommitParams).mockReturnValue({ repo: 'repo', branch: 'branch', hash: 'hash' })
   })
 
   it('should get commit', async () => {

@@ -5,14 +5,14 @@ import { useTitle } from './useTitle'
 interface IRepoParams {
   repo: string
   branch: string
-  path: string
+  path?: string
 }
 
 export function useRepoParams(): IRepoParams {
   const { repo, branch } = useParams<{ repo: string; branch: string }>()
   useTitle(repo || '')
   const { search } = useLocation()
-  const path = useMemo(() => new URLSearchParams(search).get('path') || '', [search])
+  const path = useMemo(() => new URLSearchParams(search).get('path') || undefined, [search])
   if (!repo || !branch) throw new Error('Invalid repo params')
   return { repo, branch, path }
 }

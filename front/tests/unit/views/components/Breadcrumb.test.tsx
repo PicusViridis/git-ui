@@ -18,7 +18,7 @@ describe('Breadcrumb', () => {
   })
 
   it('should not render breadcrumb if path is empty', async () => {
-    jest.mocked(useRepoParams).mockReturnValue({ repo: 'repo', branch: 'branch', path: '' })
+    jest.mocked(useRepoParams).mockReturnValue({ repo: 'repo', branch: 'branch' })
     render(<Breadcrumb />)
     await wait()
     expect(screen.queryByText('repo')).not.toBeInTheDocument()
