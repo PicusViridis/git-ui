@@ -64,7 +64,11 @@ export const repositoryService = {
   async getBranches(repoName: string): Promise<IBranch[]> {
     const repoPath = join(repoDir, repoName)
     const stdout = await GitService.branch(repoPath)
-    const names = stdout.replace('* ', '').split('\n').filter(Boolean)
+    const names = stdout
+      .replace('* ', '')
+      .split('\n')
+      .map((name) => name.trim())
+      .filter(Boolean)
     const branches: IBranch[] = []
     for (const name of names) {
       const [lastCommit] = await this.getCommits(repoName, '.', name, 1, 1)

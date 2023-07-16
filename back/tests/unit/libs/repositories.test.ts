@@ -183,7 +183,7 @@ describe('getBranches', () => {
   })
 
   it('should return branches with last commit without *', async () => {
-    jest.mocked(GitService.branch).mockResolvedValue('branch1\n* branch2')
+    jest.mocked(GitService.branch).mockResolvedValue('  branch1\n* branch2')
     jest.spyOn(repositoryService, 'getCommits').mockResolvedValue([mockCommit()])
     const result = await repositoryService.getBranches('repo')
     expect(result).toEqual([
