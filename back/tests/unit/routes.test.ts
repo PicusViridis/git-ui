@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import { getApp } from '../../src/controllers/app'
-import { getBranches } from '../../src/controllers/branches'
+import { deleteBranch, getBranches } from '../../src/controllers/branches'
 import { getCommit, getCommits } from '../../src/controllers/commits'
 import { getRepos, postRepo } from '../../src/controllers/repos'
 import { getServerUrl } from '../../src/controllers/server'
@@ -43,6 +43,7 @@ describe('routes', () => {
     expect(router.post).toHaveBeenCalledWith('/users', postUser)
     expect(router.delete).toHaveBeenCalledWith('/users/:username', deleteUser)
     expect(router.get).toHaveBeenCalledWith('/repo/:repo/branches', getBranches)
+    expect(router.delete).toHaveBeenCalledWith('/repo/:repo/branches/:name', deleteBranch)
     expect(router.get).toHaveBeenCalledWith('/repo/:repo/:branch/tree', getTree)
     expect(router.get).toHaveBeenCalledWith('/repo/:repo/:branch/download', download)
     expect(router.get).toHaveBeenCalledWith('/repo/:repo/:branch/commits', getCommits)

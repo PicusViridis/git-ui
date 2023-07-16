@@ -1,1 +1,3 @@
-export type Page = 'tree' | 'commits'
+export const pages = ['tree', 'commits', 'branches'] as const
+
+export type Page = (typeof pages)[number]

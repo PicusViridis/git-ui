@@ -10,7 +10,7 @@ import { Files } from './Files'
 export function Tree(): JSX.Element {
   const { repo, branch, path } = useRepoParams()
   const fetch = useCallback(() => getTree(repo, branch, path), [repo, branch, path])
-  const [tree, { loading, error }] = useFetch(fetch, [])
+  const [tree, { loading, error }] = useFetch(fetch, null)
 
   if (loading) {
     return <Loading message="Loading repository" />

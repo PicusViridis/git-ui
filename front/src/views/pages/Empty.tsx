@@ -1,26 +1,13 @@
 import { useFetch } from '@saramorillon/hooks'
 import React from 'react'
 import { getServerUrl } from '../../services/server'
-import { Error, Loading, NotFound } from '../components/Helpers'
 
 interface IEmptyProps {
   repo: string
 }
 
 export function Empty({ repo }: IEmptyProps) {
-  const [url, { loading, error }] = useFetch(getServerUrl, '')
-
-  if (loading) {
-    return <Loading message="Loading repository" />
-  }
-
-  if (error) {
-    return <Error message="Error while loading repository" />
-  }
-
-  if (!url) {
-    return <NotFound message="Repository not found" />
-  }
+  const [url] = useFetch(getServerUrl, '')
 
   if (!url) {
     return null

@@ -26,6 +26,26 @@ describe('Commits', () => {
     expect(getCommits).toHaveBeenCalledWith('repo', 'branch', 1, 10, 'path')
   })
 
+  it('should render loader when loading', async () => {
+    render(<Commits />)
+    expect(screen.getByText('Loading commits')).toBeInTheDocument()
+    await wait()
+  })
+
+  it('should render error on fetch error', async () => {
+    jest.mocked(getCommits).mockRejectedValue('Error')
+    render(<Commits />)
+    await wait()
+    expect(screen.getByText('Error while loading commits')).toBeInTheDocument()
+  })
+
+  it('should render not found when no commit is found', async () => {
+    jest.mocked(getCommits).mockResolvedValue({ commits: [], total: 0 })
+    render(<Commits />)
+    await wait()
+    expect(screen.getByText('No commit found')).toBeInTheDocument()
+  })
+
   it('should render commit message', async () => {
     render(<Commits />)
     await wait()

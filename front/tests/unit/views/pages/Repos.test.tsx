@@ -13,6 +13,32 @@ describe('Repos', () => {
       .mockResolvedValue([mockRepo(), mockRepo({ name: 'repo2', updatedAt: '2020-01-01T00:00:00.000Z' })])
   })
 
+  it('should get repositories', async () => {
+    render(<Repos />)
+    await wait()
+    expect(getRepositories).toHaveBeenCalledWith()
+  })
+
+  it('should render loader when loading', async () => {
+    render(<Repos />)
+    expect(screen.getByText('Loading repositories')).toBeInTheDocument()
+    await wait()
+  })
+
+  it('should render error on fetch error', async () => {
+    jest.mocked(getRepositories).mockRejectedValue('Error')
+    render(<Repos />)
+    await wait()
+    expect(screen.getByText('Error while loading repositories')).toBeInTheDocument()
+  })
+
+  it('should render not found when no repo is found', async () => {
+    jest.mocked(getRepositories).mockResolvedValue([])
+    render(<Repos />)
+    await wait()
+    expect(screen.getByText('No repository found')).toBeInTheDocument()
+  })
+
   it('should render repo name', async () => {
     render(<Repos />)
     await wait()

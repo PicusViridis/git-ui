@@ -25,8 +25,8 @@ export const GitService = {
     return this.execGitCommand(`git -C ${repoPath} log ${params} --format=${LOG_FORMAT} ${branch} -- "${filePath}"`)
   },
 
-  branch(repoPath: string): Promise<string> {
-    return this.execGitCommand(`git -C ${repoPath} branch`)
+  branch(repoPath: string, params = ''): Promise<string> {
+    return this.execGitCommand(`git -C ${repoPath} branch ${params}`)
   },
 
   revList(repoPath: string, filePath: string, branch: string): Promise<string> {

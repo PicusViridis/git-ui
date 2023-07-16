@@ -25,12 +25,19 @@ describe('Tree', () => {
 
   it('should render loader when loading', async () => {
     render(<Tree />)
-    expect(screen.getByLabelText('Loading...')).toBeInTheDocument()
+    expect(screen.getByText('Loading repository')).toBeInTheDocument()
     await wait()
   })
 
-  it('should render not found when tree is not found', async () => {
-    jest.mocked(getTree).mockResolvedValue(null as never)
+  it('should render error on fetch error', async () => {
+    jest.mocked(getTree).mockRejectedValue('Error')
+    render(<Tree />)
+    await wait()
+    expect(screen.getByText('Error while loading repository')).toBeInTheDocument()
+  })
+
+  it('should render not found when commit is not found', async () => {
+    jest.mocked(getTree).mockResolvedValue(null)
     render(<Tree />)
     await wait()
     expect(screen.getByText('Repository not found')).toBeInTheDocument()

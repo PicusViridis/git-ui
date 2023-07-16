@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import { getApp } from './controllers/app'
-import { getBranches } from './controllers/branches'
+import { deleteBranch, getBranches } from './controllers/branches'
 import { getCommit, getCommits } from './controllers/commits'
 import { getRepos, postRepo } from './controllers/repos'
 import { getServerUrl } from './controllers/server'
@@ -30,6 +30,7 @@ export function routes() {
   router.delete('/users/:username', deleteUser)
 
   router.get('/repo/:repo/branches', getBranches)
+  router.delete('/repo/:repo/branches/:name', deleteBranch)
 
   router.get('/repo/:repo/:branch/tree', getTree)
   router.get('/repo/:repo/:branch/download', download)

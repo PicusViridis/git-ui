@@ -2,6 +2,7 @@ import { IPagination } from '@saramorillon/hooks'
 import { act } from 'react-dom/test-utils'
 import { useNavigate } from 'react-router-dom'
 import { IApp } from '../src/models/App'
+import { IBranch } from '../src/models/Branch'
 import { ICommit, ICommitDiff } from '../src/models/Commit'
 import { IFile, IFileMeta } from '../src/models/File'
 import { IRepository } from '../src/models/Repo'
@@ -64,6 +65,17 @@ export function mockRepo(repo: Partial<IRepository> = {}): IRepository {
     name: 'repo1',
     updatedAt: '2019-01-01 00:00:00',
     ...repo,
+  }
+}
+
+export function mockBranch(branch: Partial<IBranch> = {}): IBranch {
+  return {
+    name: 'branch',
+    lastCommit: {
+      date: '2019-01-01 00:00:00',
+      message: 'message1',
+    },
+    ...branch,
   }
 }
 

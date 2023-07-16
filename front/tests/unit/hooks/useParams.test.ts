@@ -29,7 +29,7 @@ describe('useRepoParams', () => {
   it('should return repo and branch', () => {
     jest.mocked(useLocation).mockReturnValue({} as never)
     const { result } = renderHook(() => useRepoParams())
-    expect(result.current).toEqual({ repo: 'repo', branch: 'branch' })
+    expect(result.current).toEqual({ repo: 'repo', branch: 'branch', path: '' })
   })
 
   it('should return repo, branch and path', () => {

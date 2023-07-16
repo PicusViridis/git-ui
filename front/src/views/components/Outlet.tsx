@@ -1,7 +1,7 @@
-import React, { useContext } from 'react'
-import { Navigate, Outlet, useLocation } from 'react-router-dom'
+import React, { ReactNode, useContext } from 'react'
+import { Navigate, Outlet } from 'react-router-dom'
 import { SessionContext } from '../../contexts/SessionContext'
-import { Page } from '../../models/Pages'
+import { Breadcrumb } from './Breadcrumb'
 import { Footer } from './Footer'
 import { Header } from './Header'
 import { Nav } from './Nav'
@@ -33,13 +33,20 @@ export function PrivateOutlet(): JSX.Element {
   )
 }
 
-export function RepoOutlet() {
-  const { pathname } = useLocation()
-  const page: Page = pathname.includes('/tree') ? 'tree' : 'commits'
+export function withNav(child: ReactNode) {
   return (
     <>
-      <Nav page={page} />
-      <Outlet />
+      <Nav />
+      {child}
+    </>
+  )
+}
+
+export function withBreadcrumb(child: ReactNode) {
+  return (
+    <>
+      <Breadcrumb />
+      {child}
     </>
   )
 }

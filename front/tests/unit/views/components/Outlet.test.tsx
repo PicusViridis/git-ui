@@ -1,23 +1,26 @@
 import { render, screen } from '@testing-library/react'
 import React from 'react'
-import { useLocation } from 'react-router-dom'
 import { SessionContext } from '../../../../src/contexts/SessionContext'
-import { useRepoParams } from '../../../../src/hooks/useParams'
-import { getBranches } from '../../../../src/services/branch'
+import { Breadcrumb } from '../../../../src/views/components/Breadcrumb'
 import { Footer } from '../../../../src/views/components/Footer'
 import { Header } from '../../../../src/views/components/Header'
-import { PrivateOutlet, PublicOutlet, RepoOutlet } from '../../../../src/views/components/Outlet'
-import { mockSession, wait } from '../../../mocks'
+import { Nav } from '../../../../src/views/components/Nav'
+import { PrivateOutlet, PublicOutlet, withBreadcrumb, withNav } from '../../../../src/views/components/Outlet'
+import { mockSession } from '../../../mocks'
 
 jest.mock('../../../../src/hooks/useParams')
 jest.mock('../../../../src/services/app')
 jest.mock('../../../../src/services/branch')
 jest.mock('../../../../src/views/components/Header')
 jest.mock('../../../../src/views/components/Footer')
+jest.mock('../../../../src/views/components/Nav')
+jest.mock('../../../../src/views/components/Breadcrumb')
 
 beforeEach(() => {
   jest.mocked(Header).mockReturnValue(<span>Header</span>)
   jest.mocked(Footer).mockReturnValue(<span>Footer</span>)
+  jest.mocked(Nav).mockReturnValue(<span>Nav</span>)
+  jest.mocked(Breadcrumb).mockReturnValue(<span>Breadcrumb</span>)
 })
 
 describe('PublicOutlet', () => {
@@ -63,24 +66,26 @@ describe('PrivateOutlet', () => {
   })
 })
 
-describe('RepoOutlet', () => {
-  it('should render nav and oulet when page is tree', async () => {
-    jest.mocked(useRepoParams).mockReturnValue({ repo: 'repo', branch: 'branch', path: 'path' })
-    jest.mocked(getBranches).mockResolvedValue(['branch1'])
-    jest.mocked(useLocation).mockReturnValue({ pathname: '/tree' } as never)
-    render(<RepoOutlet />)
-    await wait()
-    expect(screen.getByText('Files')).toBeInTheDocument()
-    expect(screen.getByText('Outlet')).toBeInTheDocument()
+describe('withNav', () => {
+  it('should render nav', () => {
+    render(withNav('child'))
+    expect(screen.getByText('Nav')).toBeInTheDocument()
   })
 
-  it('should render nav and oulet when page is commits', async () => {
-    jest.mocked(useRepoParams).mockReturnValue({ repo: 'repo', branch: 'branch', path: 'path' })
-    jest.mocked(getBranches).mockResolvedValue(['branch1'])
-    jest.mocked(useLocation).mockReturnValue({ pathname: '/commits' } as never)
-    render(<RepoOutlet />)
-    await wait()
-    expect(screen.getByText('Files')).toBeInTheDocument()
-    expect(screen.getByText('Outlet')).toBeInTheDocument()
+  it('should render child', () => {
+    render(withNav('child'))
+    expect(screen.getByText('child')).toBeInTheDocument()
+  })
+})
+
+describe('withBreadcrumb', () => {
+  it('should render breadcrumb', () => {
+    render(withBreadcrumb('child'))
+    expect(screen.getByText('Breadcrumb')).toBeInTheDocument()
+  })
+
+  it('should render child', () => {
+    render(withBreadcrumb('child'))
+    expect(screen.getByText('child')).toBeInTheDocument()
   })
 })

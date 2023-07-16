@@ -27,6 +27,26 @@ describe('Users', () => {
     expect(getUsers).toHaveBeenCalled()
   })
 
+  it('should render loader when loading', async () => {
+    render(<Users />)
+    expect(screen.getByText('Loading users')).toBeInTheDocument()
+    await wait()
+  })
+
+  it('should render error on fetch error', async () => {
+    jest.mocked(getUsers).mockRejectedValue('Error')
+    render(<Users />)
+    await wait()
+    expect(screen.getByText('Error while loading users')).toBeInTheDocument()
+  })
+
+  it('should render not found when no user is found', async () => {
+    jest.mocked(getUsers).mockResolvedValue([])
+    render(<Users />)
+    await wait()
+    expect(screen.getByText('No user found')).toBeInTheDocument()
+  })
+
   it('should render username', async () => {
     render(<Users />)
     await wait()

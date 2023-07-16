@@ -175,10 +175,29 @@ describe('getBranches', () => {
     expect(GitService.branch).toHaveBeenCalledWith(join('repos', 'repo'))
   })
 
-  it('should return branches without', async () => {
+  it('should get branch last commit', async () => {
+    jest.mocked(GitService.branch).mockResolvedValue('branch1')
+    jest.spyOn(repositoryService, 'getCommits').mockResolvedValue([])
+    await repositoryService.getBranches('repo')
+    expect(repositoryService.getCommits).toHaveBeenCalledWith('repo', '.', 'branch1', 1, 1)
+  })
+
+  it('should return branches with last commit without *', async () => {
     jest.mocked(GitService.branch).mockResolvedValue('branch1\n* branch2')
+    jest.spyOn(repositoryService, 'getCommits').mockResolvedValue([mockCommit()])
     const result = await repositoryService.getBranches('repo')
-    expect(result).toEqual(['branch1', 'branch2'])
+    expect(result).toEqual([
+      { name: 'branch1', lastCommit: mockCommit() },
+      { name: 'branch2', lastCommit: mockCommit() },
+    ])
+  })
+})
+
+describe('deleteBranch', () => {
+  it('should get branches', async () => {
+    jest.mocked(GitService.branch).mockResolvedValue('')
+    await repositoryService.deleteBranch('repo', 'branch')
+    expect(GitService.branch).toHaveBeenCalledWith(join('repos', 'repo'), '-D branch')
   })
 })
 

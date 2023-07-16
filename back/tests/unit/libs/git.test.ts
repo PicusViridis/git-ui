@@ -57,7 +57,12 @@ describe('log', () => {
 describe('branch', () => {
   it('should execute branch command', async () => {
     await GitService.branch('repoPath')
-    expect(exec).toHaveBeenCalledWith('git -C repoPath branch')
+    expect(exec).toHaveBeenCalledWith('git -C repoPath branch ')
+  })
+
+  it('should execute branch command with params', async () => {
+    await GitService.branch('repoPath', 'params')
+    expect(exec).toHaveBeenCalledWith('git -C repoPath branch params')
   })
 
   it('should return command result', async () => {

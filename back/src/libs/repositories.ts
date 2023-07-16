@@ -4,6 +4,7 @@ import fs from 'fs'
 import { join, parse } from 'path'
 import { types } from 'util'
 import { getIcon } from '../libs/icons'
+import { IBranch } from '../models/Branch'
 import { ICommit, ICommitDiff } from '../models/Commit'
 import { IFileMeta } from '../models/File'
 import { IRepository } from '../models/Repo'
@@ -60,10 +61,21 @@ export const repositoryService = {
     return { type, icon, name, path: currentPath, lastCommit }
   },
 
-  async getBranches(repoName: string): Promise<string[]> {
+  async getBranches(repoName: string): Promise<IBranch[]> {
     const repoPath = join(repoDir, repoName)
     const stdout = await GitService.branch(repoPath)
-    return stdout.replace('* ', '').split('\n').filter(Boolean)
+    const names = stdout.replace('* ', '').split('\n').filter(Boolean)
+    const branches: IBranch[] = []
+    for (const name of names) {
+      const [lastCommit] = await this.getCommits(repoName, '.', name, 1, 1)
+      branches.push({ name, lastCommit })
+    }
+    return branches
+  },
+
+  async deleteBranch(repoName: string, branch: string): Promise<void> {
+    const repoPath = join(repoDir, repoName)
+    await GitService.branch(repoPath, `-D ${branch}`)
   },
 
   getContent(repoName: string, currentPath: string, branch: string): Promise<string> {

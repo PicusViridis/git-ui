@@ -1,7 +1,8 @@
 import React from 'react'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { SessionProvider } from '../contexts/SessionContext'
-import { PrivateOutlet, PublicOutlet, RepoOutlet } from './components/Outlet'
+import { PrivateOutlet, PublicOutlet, withBreadcrumb, withNav } from './components/Outlet'
+import { Branches } from './pages/Branches'
 import { Commit } from './pages/Commit'
 import { Commits } from './pages/Commits'
 import { Login } from './pages/Login'
@@ -22,11 +23,10 @@ export function App(): JSX.Element | null {
           <Route element={<PrivateOutlet />}>
             <Route path="/" element={<Repos />} />
 
-            <Route path="/repo/:repo/:branch" element={<RepoOutlet />}>
-              <Route path="tree" element={<Tree />} />
-              <Route path="commits" element={<Commits />} />
-              <Route path="commit/:hash" element={<Commit />} />
-            </Route>
+            <Route path="/repo/:repo/:branch/tree" element={withNav(withBreadcrumb(<Tree />))} />
+            <Route path="/repo/:repo/:branch/commits" element={withNav(withBreadcrumb(<Commits />))} />
+            <Route path="/repo/:repo/:branch/commit/:hash" element={withNav(withBreadcrumb(<Commit />))} />
+            <Route path="/repo/:repo/:branch/branches" element={withNav(<Branches />)} />
 
             <Route path="users" element={<Users />} />
             <Route path="user" element={<User />} />

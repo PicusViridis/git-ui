@@ -11,7 +11,7 @@ jest.mock('../../../../src/services/commit')
 describe('Commit', () => {
   beforeEach(() => {
     jest.mocked(getCommit).mockResolvedValue(mockCommitDiff())
-    jest.mocked(useCommitParams).mockReturnValue({ repo: 'repo', branch: 'branch', hash: 'hash' })
+    jest.mocked(useCommitParams).mockReturnValue({ repo: 'repo', branch: 'branch', hash: 'hash', path: '' })
   })
 
   it('should get commit', async () => {
@@ -22,8 +22,15 @@ describe('Commit', () => {
 
   it('should render loader when loading', async () => {
     render(<Commit />)
-    expect(screen.getByLabelText('Loading...')).toBeInTheDocument()
+    expect(screen.getByText('Loading commit')).toBeInTheDocument()
     await wait()
+  })
+
+  it('should render error on fetch error', async () => {
+    jest.mocked(getCommit).mockRejectedValue('Error')
+    render(<Commit />)
+    await wait()
+    expect(screen.getByText('Error while loading commit')).toBeInTheDocument()
   })
 
   it('should render not found when commit is not found', async () => {
