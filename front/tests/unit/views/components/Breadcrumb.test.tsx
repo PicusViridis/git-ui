@@ -1,31 +1,32 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import React from 'react'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { usePage } from '../../../../src/hooks/usePage'
 import { useRepoParams } from '../../../../src/hooks/useParams'
 import { getBranches } from '../../../../src/services/branch'
 import { Breadcrumb } from '../../../../src/views/components/Breadcrumb'
 import { mockBranch, mockNavigate, wait } from '../../../mocks'
 
-jest.mock('../../../../src/hooks/useParams')
-jest.mock('../../../../src/hooks/usePage')
-jest.mock('../../../../src/services/branch')
+vi.mock('../../../../src/hooks/useParams')
+vi.mock('../../../../src/hooks/usePage')
+vi.mock('../../../../src/services/branch')
 
 describe('Breadcrumb', () => {
   beforeEach(() => {
-    jest.mocked(useRepoParams).mockReturnValue({ repo: 'repo', branch: 'branch', path: 'path' })
-    jest.mocked(usePage).mockReturnValue('tree')
-    jest.mocked(getBranches).mockResolvedValue([mockBranch({ name: 'branch1' }), mockBranch({ name: 'branch2' })])
+    vi.mocked(useRepoParams).mockReturnValue({ repo: 'repo', branch: 'branch', path: 'path' })
+    vi.mocked(usePage).mockReturnValue('tree')
+    vi.mocked(getBranches).mockResolvedValue([mockBranch({ name: 'branch1' }), mockBranch({ name: 'branch2' })])
   })
 
   it('should not render breadcrumb if path is empty', async () => {
-    jest.mocked(useRepoParams).mockReturnValue({ repo: 'repo', branch: 'branch' })
+    vi.mocked(useRepoParams).mockReturnValue({ repo: 'repo', branch: 'branch' })
     render(<Breadcrumb />)
     await wait()
     expect(screen.queryByText('repo')).not.toBeInTheDocument()
   })
 
   it('should render breadcrumb', async () => {
-    jest.mocked(useRepoParams).mockReturnValue({ repo: 'repo', branch: 'branch', path: 'this/is/a/path' })
+    vi.mocked(useRepoParams).mockReturnValue({ repo: 'repo', branch: 'branch', path: 'this/is/a/path' })
     render(<Breadcrumb />)
     await wait()
     expect(screen.getByText('repo')).toHaveAttribute('href', '/repo/repo/branch/tree')
@@ -49,7 +50,7 @@ describe('Breadcrumb', () => {
   })
 
   it('should disable branches select if less than 2 branches', async () => {
-    jest.mocked(getBranches).mockResolvedValue([mockBranch({ name: 'branch1' })])
+    vi.mocked(getBranches).mockResolvedValue([mockBranch({ name: 'branch1' })])
     render(<Breadcrumb />)
     await wait()
     expect(screen.getByDisplayValue('branch1')).toBeDisabled()

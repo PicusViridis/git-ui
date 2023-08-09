@@ -1,18 +1,19 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import React from 'react'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { useRepoParams } from '../../../../src/hooks/useParams'
 import { deleteBranch, getBranches } from '../../../../src/services/branch'
 import { Branches } from '../../../../src/views/pages/Branches'
 import { mockBranch, wait } from '../../../mocks'
 
-jest.mock('../../../../src/hooks/useParams')
-jest.mock('../../../../src/services/branch')
+vi.mock('../../../../src/hooks/useParams')
+vi.mock('../../../../src/services/branch')
 
 describe('Branches', () => {
   beforeEach(() => {
-    jest.mocked(useRepoParams).mockReturnValue({ repo: 'repo', branch: 'branch', path: 'path' })
-    jest.mocked(getBranches).mockResolvedValue([mockBranch()])
-    jest.mocked(deleteBranch).mockResolvedValue(undefined)
+    vi.mocked(useRepoParams).mockReturnValue({ repo: 'repo', branch: 'branch', path: 'path' })
+    vi.mocked(getBranches).mockResolvedValue([mockBranch()])
+    vi.mocked(deleteBranch).mockResolvedValue(undefined)
   })
 
   it('should get branches', async () => {
@@ -28,14 +29,14 @@ describe('Branches', () => {
   })
 
   it('should render error on fetch error', async () => {
-    jest.mocked(getBranches).mockRejectedValue('Error')
+    vi.mocked(getBranches).mockRejectedValue('Error')
     render(<Branches />)
     await wait()
     expect(screen.getByText('Error while loading branches')).toBeInTheDocument()
   })
 
   it('should render not found when no branch is found', async () => {
-    jest.mocked(getBranches).mockResolvedValue([])
+    vi.mocked(getBranches).mockResolvedValue([])
     render(<Branches />)
     await wait()
     expect(screen.getByText('No branch found')).toBeInTheDocument()
@@ -64,7 +65,7 @@ describe('Branches', () => {
   it('should refresh branches after deleting branch', async () => {
     render(<Branches />)
     await wait()
-    jest.mocked(getBranches).mockClear()
+    vi.mocked(getBranches).mockClear()
     fireEvent.click(screen.getByLabelText('Delete branch "branch"'))
     await wait()
     expect(getBranches).toHaveBeenCalledWith('repo')

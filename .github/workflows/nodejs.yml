@@ -24,7 +24,7 @@ jobs:
         run: yarn tsc
         working-directory: back
       - name: Test
-        run: yarn jest --runInBand
+        run: yarn vitest run
         working-directory: back
 
   front:
@@ -45,5 +45,5 @@ jobs:
         run: yarn tsc
         working-directory: front
       - name: Test
-        run: yarn jest --runInBand
+        run: yarn vitest run
         working-directory: front

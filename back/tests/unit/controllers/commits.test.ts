@@ -1,9 +1,9 @@
-import { getMockRes } from '@jest-mock/express'
+import { describe, expect, it, vi } from 'vitest'
 import { getCommit, getCommits } from '../../../src/controllers/commits'
 import { repositoryService } from '../../../src/libs/repositories'
-import { getMockReq } from '../../mocks'
+import { getMockReq, getMockRes } from '../../mocks'
 
-jest.mock('../../../src/libs/repositories')
+vi.mock('../../../src/libs/repositories')
 
 describe('getCommits', () => {
   it('should get commits', async () => {
@@ -38,8 +38,8 @@ describe('getCommits', () => {
   })
 
   it('should return commits and total number of commits', async () => {
-    jest.mocked(repositoryService.getCommits).mockResolvedValue('commits' as never)
-    jest.mocked(repositoryService.countCommits).mockResolvedValue(10)
+    vi.mocked(repositoryService.getCommits).mockResolvedValue('commits' as never)
+    vi.mocked(repositoryService.countCommits).mockResolvedValue(10)
     const req = getMockReq({ params: { repo: 'repo', branch: 'branch' }, query: { path: 'path' } })
     const { res } = getMockRes()
     await getCommits(req, res)
@@ -47,7 +47,7 @@ describe('getCommits', () => {
   })
 
   it('should return 500 status when failure', async () => {
-    jest.mocked(repositoryService.getCommits).mockRejectedValue(new Error())
+    vi.mocked(repositoryService.getCommits).mockRejectedValue(new Error())
     const req = getMockReq({ params: { repo: 'repo', branch: 'branch' }, query: { path: 'path' } })
     const { res } = getMockRes()
     await getCommits(req, res)
@@ -57,7 +57,7 @@ describe('getCommits', () => {
 
 describe('getCommit', () => {
   it('should get commit', async () => {
-    jest.mocked(repositoryService.getCommits).mockResolvedValue([])
+    vi.mocked(repositoryService.getCommits).mockResolvedValue([])
     const req = getMockReq({ params: { repo: 'repo', hash: 'hash' }, query: { path: 'path' } })
     const { res } = getMockRes()
     await getCommit(req, res)
@@ -65,7 +65,7 @@ describe('getCommit', () => {
   })
 
   it('should return 404 if commit was not found', async () => {
-    jest.mocked(repositoryService.getCommits).mockResolvedValue([])
+    vi.mocked(repositoryService.getCommits).mockResolvedValue([])
     const req = getMockReq({ params: { repo: 'repo', hash: 'hash' }, query: { path: 'path' } })
     const { res } = getMockRes()
     await getCommit(req, res)
@@ -73,7 +73,7 @@ describe('getCommit', () => {
   })
 
   it('should get commit diff', async () => {
-    jest.mocked(repositoryService.getCommits).mockResolvedValue([{ parent: 'parent' }] as never)
+    vi.mocked(repositoryService.getCommits).mockResolvedValue([{ parent: 'parent' }] as never)
     const req = getMockReq({ params: { repo: 'repo', hash: 'hash' }, query: { path: 'path' } })
     const { res } = getMockRes()
     await getCommit(req, res)
@@ -81,7 +81,7 @@ describe('getCommit', () => {
   })
 
   it('should get commit diff with default path', async () => {
-    jest.mocked(repositoryService.getCommits).mockResolvedValue([{ parent: 'parent' }] as never)
+    vi.mocked(repositoryService.getCommits).mockResolvedValue([{ parent: 'parent' }] as never)
     const req = getMockReq({ params: { repo: 'repo', hash: 'hash' }, query: { path: undefined } })
     const { res } = getMockRes()
     await getCommit(req, res)
@@ -89,8 +89,8 @@ describe('getCommit', () => {
   })
 
   it('should return commit message and diff', async () => {
-    jest.mocked(repositoryService.getCommits).mockResolvedValue([{ message: 'message', parent: 'parent' }] as never)
-    jest.mocked(repositoryService.getCommitDiff).mockResolvedValue('diff' as never)
+    vi.mocked(repositoryService.getCommits).mockResolvedValue([{ message: 'message', parent: 'parent' }] as never)
+    vi.mocked(repositoryService.getCommitDiff).mockResolvedValue('diff' as never)
     const req = getMockReq({ params: { repo: 'repo', hash: 'hash' }, query: { path: 'path' } })
     const { res } = getMockRes()
     await getCommit(req, res)
@@ -98,7 +98,7 @@ describe('getCommit', () => {
   })
 
   it('should return 500 status when failure', async () => {
-    jest.mocked(repositoryService.getCommits).mockRejectedValue(new Error())
+    vi.mocked(repositoryService.getCommits).mockRejectedValue(new Error())
     const req = getMockReq({ params: { repo: 'repo', hash: 'hash' }, query: { path: 'path' } })
     const { res } = getMockRes()
     await getCommit(req, res)

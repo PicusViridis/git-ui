@@ -1,9 +1,9 @@
-import { getMockRes } from '@jest-mock/express'
+import { describe, expect, it, vi } from 'vitest'
 import { deleteBranch, getBranches } from '../../../src/controllers/branches'
 import { repositoryService } from '../../../src/libs/repositories'
-import { getMockReq } from '../../mocks'
+import { getMockReq, getMockRes } from '../../mocks'
 
-jest.mock('../../../src/libs/repositories')
+vi.mock('../../../src/libs/repositories')
 
 describe('getBranches', () => {
   it('should list branches', async () => {
@@ -14,7 +14,7 @@ describe('getBranches', () => {
   })
 
   it('should return branches', async () => {
-    jest.mocked(repositoryService.getBranches).mockResolvedValue('branches' as never)
+    vi.mocked(repositoryService.getBranches).mockResolvedValue('branches' as never)
     const req = getMockReq({ params: { repo: 'repo' } })
     const { res } = getMockRes()
     await getBranches(req, res)
@@ -22,7 +22,7 @@ describe('getBranches', () => {
   })
 
   it('should return 500 status when failure', async () => {
-    jest.mocked(repositoryService.getBranches).mockRejectedValue(new Error())
+    vi.mocked(repositoryService.getBranches).mockRejectedValue(new Error())
     const req = getMockReq({ params: { repo: 'repo' } })
     const { res } = getMockRes()
     await getBranches(req, res)
@@ -53,7 +53,7 @@ describe('deleteBranch', () => {
   })
 
   it('should return 500 status when failure', async () => {
-    jest.mocked(repositoryService.deleteBranch).mockRejectedValue(new Error())
+    vi.mocked(repositoryService.deleteBranch).mockRejectedValue(new Error())
     const req = getMockReq({ params: { repo: 'repo', name: 'branch' } })
     const { res } = getMockRes()
     await deleteBranch(req, res)

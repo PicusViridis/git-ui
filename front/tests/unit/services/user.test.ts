@@ -1,12 +1,13 @@
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { Axios } from '../../../src/services/Axios'
 import { deleteUser, getUsers, postUser } from '../../../src/services/user'
 import { mockUser } from '../../mocks'
 
-jest.mock('../../../src/services/Axios')
+vi.mock('../../../src/services/Axios')
 
 describe('getUsers', () => {
   beforeEach(() => {
-    jest.mocked(Axios.get).mockResolvedValue({ data: 'users' })
+    vi.mocked(Axios.get).mockResolvedValue({ data: 'users' })
   })
 
   it('should get users', async () => {

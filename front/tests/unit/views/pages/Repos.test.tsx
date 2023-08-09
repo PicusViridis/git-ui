@@ -1,16 +1,18 @@
 import { render, screen } from '@testing-library/react'
 import React from 'react'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { getRepositories } from '../../../../src/services/repository'
 import { Repos } from '../../../../src/views/pages/Repos'
 import { mockRepo, wait } from '../../../mocks'
 
-jest.mock('../../../../src/services/repository')
+vi.mock('../../../../src/services/repository')
 
 describe('Repos', () => {
   beforeEach(() => {
-    jest
-      .mocked(getRepositories)
-      .mockResolvedValue([mockRepo(), mockRepo({ name: 'repo2', updatedAt: '2020-01-01T00:00:00.000Z' })])
+    vi.mocked(getRepositories).mockResolvedValue([
+      mockRepo(),
+      mockRepo({ name: 'repo2', updatedAt: '2020-01-01T00:00:00.000Z' }),
+    ])
   })
 
   it('should get repositories', async () => {
@@ -26,14 +28,14 @@ describe('Repos', () => {
   })
 
   it('should render error on fetch error', async () => {
-    jest.mocked(getRepositories).mockRejectedValue('Error')
+    vi.mocked(getRepositories).mockRejectedValue('Error')
     render(<Repos />)
     await wait()
     expect(screen.getByText('Error while loading repositories')).toBeInTheDocument()
   })
 
   it('should render not found when no repo is found', async () => {
-    jest.mocked(getRepositories).mockResolvedValue([])
+    vi.mocked(getRepositories).mockResolvedValue([])
     render(<Repos />)
     await wait()
     expect(screen.getByText('No repository found')).toBeInTheDocument()

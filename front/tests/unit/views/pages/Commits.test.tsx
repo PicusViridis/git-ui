@@ -2,6 +2,7 @@ import { useCopy, usePagination } from '@saramorillon/hooks'
 import { fireEvent, render, screen } from '@testing-library/react'
 import mockdate from 'mockdate'
 import React from 'react'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { useRepoParams } from '../../../../src/hooks/useParams'
 import { getCommits } from '../../../../src/services/commit'
 import { Commits } from '../../../../src/views/pages/Commits'
@@ -9,15 +10,15 @@ import { mockCommit, mockPagination, wait } from '../../../mocks'
 
 mockdate.set('2019-02-01T00:00:00.000Z')
 
-jest.mock('../../../../src/hooks/useParams')
-jest.mock('../../../../src/services/commit')
+vi.mock('../../../../src/hooks/useParams')
+vi.mock('../../../../src/services/commit')
 
 describe('Commits', () => {
   beforeEach(() => {
-    jest.mocked(useCopy).mockReturnValue([false, { loading: false }, jest.fn()])
-    jest.mocked(usePagination).mockReturnValue(mockPagination())
-    jest.mocked(useRepoParams).mockReturnValue({ repo: 'repo', branch: 'branch', path: 'path' })
-    jest.mocked(getCommits).mockResolvedValue({ commits: [mockCommit()], total: 100 })
+    vi.mocked(useCopy).mockReturnValue([false, { loading: false }, vi.fn()])
+    vi.mocked(usePagination).mockReturnValue(mockPagination())
+    vi.mocked(useRepoParams).mockReturnValue({ repo: 'repo', branch: 'branch', path: 'path' })
+    vi.mocked(getCommits).mockResolvedValue({ commits: [mockCommit()], total: 100 })
   })
 
   it('should get commits', async () => {
@@ -33,14 +34,14 @@ describe('Commits', () => {
   })
 
   it('should render error on fetch error', async () => {
-    jest.mocked(getCommits).mockRejectedValue('Error')
+    vi.mocked(getCommits).mockRejectedValue('Error')
     render(<Commits />)
     await wait()
     expect(screen.getByText('Error while loading commits')).toBeInTheDocument()
   })
 
   it('should render not found when no commit is found', async () => {
-    jest.mocked(getCommits).mockResolvedValue({ commits: [], total: 0 })
+    vi.mocked(getCommits).mockResolvedValue({ commits: [], total: 0 })
     render(<Commits />)
     await wait()
     expect(screen.getByText('No commit found')).toBeInTheDocument()
@@ -77,15 +78,15 @@ describe('Commits', () => {
   })
 
   it('should enable hash button if copy is authorized', async () => {
-    jest.mocked(useCopy).mockReturnValue([true, { loading: false }, jest.fn()])
+    vi.mocked(useCopy).mockReturnValue([true, { loading: false }, vi.fn()])
     render(<Commits />)
     await wait()
     expect(screen.getByText('hash1')).toBeEnabled()
   })
 
   it('should copy hash to clipboard when clicking on hash button', async () => {
-    const copy = jest.fn()
-    jest.mocked(useCopy).mockReturnValue([true, { loading: false }, copy])
+    const copy = vi.fn()
+    vi.mocked(useCopy).mockReturnValue([true, { loading: false }, copy])
     render(<Commits />)
     await wait()
     fireEvent.click(screen.getByText('hash1'))
@@ -105,7 +106,7 @@ describe('Commits', () => {
   })
 
   it('should not disable first button if can go previous', async () => {
-    jest.mocked(usePagination).mockReturnValue(mockPagination({ canPrevious: true }))
+    vi.mocked(usePagination).mockReturnValue(mockPagination({ canPrevious: true }))
     render(<Commits />)
     await wait()
     expect(screen.getByLabelText('First')).toBeEnabled()
@@ -118,7 +119,7 @@ describe('Commits', () => {
   })
 
   it('should not disable previous button if can go previous', async () => {
-    jest.mocked(usePagination).mockReturnValue(mockPagination({ canPrevious: true }))
+    vi.mocked(usePagination).mockReturnValue(mockPagination({ canPrevious: true }))
     render(<Commits />)
     await wait()
     expect(screen.getByLabelText('Previous')).toBeEnabled()
@@ -131,7 +132,7 @@ describe('Commits', () => {
   })
 
   it('should not disable next button if can go next', async () => {
-    jest.mocked(usePagination).mockReturnValue(mockPagination({ canNext: true }))
+    vi.mocked(usePagination).mockReturnValue(mockPagination({ canNext: true }))
     render(<Commits />)
     await wait()
     expect(screen.getByLabelText('Next')).toBeEnabled()
@@ -144,7 +145,7 @@ describe('Commits', () => {
   })
 
   it('should not disable last button if can go next', async () => {
-    jest.mocked(usePagination).mockReturnValue(mockPagination({ canNext: true }))
+    vi.mocked(usePagination).mockReturnValue(mockPagination({ canNext: true }))
     render(<Commits />)
     await wait()
     expect(screen.getByLabelText('Last')).toBeEnabled()
@@ -152,7 +153,7 @@ describe('Commits', () => {
 
   it('should go to first page when clicking on first', async () => {
     const pagination = mockPagination({ canPrevious: true })
-    jest.mocked(usePagination).mockReturnValue(pagination)
+    vi.mocked(usePagination).mockReturnValue(pagination)
     render(<Commits />)
     await wait()
     fireEvent.click(screen.getByLabelText('First'))
@@ -161,7 +162,7 @@ describe('Commits', () => {
 
   it('should go to previous page when clicking on previous', async () => {
     const pagination = mockPagination({ canPrevious: true })
-    jest.mocked(usePagination).mockReturnValue(pagination)
+    vi.mocked(usePagination).mockReturnValue(pagination)
     render(<Commits />)
     await wait()
     fireEvent.click(screen.getByLabelText('Previous'))
@@ -170,7 +171,7 @@ describe('Commits', () => {
 
   it('should go to next page when clicking on next', async () => {
     const pagination = mockPagination({ canNext: true })
-    jest.mocked(usePagination).mockReturnValue(pagination)
+    vi.mocked(usePagination).mockReturnValue(pagination)
     render(<Commits />)
     await wait()
     fireEvent.click(screen.getByLabelText('Next'))
@@ -179,7 +180,7 @@ describe('Commits', () => {
 
   it('should go to last page when clicking on last', async () => {
     const pagination = mockPagination({ canNext: true })
-    jest.mocked(usePagination).mockReturnValue(pagination)
+    vi.mocked(usePagination).mockReturnValue(pagination)
     render(<Commits />)
     await wait()
     fireEvent.click(screen.getByLabelText('Last'))

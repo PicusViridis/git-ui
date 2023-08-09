@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest'
 import { getIcon } from '../../../src/libs/icons'
 
 describe('getIcon', () => {

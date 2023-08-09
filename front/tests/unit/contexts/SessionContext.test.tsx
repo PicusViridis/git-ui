@@ -1,14 +1,15 @@
 import { render, renderHook, screen } from '@testing-library/react'
 import React from 'react'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { SessionContext, SessionProvider, useSession } from '../../../src/contexts/SessionContext'
 import { getSession } from '../../../src/services/session'
 import { mockSession, wait } from '../../mocks'
 
-jest.mock('../../../src/services/session')
+vi.mock('../../../src/services/session')
 
 describe('SessionContext', () => {
   beforeEach(() => {
-    jest.mocked(getSession).mockResolvedValue(mockSession())
+    vi.mocked(getSession).mockResolvedValue(mockSession())
   })
 
   it('should show loader when loading', async () => {
@@ -36,7 +37,7 @@ describe('SessionContext', () => {
 
 describe('useSession', () => {
   it('should throw if context is used outside a Provider', () => {
-    jest.spyOn(console, 'error').mockImplementation(() => undefined)
+    vi.spyOn(console, 'error').mockImplementation(() => undefined)
     expect(() => renderHook(() => useSession())).toThrow(new Error('Cannot use session outside SessionContext'))
   })
 

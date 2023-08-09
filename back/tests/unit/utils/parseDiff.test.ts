@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest'
 import { parseDiff } from '../../../src/utils/parseDiff'
 
 describe('parseDiff', () => {

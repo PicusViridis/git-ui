@@ -1,11 +1,12 @@
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { Axios } from '../../../src/services/Axios'
 import { deleteBranch, getBranches } from '../../../src/services/branch'
 
-jest.mock('../../../src/services/Axios')
+vi.mock('../../../src/services/Axios')
 
 describe('getBranches', () => {
   beforeEach(() => {
-    jest.mocked(Axios.get).mockResolvedValue({ data: 'branches' })
+    vi.mocked(Axios.get).mockResolvedValue({ data: 'branches' })
   })
 
   it('should get branches', async () => {
@@ -21,7 +22,7 @@ describe('getBranches', () => {
 
 describe('deleteBranch', () => {
   beforeEach(() => {
-    jest.mocked(Axios.delete).mockResolvedValue(undefined)
+    vi.mocked(Axios.delete).mockResolvedValue(undefined)
   })
 
   it('should get branches', async () => {

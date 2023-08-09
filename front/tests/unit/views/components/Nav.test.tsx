@@ -1,17 +1,18 @@
 import { render, screen } from '@testing-library/react'
 import React from 'react'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { usePage } from '../../../../src/hooks/usePage'
 import { useRepoParams } from '../../../../src/hooks/useParams'
 import { Nav } from '../../../../src/views/components/Nav'
 import { wait } from '../../../mocks'
 
-jest.mock('../../../../src/hooks/useParams')
-jest.mock('../../../../src/hooks/usePage')
+vi.mock('../../../../src/hooks/useParams')
+vi.mock('../../../../src/hooks/usePage')
 
 describe('Nav', () => {
   beforeEach(() => {
-    jest.mocked(useRepoParams).mockReturnValue({ repo: 'repo', branch: 'branch', path: 'path' })
-    jest.mocked(usePage).mockReturnValue('tree')
+    vi.mocked(useRepoParams).mockReturnValue({ repo: 'repo', branch: 'branch', path: 'path' })
+    vi.mocked(usePage).mockReturnValue('tree')
   })
 
   it('should render tabs', async () => {

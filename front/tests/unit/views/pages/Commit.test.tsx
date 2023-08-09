@@ -1,17 +1,18 @@
 import { render, screen } from '@testing-library/react'
 import React from 'react'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { useCommitParams } from '../../../../src/hooks/useParams'
 import { getCommit } from '../../../../src/services/commit'
 import { Commit } from '../../../../src/views/pages/Commit'
 import { mockCommitDiff, wait } from '../../../mocks'
 
-jest.mock('../../../../src/hooks/useParams')
-jest.mock('../../../../src/services/commit')
+vi.mock('../../../../src/hooks/useParams')
+vi.mock('../../../../src/services/commit')
 
 describe('Commit', () => {
   beforeEach(() => {
-    jest.mocked(getCommit).mockResolvedValue(mockCommitDiff())
-    jest.mocked(useCommitParams).mockReturnValue({ repo: 'repo', branch: 'branch', hash: 'hash' })
+    vi.mocked(getCommit).mockResolvedValue(mockCommitDiff())
+    vi.mocked(useCommitParams).mockReturnValue({ repo: 'repo', branch: 'branch', hash: 'hash' })
   })
 
   it('should get commit', async () => {
@@ -27,14 +28,14 @@ describe('Commit', () => {
   })
 
   it('should render error on fetch error', async () => {
-    jest.mocked(getCommit).mockRejectedValue('Error')
+    vi.mocked(getCommit).mockRejectedValue('Error')
     render(<Commit />)
     await wait()
     expect(screen.getByText('Error while loading commit')).toBeInTheDocument()
   })
 
   it('should render not found when commit is not found', async () => {
-    jest.mocked(getCommit).mockResolvedValue(null)
+    vi.mocked(getCommit).mockResolvedValue(null)
     render(<Commit />)
     await wait()
     expect(screen.getByText('Commit not found')).toBeInTheDocument()

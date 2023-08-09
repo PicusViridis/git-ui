@@ -1,9 +1,9 @@
-import { getMockRes } from '@jest-mock/express'
+import { describe, expect, it, vi } from 'vitest'
 import { getRepos, postRepo } from '../../../src/controllers/repos'
 import { repositoryService } from '../../../src/libs/repositories'
-import { getMockReq } from '../../mocks'
+import { getMockReq, getMockRes } from '../../mocks'
 
-jest.mock('../../../src/libs/repositories')
+vi.mock('../../../src/libs/repositories')
 
 describe('getRepos', () => {
   it('should get repos', async () => {
@@ -14,7 +14,7 @@ describe('getRepos', () => {
   })
 
   it('should return repos', async () => {
-    jest.mocked(repositoryService.getRepositories).mockResolvedValue('repositories' as never)
+    vi.mocked(repositoryService.getRepositories).mockResolvedValue('repositories' as never)
     const req = getMockReq()
     const { res } = getMockRes()
     await getRepos(req, res)
@@ -22,7 +22,7 @@ describe('getRepos', () => {
   })
 
   it('should return 500 status when failure', async () => {
-    jest.mocked(repositoryService.getRepositories).mockRejectedValue(new Error())
+    vi.mocked(repositoryService.getRepositories).mockRejectedValue(new Error())
     const req = getMockReq()
     const { res } = getMockRes()
     await getRepos(req, res)
@@ -39,7 +39,7 @@ describe('postRepo', () => {
   })
 
   it('should return 201 status', async () => {
-    jest.mocked(repositoryService.createRepository).mockResolvedValue('repositories' as never)
+    vi.mocked(repositoryService.createRepository).mockResolvedValue('repositories' as never)
     const req = getMockReq({ body: { name: 'name' } })
     const { res } = getMockRes()
     await postRepo(req, res)
@@ -47,7 +47,7 @@ describe('postRepo', () => {
   })
 
   it('should return 500 status when failure', async () => {
-    jest.mocked(repositoryService.createRepository).mockRejectedValue(new Error())
+    vi.mocked(repositoryService.createRepository).mockRejectedValue(new Error())
     const req = getMockReq({ body: { name: 'name' } })
     const { res } = getMockRes()
     await postRepo(req, res)

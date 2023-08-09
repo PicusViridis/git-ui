@@ -1,4 +1,5 @@
 import { Router } from 'express'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { getApp } from '../../src/controllers/app'
 import { deleteBranch, getBranches } from '../../src/controllers/branches'
 import { getCommit, getCommits } from '../../src/controllers/commits'
@@ -10,23 +11,23 @@ import { deleteUser, getUsers, postUser } from '../../src/controllers/users'
 import { session } from '../../src/middlewares/session'
 import { routes } from '../../src/routes'
 
-jest.mock('express')
-jest.mock('../../src/controllers/app')
-jest.mock('../../src/controllers/session')
-jest.mock('../../src/middlewares/session')
+vi.mock('express')
+vi.mock('../../src/controllers/app')
+vi.mock('../../src/controllers/session')
+vi.mock('../../src/middlewares/session')
 
 function mockRouter() {
   return {
-    use: jest.fn(),
-    get: jest.fn(),
-    post: jest.fn(),
-    delete: jest.fn(),
+    use: vi.fn(),
+    get: vi.fn(),
+    post: vi.fn(),
+    delete: vi.fn(),
   } as unknown as Router
 }
 
 describe('routes', () => {
   beforeEach(() => {
-    jest.mocked(Router).mockReturnValue(mockRouter())
+    vi.mocked(Router).mockReturnValue(mockRouter())
   })
 
   it('should create routes', () => {
@@ -52,7 +53,7 @@ describe('routes', () => {
 
   it('should return router', () => {
     const routerMock = mockRouter()
-    jest.mocked(Router).mockReturnValue(routerMock)
+    vi.mocked(Router).mockReturnValue(routerMock)
     const router = routes()
     expect(router).toBe(routerMock)
   })

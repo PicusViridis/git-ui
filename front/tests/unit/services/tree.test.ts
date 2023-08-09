@@ -1,11 +1,12 @@
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { Axios } from '../../../src/services/Axios'
 import { getTree } from '../../../src/services/tree'
 
-jest.mock('../../../src/services/Axios')
+vi.mock('../../../src/services/Axios')
 
 describe('getTree', () => {
   beforeEach(() => {
-    jest.mocked(Axios.get).mockResolvedValue({ data: 'tree' })
+    vi.mocked(Axios.get).mockResolvedValue({ data: 'tree' })
   })
 
   it('should get tree', async () => {

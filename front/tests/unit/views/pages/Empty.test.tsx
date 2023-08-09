@@ -1,14 +1,15 @@
 import { render, screen } from '@testing-library/react'
 import React from 'react'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { getServerUrl } from '../../../../src/services/server'
 import { Empty } from '../../../../src/views/pages/Empty'
 import { wait } from '../../../mocks'
 
-jest.mock('../../../../src/services/server')
+vi.mock('../../../../src/services/server')
 
 describe('Empty', () => {
   beforeEach(() => {
-    jest.mocked(getServerUrl).mockResolvedValue('serverUrl')
+    vi.mocked(getServerUrl).mockResolvedValue('serverUrl')
   })
 
   it('should render clone url', async () => {

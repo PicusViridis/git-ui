@@ -1,10 +1,11 @@
 import exec from 'async-exec'
 import mockdate from 'mockdate'
+import { describe, expect, it, vi } from 'vitest'
 import { GitService } from '../../../src/libs/git'
 
 mockdate.set('2020-01-01T00:00:00.000Z')
 
-jest.mock('async-exec')
+vi.mock('async-exec')
 
 describe('execGitCommand', () => {
   it('should execute git command', async () => {
@@ -13,19 +14,19 @@ describe('execGitCommand', () => {
   })
 
   it('should return empty string if git fatal error', async () => {
-    jest.mocked(exec).mockResolvedValue('fatal:')
+    vi.mocked(exec).mockResolvedValue('fatal:')
     const result = await GitService.execGitCommand('command')
     expect(result).toBe('')
   })
 
   it('should return empty string if error', async () => {
-    jest.mocked(exec).mockRejectedValue(new Error())
+    vi.mocked(exec).mockRejectedValue(new Error())
     const result = await GitService.execGitCommand('command')
     expect(result).toBe('')
   })
 
   it('should return command trimmed result', async () => {
-    jest.mocked(exec).mockResolvedValue('result\n')
+    vi.mocked(exec).mockResolvedValue('result\n')
     const result = await GitService.execGitCommand('command')
     expect(result).toBe('result')
   })
@@ -48,7 +49,7 @@ describe('log', () => {
   })
 
   it('should return command result', async () => {
-    jest.spyOn(GitService, 'execGitCommand').mockResolvedValue('result')
+    vi.spyOn(GitService, 'execGitCommand').mockResolvedValue('result')
     const result = await GitService.log('repoPath', 'filePath', 'branch')
     expect(result).toBe('result')
   })
@@ -66,7 +67,7 @@ describe('branch', () => {
   })
 
   it('should return command result', async () => {
-    jest.spyOn(GitService, 'execGitCommand').mockResolvedValue('result')
+    vi.spyOn(GitService, 'execGitCommand').mockResolvedValue('result')
     const result = await GitService.branch('repoPath')
     expect(result).toBe('result')
   })
@@ -79,7 +80,7 @@ describe('revList', () => {
   })
 
   it('should return command result', async () => {
-    jest.spyOn(GitService, 'execGitCommand').mockResolvedValue('result')
+    vi.spyOn(GitService, 'execGitCommand').mockResolvedValue('result')
     const result = await GitService.revList('repoPath', 'filePath', 'branch')
     expect(result).toBe('result')
   })
@@ -92,7 +93,7 @@ describe('revParse', () => {
   })
 
   it('should return command result', async () => {
-    jest.spyOn(GitService, 'execGitCommand').mockResolvedValue('result')
+    vi.spyOn(GitService, 'execGitCommand').mockResolvedValue('result')
     const result = await GitService.revParse('repoPath')
     expect(result).toBe('result')
   })
@@ -110,7 +111,7 @@ describe('catFile', () => {
   })
 
   it('should return command result', async () => {
-    jest.spyOn(GitService, 'execGitCommand').mockResolvedValue('result')
+    vi.spyOn(GitService, 'execGitCommand').mockResolvedValue('result')
     const result = await GitService.catFile('repoPath', 'filePath', 'branch')
     expect(result).toBe('result')
   })
@@ -133,7 +134,7 @@ describe('lsTree', () => {
   })
 
   it('should return command result', async () => {
-    jest.spyOn(GitService, 'execGitCommand').mockResolvedValue('result')
+    vi.spyOn(GitService, 'execGitCommand').mockResolvedValue('result')
     const result = await GitService.lsTree('repoPath', 'filePath', 'branch')
     expect(result).toBe('result')
   })
@@ -153,7 +154,7 @@ describe('diffTree', () => {
   })
 
   it('should return command result', async () => {
-    jest.spyOn(GitService, 'execGitCommand').mockResolvedValue('result')
+    vi.spyOn(GitService, 'execGitCommand').mockResolvedValue('result')
     const result = await GitService.diffTree('repoPath', 'filePath', 'branch', 'parent')
     expect(result).toBe('result')
   })

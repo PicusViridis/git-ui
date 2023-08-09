@@ -1,4 +1,5 @@
 import { fireEvent, renderHook } from '@testing-library/react'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { useCurrentTitle, useTitle } from '../../../src/hooks/useTitle'
 
 describe('useCurrentTitle', () => {
@@ -19,7 +20,7 @@ describe('useCurrentTitle', () => {
 
 describe('useTitle', () => {
   beforeEach(() => {
-    jest.spyOn(EventTarget.prototype, 'dispatchEvent')
+    vi.spyOn(EventTarget.prototype, 'dispatchEvent')
   })
 
   it('should set document title', () => {

@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import React from 'react'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { SessionContext } from '../../../../src/contexts/SessionContext'
 import { Breadcrumb } from '../../../../src/views/components/Breadcrumb'
 import { Footer } from '../../../../src/views/components/Footer'
@@ -8,19 +9,19 @@ import { Nav } from '../../../../src/views/components/Nav'
 import { PrivateOutlet, PublicOutlet, withBreadcrumb, withNav } from '../../../../src/views/components/Outlet'
 import { mockSession } from '../../../mocks'
 
-jest.mock('../../../../src/hooks/useParams')
-jest.mock('../../../../src/services/app')
-jest.mock('../../../../src/services/branch')
-jest.mock('../../../../src/views/components/Header')
-jest.mock('../../../../src/views/components/Footer')
-jest.mock('../../../../src/views/components/Nav')
-jest.mock('../../../../src/views/components/Breadcrumb')
+vi.mock('../../../../src/hooks/useParams')
+vi.mock('../../../../src/services/app')
+vi.mock('../../../../src/services/branch')
+vi.mock('../../../../src/views/components/Header')
+vi.mock('../../../../src/views/components/Footer')
+vi.mock('../../../../src/views/components/Nav')
+vi.mock('../../../../src/views/components/Breadcrumb')
 
 beforeEach(() => {
-  jest.mocked(Header).mockReturnValue(<span>Header</span>)
-  jest.mocked(Footer).mockReturnValue(<span>Footer</span>)
-  jest.mocked(Nav).mockReturnValue(<span>Nav</span>)
-  jest.mocked(Breadcrumb).mockReturnValue(<span>Breadcrumb</span>)
+  vi.mocked(Header).mockReturnValue(<span>Header</span>)
+  vi.mocked(Footer).mockReturnValue(<span>Footer</span>)
+  vi.mocked(Nav).mockReturnValue(<span>Nav</span>)
+  vi.mocked(Breadcrumb).mockReturnValue(<span>Breadcrumb</span>)
 })
 
 describe('PublicOutlet', () => {

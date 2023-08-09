@@ -1,9 +1,9 @@
-import { getMockRes } from '@jest-mock/express'
+import { describe, expect, it, vi } from 'vitest'
 import { download, getTree } from '../../../src/controllers/tree'
 import { repositoryService } from '../../../src/libs/repositories'
-import { getMockReq } from '../../mocks'
+import { getMockReq, getMockRes } from '../../mocks'
 
-jest.mock('../../../src/libs/repositories')
+vi.mock('../../../src/libs/repositories')
 
 describe('getTree', () => {
   it('should get file type', async () => {
@@ -21,8 +21,8 @@ describe('getTree', () => {
   })
 
   it('should get content and size when type is file', async () => {
-    jest.mocked(repositoryService.getFileType).mockResolvedValue('file')
-    jest.mocked(repositoryService.getContent).mockResolvedValue({} as never)
+    vi.mocked(repositoryService.getFileType).mockResolvedValue('file')
+    vi.mocked(repositoryService.getContent).mockResolvedValue({} as never)
     const req = getMockReq({ params: { repo: 'repo', branch: 'branch' }, query: { path: 'path' } })
     const { res } = getMockRes()
     await getTree(req, res)
@@ -31,9 +31,9 @@ describe('getTree', () => {
   })
 
   it('should return content and size when type is file', async () => {
-    jest.mocked(repositoryService.getFileType).mockResolvedValue('file')
-    jest.mocked(repositoryService.getContent).mockResolvedValue('content')
-    jest.mocked(repositoryService.getSize).mockResolvedValue('size' as never)
+    vi.mocked(repositoryService.getFileType).mockResolvedValue('file')
+    vi.mocked(repositoryService.getContent).mockResolvedValue('content')
+    vi.mocked(repositoryService.getSize).mockResolvedValue('size' as never)
     const req = getMockReq({ params: { repo: 'repo', branch: 'branch' }, query: { path: 'path' } })
     const { res } = getMockRes()
     await getTree(req, res)
@@ -41,7 +41,7 @@ describe('getTree', () => {
   })
 
   it('should get files when type is folder', async () => {
-    jest.mocked(repositoryService.getFileType).mockResolvedValue('folder')
+    vi.mocked(repositoryService.getFileType).mockResolvedValue('folder')
     const req = getMockReq({ params: { repo: 'repo', branch: 'branch' }, query: { path: 'path' } })
     const { res } = getMockRes()
     await getTree(req, res)
@@ -49,8 +49,8 @@ describe('getTree', () => {
   })
 
   it('should return files when type is folder', async () => {
-    jest.mocked(repositoryService.getFileType).mockResolvedValue('folder')
-    jest.mocked(repositoryService.getFiles).mockResolvedValue('files' as never)
+    vi.mocked(repositoryService.getFileType).mockResolvedValue('folder')
+    vi.mocked(repositoryService.getFiles).mockResolvedValue('files' as never)
     const req = getMockReq({ params: { repo: 'repo', branch: 'branch' }, query: { path: 'path' } })
     const { res } = getMockRes()
     await getTree(req, res)
@@ -58,7 +58,7 @@ describe('getTree', () => {
   })
 
   it('should return 500 status when failure', async () => {
-    jest.mocked(repositoryService.getFileType).mockRejectedValue(new Error())
+    vi.mocked(repositoryService.getFileType).mockRejectedValue(new Error())
     const req = getMockReq({ params: { repo: 'repo', branch: 'branch' }, query: { path: 'path' } })
     const { res } = getMockRes()
     await getTree(req, res)
@@ -82,7 +82,7 @@ describe('downloadFile', () => {
   })
 
   it('should set content disposition header', async () => {
-    jest.mocked(repositoryService.getContent).mockResolvedValue('content')
+    vi.mocked(repositoryService.getContent).mockResolvedValue('content')
     const req = getMockReq({ params: { repo: 'repo', branch: 'branch' }, query: { path: 'path/to/filename.ext' } })
     const { res } = getMockRes()
     await download(req, res)
@@ -90,7 +90,7 @@ describe('downloadFile', () => {
   })
 
   it('should return file content', async () => {
-    jest.mocked(repositoryService.getContent).mockResolvedValue('content')
+    vi.mocked(repositoryService.getContent).mockResolvedValue('content')
     const req = getMockReq({ params: { repo: 'repo', branch: 'branch' }, query: { path: 'path' } })
     const { res } = getMockRes()
     await download(req, res)
@@ -98,7 +98,7 @@ describe('downloadFile', () => {
   })
 
   it('should return 500 status when failure', async () => {
-    jest.mocked(repositoryService.getContent).mockRejectedValue(new Error())
+    vi.mocked(repositoryService.getContent).mockRejectedValue(new Error())
     const req = getMockReq({ params: { repo: 'repo', branch: 'branch' }, query: { path: 'path' } })
     const { res } = getMockRes()
     await download(req, res)

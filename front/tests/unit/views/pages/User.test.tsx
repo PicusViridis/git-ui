@@ -1,14 +1,15 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import React from 'react'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { postUser } from '../../../../src/services/user'
 import { User } from '../../../../src/views/pages/User'
 import { mockNavigate, wait } from '../../../mocks'
 
-jest.mock('../../../../src/services/user')
+vi.mock('../../../../src/services/user')
 
 describe('User', () => {
   beforeEach(() => {
-    jest.mocked(postUser).mockResolvedValue(undefined)
+    vi.mocked(postUser).mockResolvedValue(undefined)
     mockNavigate()
   })
 

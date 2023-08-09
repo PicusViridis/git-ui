@@ -1,14 +1,15 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import React from 'react'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { useRepoParams } from '../../../../src/hooks/useParams'
 import { File } from '../../../../src/views/pages/File'
 import { mockFile, mockLocation, restoreLocation } from '../../../mocks'
 
-jest.mock('../../../../src/hooks/useParams')
+vi.mock('../../../../src/hooks/useParams')
 
 describe('File', () => {
   beforeEach(() => {
-    jest.mocked(useRepoParams).mockReturnValue({ repo: 'repo', branch: 'branch', path: 'path' })
+    vi.mocked(useRepoParams).mockReturnValue({ repo: 'repo', branch: 'branch', path: 'path' })
   })
 
   it('should render file size as bytes', () => {
@@ -17,7 +18,7 @@ describe('File', () => {
   })
 
   it('should render download link', () => {
-    mockLocation({ assign: jest.fn() })
+    mockLocation({ assign: vi.fn() })
     render(<File file={mockFile()} />)
     fireEvent.click(screen.getByRole('button'))
     expect(window.location.assign).toHaveBeenCalledWith('/api/repo/repo/branch/download?path=path')

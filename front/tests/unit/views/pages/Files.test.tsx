@@ -1,17 +1,18 @@
 import { render, screen } from '@testing-library/react'
 import mockdate from 'mockdate'
 import React from 'react'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { useRepoParams } from '../../../../src/hooks/useParams'
 import { Files } from '../../../../src/views/pages/Files'
 import { mockFileMeta } from '../../../mocks'
 
-jest.mock('../../../../src/hooks/useParams')
+vi.mock('../../../../src/hooks/useParams')
 
 mockdate.set('2020-02-01T00:00:00.000Z')
 
 describe('Files', () => {
   beforeEach(() => {
-    jest.mocked(useRepoParams).mockReturnValue({ repo: 'repo', branch: 'branch', path: 'path' })
+    vi.mocked(useRepoParams).mockReturnValue({ repo: 'repo', branch: 'branch', path: 'path' })
   })
 
   it('should render file name', () => {

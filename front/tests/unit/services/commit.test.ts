@@ -1,11 +1,12 @@
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { Axios } from '../../../src/services/Axios'
 import { getCommit, getCommits } from '../../../src/services/commit'
 
-jest.mock('../../../src/services/Axios')
+vi.mock('../../../src/services/Axios')
 
 describe('getCommits', () => {
   beforeEach(() => {
-    jest.mocked(Axios.get).mockResolvedValue({ data: 'commits' })
+    vi.mocked(Axios.get).mockResolvedValue({ data: 'commits' })
   })
 
   it('should get commits', async () => {
@@ -23,7 +24,7 @@ describe('getCommits', () => {
 
 describe('getCommit', () => {
   beforeEach(() => {
-    jest.mocked(Axios.get).mockResolvedValue({ data: 'commit' })
+    vi.mocked(Axios.get).mockResolvedValue({ data: 'commit' })
   })
 
   it('should get commit', async () => {

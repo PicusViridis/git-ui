@@ -1,6 +1,7 @@
 import { IPagination } from '@saramorillon/hooks'
 import { act } from 'react-dom/test-utils'
 import { useNavigate } from 'react-router-dom'
+import { Mock, vi } from 'vitest'
 import { IApp } from '../src/models/App'
 import { IBranch } from '../src/models/Branch'
 import { ICommit, ICommitDiff } from '../src/models/Commit'
@@ -23,9 +24,9 @@ export function restoreLocation(): void {
   Object.defineProperty(window, 'location', { value: location, writable: false })
 }
 
-export function mockNavigate(): jest.Mock {
-  const navigate = jest.fn()
-  jest.mocked(useNavigate).mockReturnValue(navigate)
+export function mockNavigate(): Mock {
+  const navigate = vi.fn()
+  vi.mocked(useNavigate).mockReturnValue(navigate)
   return navigate
 }
 
@@ -129,13 +130,13 @@ export function mockCommitDiff(commitDiff: Partial<ICommitDiff> = {}): ICommitDi
 export function mockPagination(pagination?: Partial<IPagination>): IPagination {
   return {
     page: 1,
-    first: jest.fn(),
-    previous: jest.fn(),
-    next: jest.fn(),
-    last: jest.fn(),
+    first: vi.fn(),
+    previous: vi.fn(),
+    next: vi.fn(),
+    last: vi.fn(),
     canPrevious: false,
     canNext: false,
-    goTo: jest.fn(),
+    goTo: vi.fn(),
     ...pagination,
   }
 }
