@@ -33,20 +33,18 @@ export function PrivateOutlet(): JSX.Element {
   )
 }
 
-export function withNav(child: ReactNode) {
-  return (
-    <>
-      <Nav />
-      {child}
-    </>
-  )
+interface INavOutletProps {
+  page: string
+  breadcrumb?: boolean
+  element: ReactNode
 }
 
-export function withBreadcrumb(child: ReactNode) {
+export function NavOutlet({ page, breadcrumb = false, element }: INavOutletProps) {
   return (
     <>
-      <Breadcrumb />
-      {child}
+      <Nav page={page} />
+      {breadcrumb && <Breadcrumb page={page} />}
+      {element}
     </>
   )
 }

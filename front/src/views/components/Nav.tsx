@@ -1,11 +1,13 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { usePage } from '../../hooks/usePage'
 import { useRepoParams } from '../../hooks/useParams'
 import { makeUrl } from '../../utils/utils'
 
-export function Nav(): JSX.Element | null {
-  const page = usePage()
+interface INavProps {
+  page: string
+}
+
+export function Nav({ page }: INavProps): JSX.Element | null {
   const { repo, branch, path } = useRepoParams()
 
   return (

@@ -1,13 +1,15 @@
 import { useFetch } from '@saramorillon/hooks'
 import React, { useCallback } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { usePage } from '../../hooks/usePage'
 import { useRepoParams } from '../../hooks/useParams'
 import { getBranches } from '../../services/branch'
 import { makeUrl } from '../../utils/utils'
 
-export function Breadcrumb(): JSX.Element | null {
-  const page = usePage()
+interface IBreadcrumbProps {
+  page: string
+}
+
+export function Breadcrumb({ page }: IBreadcrumbProps): JSX.Element | null {
   const { repo, branch, path } = useRepoParams()
   const fetch = useCallback(() => getBranches(repo), [repo])
   const [branches, { loading }] = useFetch(fetch, [])

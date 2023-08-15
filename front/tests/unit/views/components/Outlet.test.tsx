@@ -6,7 +6,7 @@ import { Breadcrumb } from '../../../../src/views/components/Breadcrumb'
 import { Footer } from '../../../../src/views/components/Footer'
 import { Header } from '../../../../src/views/components/Header'
 import { Nav } from '../../../../src/views/components/Nav'
-import { PrivateOutlet, PublicOutlet, withBreadcrumb, withNav } from '../../../../src/views/components/Outlet'
+import { NavOutlet, PrivateOutlet, PublicOutlet } from '../../../../src/views/components/Outlet'
 import { mockSession } from '../../../mocks'
 
 vi.mock('../../../../src/hooks/useParams')
@@ -67,26 +67,24 @@ describe('PrivateOutlet', () => {
   })
 })
 
-describe('withNav', () => {
+describe('NavOutlet', () => {
   it('should render nav', () => {
-    render(withNav('child'))
+    render(<NavOutlet page="page" element="child" />)
     expect(screen.getByText('Nav')).toBeInTheDocument()
   })
 
-  it('should render child', () => {
-    render(withNav('child'))
-    expect(screen.getByText('child')).toBeInTheDocument()
-  })
-})
-
-describe('withBreadcrumb', () => {
-  it('should render breadcrumb', () => {
-    render(withBreadcrumb('child'))
+  it('should render breadcrumb if breadcrumb is true', () => {
+    render(<NavOutlet page="page" breadcrumb element="child" />)
     expect(screen.getByText('Breadcrumb')).toBeInTheDocument()
   })
 
+  it('should not render breadcrumb if breadcrumb is not true', () => {
+    render(<NavOutlet page="page" element="child" />)
+    expect(screen.queryByText('Breadcrumb')).not.toBeInTheDocument()
+  })
+
   it('should render child', () => {
-    render(withBreadcrumb('child'))
+    render(<NavOutlet page="page" element="child" />)
     expect(screen.getByText('child')).toBeInTheDocument()
   })
 })
